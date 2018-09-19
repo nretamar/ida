@@ -47,6 +47,11 @@ public class Prueba {
 			e.printStackTrace();
 		}
 	}
+	
+	public static void pruebaParaGit() {
+		String hola = "Hola Mundo";
+		return;
+	}
 
 
 	

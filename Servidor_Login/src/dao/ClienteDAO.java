@@ -7,10 +7,10 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
-import entities.ClienteEntity;
+import entity.ClienteEntity;
 import exceptions.ClienteException;
+import model.Cliente;
 import util.HibernateUtil;
-import negocio.Cliente;
 
 public class ClienteDAO {
 

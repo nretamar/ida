@@ -10,7 +10,7 @@ import java.util.List;
 import dao.ClienteDAO;
 import dto.ClientesDTO;
 import exceptions.ClienteException;
-import negocio.Cliente;
+import model.Cliente;
 
 public class Controlador {
 

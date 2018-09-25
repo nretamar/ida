@@ -1,4 +1,4 @@
-package negocio;
+package model;
 
 import dao.ClienteDAO;
 import dto.ClientesDTO;

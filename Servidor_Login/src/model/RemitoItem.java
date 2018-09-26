@@ -18,7 +18,7 @@
 
 public class RemitoItem {
 	private Integer idItemRecibo;
-	private Producto Producto;
+	private Producto producto;
 	private int cantidad;
 	public RemitoItemDTO toDTO() {
 	

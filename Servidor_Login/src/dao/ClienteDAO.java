@@ -70,7 +70,6 @@ public class ClienteDAO {
 	public Integer grabar(Cliente c) throws ClienteException {
 
 		Integer ret = null;
-
 		if (c.getCodigocliente() != null) {
 			ret = grabarConId(c);
 		} else {
@@ -88,7 +87,8 @@ public class ClienteDAO {
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
 		session.beginTransaction();
-		session.saveOrUpdate(toEntity(c));
+		ClienteEntity e = toEntity(c);
+		session.saveOrUpdate(e);
 		session.getTransaction().commit();
 		session.close();
 

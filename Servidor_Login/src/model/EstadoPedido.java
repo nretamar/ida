@@ -18,9 +18,9 @@ package model;
 
 
 
-public abstract class EstadoPedido {
-	public Object PENDIENTE_DESPACHO;
-	public Object DESPACHADO_EN_PERSONA;
-	public Object DESPACHADO_EN_LOGISTICA;
-	public Object CANCELADO;
+public enum EstadoPedido {
+	PENDIENTE_DESPACHO,
+	DESPACHADO_EN_PERSONA,
+	DESPACHADO_EN_LOGISTICA,
+	CANCELADO
 }

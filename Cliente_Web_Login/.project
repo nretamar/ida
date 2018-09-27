@@ -3,7 +3,7 @@
 	<name>Cliente_Web_Login</name>
 	<comment></comment>
 	<projects>
-		<project>Repositorio_Login</project>
+		<project>Repositorio</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

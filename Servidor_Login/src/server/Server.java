@@ -1,11 +1,11 @@
-package servidor;
+package server;
 
 
 import java.net.MalformedURLException;
 import java.rmi.*;
 import java.rmi.registry.LocateRegistry;
 import interfaz.interfaceRemote;
-import objetoRemoto.ObjetoRemoto;
+import remoteImplementation.ObjetoRemoto;
 
 public class Server {
 

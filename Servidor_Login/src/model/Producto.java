@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import javax.swing.ImageIcon;
 
 import dao.ClienteDAO;
+import dto.ProductoDTO;
 import exceptions.ClienteException;
 
 //
@@ -126,6 +127,18 @@ public class Producto {
 	
 	
 	public ProductoDTO toDTO() {
+		ProductoDTO producto = new ProductoDTO();
+		producto.setIdProducto(idProducto);
+		producto.setCodigoBarras(codigoBarras);
+		producto.setDescripcion(descripcion);
+		producto.setPrecioVenta(precioVenta);
+		producto.setCantFijaCompra(cantFijaCompra);
+		producto.setCantMinimaStock(cantMinimaStock);
+		producto.setStockActual(stockActual);
+		producto.setEstadoActivo(estadoActivo);
+		producto.setFoto(foto);
+		
+		return producto;
 		
 	}
 	

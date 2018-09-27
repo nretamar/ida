@@ -1,4 +1,4 @@
-package BusinessDelegate;
+package businessDelegate;
 
 import java.net.MalformedURLException;
 import java.rmi.Naming;

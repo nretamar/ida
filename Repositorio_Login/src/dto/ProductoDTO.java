@@ -35,7 +35,13 @@ public class ProductoDTO implements Serializable {
 		this.stockActual = stockActual;
 		this.estadoActivo = estadoActivo;
 		this.foto = foto;
+	}	
+
+	public ProductoDTO() {
+		super();
 	}
+	
+	
 
 	public Integer getIdProducto() {
 		return idProducto;

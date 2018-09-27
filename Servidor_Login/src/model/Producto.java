@@ -4,9 +4,8 @@ import java.math.BigDecimal;
 
 import javax.swing.ImageIcon;
 
-import dao.ClienteDAO;
+import dao.ProductoDAO;
 import dto.ProductoDTO;
-import exceptions.ClienteException;
 
 //
 //
@@ -36,21 +35,29 @@ public class Producto {
 	private boolean estadoActivo;
 	private ImageIcon foto;
 	
-	
-	//TODO = Cambiar este constructor a DTO
-	public Producto(Integer idProducto, String codigoBarras, String descripcion, BigDecimal precioVenta,
-			int cantFijaCompra, int cantMinimaStock, int stockActual, boolean estadoActivo, ImageIcon foto) {
+		
+	public Producto() {
 		super();
-		this.idProducto = idProducto;
-		this.codigoBarras = codigoBarras;
-		this.descripcion = descripcion;
-		this.precioVenta = precioVenta;
-		this.cantFijaCompra = cantFijaCompra;
-		this.cantMinimaStock = cantMinimaStock;
-		this.stockActual = stockActual;
-		this.estadoActivo = estadoActivo;
-		this.foto = foto;
 	}
+	
+	public Producto(ProductoDTO dto) {
+		this();
+		
+		this.codigoBarras = dto.getCodigoBarras();
+		this.descripcion = dto.getDescripcion();
+		this.precioVenta = dto.getPrecioVenta();
+		this.cantFijaCompra = dto.getCantFijaCompra();
+		this.cantMinimaStock = dto.getCantMinimaStock();
+		this.stockActual = dto.getStockActual();		
+		this.foto = dto.getFoto();
+		estadoActivo = dto.getEstadoActivo();
+		
+		this.idProducto = dto.getIdProducto();
+		
+		if(idProducto == null)
+			estadoActivo = dto.getEstadoActivo();
+	}
+	
 
 	public Integer getIdProducto() {
 		return idProducto;
@@ -108,7 +115,7 @@ public class Producto {
 		this.stockActual = stockActual;
 	}
 
-	public boolean isEstadoActivo() {
+	public boolean getEstadoActivo() {
 		return estadoActivo;
 	}
 
@@ -163,6 +170,7 @@ public class Producto {
 		if(hayStock(cantidad)) {
 			stockActual = stockActual - cantidad;
 			save();
+			return true;
 		}
 		else {
 			return false;

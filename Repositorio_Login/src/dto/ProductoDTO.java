@@ -99,7 +99,7 @@ public class ProductoDTO implements Serializable {
 		this.stockActual = stockActual;
 	}
 
-	public boolean isEstadoActivo() {
+	public boolean getEstadoActivo() {
 		return estadoActivo;
 	}
 

@@ -1,4 +1,4 @@
-package interfaz;
+package remoteInterfaz;
 
 import java.io.Serializable;
 import java.rmi.Remote;
@@ -8,7 +8,7 @@ import java.util.List;
 
 import dto.ClientesDTO;
 
-public interface interfaceRemote extends Remote, Serializable{
+public interface ClienteRemote extends Remote, Serializable{
 
 	/*********************************************************************************************************
 	 * Clientes

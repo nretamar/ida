@@ -84,22 +84,11 @@ public class Cliente {
 		}
 		
 		if (ABM.equalsIgnoreCase("u")){
-			try {
-				respuesta = ClienteDAO.getInstance().grabarConId(this);
-			} catch (ClienteException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			respuesta = ClienteDAO.getInstance().grabarConId(this);
 		}
 
 		if (ABM.equalsIgnoreCase("d")){
-			this.activo= false;
-			try {
-				respuesta = ClienteDAO.getInstance().grabarConId(this);
-			} catch (ClienteException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			this.activo= false;respuesta = ClienteDAO.getInstance().grabarConId(this);
 			
 		}
 		

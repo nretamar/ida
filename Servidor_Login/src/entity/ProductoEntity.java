@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.swing.ImageIcon;
+//import javax.swing.ImageIcon;
 
 @Entity
 @Table(name="productos")
@@ -21,12 +21,11 @@ public class ProductoEntity {
 	private int cantMinimaStock;
 	private int stockActual;
 	private boolean estadoActivo;
-	private ImageIcon foto;
 	
 	public ProductoEntity(){}
 
 	public ProductoEntity(Integer idProducto, String codigoBarras, String descripcion, BigDecimal precioVenta,
-			int cantFijaCompra, int cantMinimaStock, int stockActual, boolean estadoActivo, ImageIcon foto) {
+			int cantFijaCompra, int cantMinimaStock, int stockActual, boolean estadoActivo/*, ImageIcon foto*/) {
 		super();
 		this.idProducto = idProducto;
 		this.codigoBarras = codigoBarras;
@@ -36,11 +35,11 @@ public class ProductoEntity {
 		this.cantMinimaStock = cantMinimaStock;
 		this.stockActual = stockActual;
 		this.estadoActivo = estadoActivo;
-		this.foto = foto;
+		//this.foto = foto;
 	}
 
 	public ProductoEntity(String codigoBarras, String descripcion, BigDecimal precioVenta, int cantFijaCompra,
-			int cantMinimaStock, int stockActual, boolean estadoActivo, ImageIcon foto) {
+			int cantMinimaStock, int stockActual, boolean estadoActivo/*, ImageIcon foto*/) {
 		super();
 		this.codigoBarras = codigoBarras;
 		this.descripcion = descripcion;
@@ -49,7 +48,7 @@ public class ProductoEntity {
 		this.cantMinimaStock = cantMinimaStock;
 		this.stockActual = stockActual;
 		this.estadoActivo = estadoActivo;
-		this.foto = foto;
+		//this.foto = foto;
 	}
 
 	public Integer getIdProducto() {
@@ -108,7 +107,7 @@ public class ProductoEntity {
 		this.stockActual = stockActual;
 	}
 
-	public boolean isEstadoActivo() {
+	public boolean getEstadoActivo() {
 		return estadoActivo;
 	}
 
@@ -116,13 +115,13 @@ public class ProductoEntity {
 		this.estadoActivo = estadoActivo;
 	}
 
-	public ImageIcon getFoto() {
+	/*public ImageIcon getFoto() {
 		return foto;
 	}
 
 	public void setFoto(ImageIcon foto) {
 		this.foto = foto;
-	}
+	}*/
 	
 	
 	

@@ -11,11 +11,11 @@ import com.sun.xml.internal.ws.api.server.InstanceResolverAnnotation;
 
 import dto.ClientesDTO;
 import excepciones.Exceptions;
-import interfaz.interfaceRemote;
+import remoteInterfaz.ClienteRemote;
 
 public class BusinessDelegate {	
 	
-	private interfaceRemote ir;
+	private ClienteRemote ir;
 	
 	private static BusinessDelegate instancia;
 	
@@ -28,7 +28,7 @@ public class BusinessDelegate {
 	
 	public BusinessDelegate () throws Exceptions{
 		try {
-			ir = (interfaceRemote) Naming.lookup("//localhost/TP2018");
+			ir = (ClienteRemote) Naming.lookup("//localhost/TP2018");
 		} catch (MalformedURLException e) {
 			throw new Exceptions("La direccion especificada no es correcta");
 		} catch (RemoteException e) {

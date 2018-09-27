@@ -82,8 +82,7 @@ public class ClienteDAO {
 
 	}
 
-	public Integer grabarConId(Cliente c) throws ClienteException {
-
+	public Integer grabarConId(Cliente c){
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
 		session.beginTransaction();
@@ -93,7 +92,12 @@ public class ClienteDAO {
 		session.close();
 
 		Cliente cc = null;
-		cc = buscar(c.getCodigocliente());
+		try {
+			cc = buscar(c.getCodigocliente());
+		} catch (ClienteException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 
 		if (cc != null) {
 			return cc.getCodigocliente();
@@ -126,6 +130,8 @@ public class ClienteDAO {
 	 */
 
 	public Cliente buscar(Integer idCliente) throws ClienteException {
+		
+		
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
 		ClienteEntity ce = (ClienteEntity) session.createQuery("from ClienteEntity where codigocliente = ?")
@@ -134,9 +140,12 @@ public class ClienteDAO {
 			return toNegocio(ce);
 		} else
 			throw new ClienteException("El cliente solicitado no existe");
+			
+		
 	}
 	
-	public Cliente buscarPorUsuario(Integer idUsuario) throws ClienteException {
+	//Mismo que el de arriba
+	/*public Cliente buscarPorUsuario(Integer idUsuario) throws ClienteException {
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
 		ClienteEntity ce = (ClienteEntity) session.createQuery("from ClienteEntity where idUsuario = ?")
@@ -146,7 +155,7 @@ public class ClienteDAO {
 		} else
 			throw new ClienteException("El cliente solicitado no existe");
 	}
-
+*/
 	public int ultimoCodigoCliente() throws ClienteException {
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();

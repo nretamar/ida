@@ -9,9 +9,9 @@ import java.util.List;
 import controlador.ClienteControlador;
 import dto.ClientesDTO;
 import exceptions.ClienteException;
-import interfaz.interfaceRemote;
+import remoteInterfaz.ClienteRemote;
 
-public class ObjetoRemoto extends UnicastRemoteObject implements interfaceRemote {
+public class ObjetoRemoto extends UnicastRemoteObject implements ClienteRemote {
 
 	private static final long serialVersionUID = -7564997541330495153L;
 

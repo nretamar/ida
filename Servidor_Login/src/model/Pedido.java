@@ -1,5 +1,6 @@
 package model;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -47,7 +48,7 @@ public class Pedido {
 	
 	}
 	
-	public void agregarItem(item PedidoItem) {
+	public void agregarItem(PedidoItem item) {
 	
 	}
 	

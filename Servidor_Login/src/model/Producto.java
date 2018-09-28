@@ -151,7 +151,7 @@ public class Producto {
 	
 	public Producto save() {
 		
-		Producto produ = ProductoDAO.getInstance().save(this);
+		Producto produ = ProductoDAO.getInstancia().save(this);
 		
 		return produ;
 		

@@ -27,8 +27,8 @@ public class Pedido {
 	private Date fecha;
 	private EstadoPedido estadoPedido;
 	private String direccionEnvioCoordinado;
-	private List<ItemPedidoDeExpedicion> items;
-	public void toDTO(): PedidoDeExpedicionDTO() {
+	private List<PedidoItem> items;
+	public void toDTO(): PedidoDTO() {
 	
 	}
 	

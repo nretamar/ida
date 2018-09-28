@@ -18,11 +18,11 @@ package model;
 
 
 
-public class ItemPedidoDeExpedicion {
-	private Integer idItemPedidoDeExpedicion;
+public class PedidoItem {
+	private Integer idPedidoItem;
 	private Producto producto;
 	private int cantidad;
-	public ItemPedidoDeExpedicionDTO toDTO() {
+	public PedidoItemDTO toDTO() {
 	
 	}
 }

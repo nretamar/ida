@@ -21,11 +21,15 @@ import java.util.List;
 
 
 
-
+/*
+ * se asume que si Direccion está vacio, se despacha en persona, pero ante la duda se crea el boolean
+ * de tPersonaYfLogistica para aclarar su estado.
+ */
 public class Pedido {
 	private Integer idPedido;
 	private Date fecha;
 	private EstadoPedido estadoPedido;
+	private boolean tPersonaYfLogistica;
 	private String direccionEnvioCoordinado;
 	private List<PedidoItem> items;
 	public void toDTO(): PedidoDTO() {

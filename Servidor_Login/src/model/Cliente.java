@@ -42,6 +42,7 @@ public class Cliente {
 		this.responsableinscripto = responsableInscripto;
 		this.direccion = direccion;
 		this.activo = activo;
+		//Fiesta loca
 	}
 
 	public Cliente(ClientesDTO cliente) {

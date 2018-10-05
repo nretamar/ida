@@ -6,6 +6,7 @@ import exceptions.ClienteException;
 
 public class Cliente {
 //comprar bebidas
+//Comprar blue curacao
 	private Integer codigocliente;
 	private String nombre;
 	private String apellido;

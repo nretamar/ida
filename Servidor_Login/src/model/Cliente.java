@@ -44,6 +44,7 @@ public class Cliente {
 		this.activo = activo;
 		//Fiesta loca
 		//Fiesta Normal
+		//Fiesta Fashion
 	}
 
 	public Cliente(ClientesDTO cliente) {

@@ -43,6 +43,8 @@ public class Cliente {
 		this.direccion = direccion;
 		this.activo = activo;
 		//Fiesta loca
+		
+		//Fiesta de disfraces
 	}
 
 	public Cliente(ClientesDTO cliente) {

@@ -45,8 +45,8 @@ public class Cliente {
 		//Fiesta loca
 		//Fiesta Normal
 		//Fiesta Fashion
-		
 		//Fiesta de disfraces
+		//La previa
 	}
 
 	public Cliente(ClientesDTO cliente) {

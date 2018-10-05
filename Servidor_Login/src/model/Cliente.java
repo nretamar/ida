@@ -5,7 +5,7 @@ import dto.ClientesDTO;
 import exceptions.ClienteException;
 
 public class Cliente {
-
+//comprar bebidas
 	private Integer codigocliente;
 	private String nombre;
 	private String apellido;

@@ -46,9 +46,9 @@ public class ClienteControlador {
 		return ClienteDAO.getInstance().buscar(idCliente).toDTO();
 	}
 	
-	public ClientesDTO buscarClienteporUsuario(Integer idUsuario) throws ClienteException {
+	/*public ClientesDTO buscarClienteporUsuario(Integer idUsuario) throws ClienteException {
 		return ClienteDAO.getInstance().buscarPorUsuario(idUsuario).toDTO();
-	}
+	}*/
 
 	
 

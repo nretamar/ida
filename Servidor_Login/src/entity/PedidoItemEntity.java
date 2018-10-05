@@ -7,10 +7,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
-import model.Producto;
-
 @Entity
-@Table(name = "pedidoItem")
+@Table(name = "pedidoItems")
 public class PedidoItemEntity {
 	
 	@Id
@@ -18,14 +16,11 @@ public class PedidoItemEntity {
 	
 	@ManyToOne( cascade = CascadeType.ALL)
 	@OrderBy("descripcion ASC")
-	private Producto producto;
+	private ProductoEntity producto;
 	private int cantidad;
 	private int total;
 	
-	public PedidoItemEntity() {
-
-    }
-
+	
 	public Integer getIdPedidoItem() {
 		return idPedidoItem;
 	}
@@ -34,11 +29,11 @@ public class PedidoItemEntity {
 		this.idPedidoItem = idPedidoItem;
 	}
 
-	public Producto getProducto() {
+	public ProductoEntity getProducto() {
 		return producto;
 	}
 
-	public void setProducto(Producto producto) {
+	public void setProducto(ProductoEntity producto) {
 		this.producto = producto;
 	}
 

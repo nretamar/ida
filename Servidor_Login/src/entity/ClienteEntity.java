@@ -9,6 +9,7 @@ import javax.persistence.*;
 public class ClienteEntity {
 
 	@Id
+	//@GeneratedValue(strategy = GenerationType.AUTO)
 	private int codigocliente;
 	
 	private String nombre;

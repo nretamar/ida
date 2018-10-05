@@ -61,11 +61,11 @@ public class PedidoItem {
 		this.cantidad = cantidad;
 	}
 	
-	public PedidoItem save() {
+	/*public PedidoItem save() {
 		PedidoItem item = PedidoItemDAO.getInstancia.getInstancia().save(this);
 		
 		return item;
-	}
+	}*/
 
 
 

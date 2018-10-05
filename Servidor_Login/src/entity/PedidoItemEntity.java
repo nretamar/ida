@@ -1,11 +1,6 @@
 package entity;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OrderBy;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "pedidoItems")
@@ -18,7 +13,7 @@ public class PedidoItemEntity {
 	@OrderBy("descripcion ASC")
 	private ProductoEntity producto;
 	private int cantidad;
-	private int total;
+	//private int total;
 	
 	
 	public Integer getIdPedidoItem() {
@@ -45,13 +40,13 @@ public class PedidoItemEntity {
 		this.cantidad = cantidad;
 	}
 
-	public int getTotal() {
+	/*public int getTotal() {
 		return total;
 	}
 
 	public void setTotal(int total) {
 		this.total = total;
-	}
+	}*/
 	
 	
 }

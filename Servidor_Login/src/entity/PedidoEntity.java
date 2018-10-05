@@ -7,7 +7,6 @@ import java.util.List;
 import javax.persistence.*;
 
 import model.EstadoPedido;
-import model.PedidoItem;
 
 @Entity
 @Table(name="pedidos")
@@ -20,10 +19,12 @@ public class PedidoEntity {
 	
 	@Enumerated(EnumType.STRING)
 	private EstadoPedido estadoPedido;
+	
+	private boolean tPersonaYfLogistica;
 	private String direccionEnvioCoordinado;
 	
 	@OneToMany(cascade = CascadeType.ALL)
-	private List<PedidoItem> items;
+	private List<PedidoItemEntity> items;
 	
 	
 	public PedidoEntity() {
@@ -71,13 +72,23 @@ public class PedidoEntity {
 	}
 
 
-	public List<PedidoItem> getItems() {
+	public List<PedidoItemEntity> getItems() {
 		return items;
 	}
 
 
-	public void setItems(List<PedidoItem> items) {
+	public void setItems(List<PedidoItemEntity> items) {
 		this.items = items;
+	}
+
+
+	public boolean getTPersonaYfLogistica() {
+		return tPersonaYfLogistica;
+	}
+
+
+	public void settPersonaYfLogistica(boolean tPersonaYfLogistica) {
+		this.tPersonaYfLogistica = tPersonaYfLogistica;
 	}
 	
 	

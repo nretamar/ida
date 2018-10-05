@@ -3,12 +3,16 @@ package dao;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+
 import entity.PedidoEntity;
 import entity.PedidoItemEntity;
 import exceptions.ProductoException;
 import model.Pedido;
 import model.PedidoItem;
 import model.Producto;
+import util.HibernateUtil;
 
 public class PedidoDAO {
 	
@@ -94,5 +98,18 @@ public class PedidoDAO {
 
 		return ret;
 	}
+	
+	public int ultimoCodigoProducto() throws ProductoException {
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		Session session = sf.openSession();
+		Integer ce = (Integer) session.createQuery("select isnull(max(ce.idProducto), 0) from ProductoEntity ce ")
+				.uniqueResult();
+		if (ce != null) {
+			return ce;
+		} else
+			throw new ProductoException("No se pudo obtener un nuevo id de Producto válido");
+	}
+	
+	
 	
 }

@@ -4,7 +4,9 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
+import dao.PedidoDAO;
 import dto.PedidoDTO;
+import dto.PedidoItemDTO;
 
 //
 //
@@ -42,10 +44,14 @@ public class Pedido {
 	
 	public Pedido (PedidoDTO p){
 		this.direccionEnvioCoordinado= p.getDireccionEnvioCoordinado();
-		this.estadoPedido= p.getEstadoPedido();
+		this.estadoPedido = EstadoPedido.valueOf(p.getEstadoPedido());
 		this.fecha= p.getFecha();
 		this.idPedido= p.getIdPedido();
-		this.items= p.getItems();
+		
+		for (PedidoItemDTO item : p.getItems()) {
+			this.agregarItem(new PedidoItem(item));
+		}
+		
 		this.tPersonaYfLogistica= p.istPersonaYfLogistica();
 	}
 

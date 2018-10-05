@@ -1,6 +1,8 @@
 package model;
 
+import dao.ProductoDAO;
 import dto.PedidoItemDTO;
+import exceptions.ProductoException;
 
 //
 //
@@ -25,7 +27,24 @@ public class PedidoItem {
 	private Producto producto;
 	private int cantidad;
 	
+	public PedidoItem () {}
 	
+	public PedidoItem (PedidoItemDTO dto) {
+		
+		Producto model;
+		this.idPedidoItem = dto.getIdPedidoItem();
+		try {
+			model = ProductoDAO.getInstancia().buscar(dto.getProducto().getIdProducto());
+			this.producto = model;
+		} catch (ProductoException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		this.cantidad = dto.getCantidad();
+		
+		
+	}
 	
 	public Integer getIdPedidoItem() {
 		return idPedidoItem;

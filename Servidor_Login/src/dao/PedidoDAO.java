@@ -1,13 +1,18 @@
 package dao;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.persistence.Query;
+
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import entity.PedidoEntity;
 import entity.PedidoItemEntity;
+import exceptions.PedidoException;
 import exceptions.ProductoException;
 import model.Pedido;
 import model.PedidoItem;
@@ -78,6 +83,7 @@ public class PedidoDAO {
 	}
 	
 	public Pedido save(Pedido p) {
+		
 		Pedido ret = null;
 		if (p.getIdPedido() != null) {
 			ret = grabarConId(p);
@@ -99,17 +105,74 @@ public class PedidoDAO {
 		return ret;
 	}
 	
-	public int ultimoCodigoProducto() throws ProductoException {
+	public Pedido grabarConId(Pedido p){
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
-		Integer ce = (Integer) session.createQuery("select isnull(max(ce.idProducto), 0) from ProductoEntity ce ")
-				.uniqueResult();
-		if (ce != null) {
-			return ce;
-		} else
-			throw new ProductoException("No se pudo obtener un nuevo id de Producto válido");
+		session.beginTransaction();
+		PedidoEntity e = toEntity(p);
+		session.saveOrUpdate(e);
+		session.getTransaction().commit();
+		session.close();
+
+		Pedido pp = null;
+		try {
+			pp = buscar(p.getIdPedido());
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+		if (pp != null) {
+			return pp;
+		} else {
+			return null;
+		}
 	}
 	
+	public List<Pedido> getAll() {
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		Session session = sf.openSession();
+		List<Pedido> resultado = new ArrayList<Pedido>();
+		
+		Query query = session.createQuery("from PedidoEntity");
+
+		List<PedidoEntity> entidades = (List<PedidoEntity>) query.list();
+
+		if (entidades != null) {
+			for (PedidoEntity item : entidades) {
+				resultado.add(toNegocio(item));
+			}
+		} //else
+			//throw new ProductoException("Fallo en el listado de Productos");
+		return resultado;
+	}
+
+	public int ultimoCodigoPedido() /*throws ProductoException*/ {
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		Session session = sf.openSession();
+		Integer ce = (Integer) session.createQuery("select isnull(max(ce.idPedido), 0) from PedidoEntity ce ")
+				.uniqueResult();
+		if (ce != null)
+			return ce;
+		//else
+			//throw new ProductoException("No se pudo obtener un nuevo id de Producto válido");
+		return ce;
+	}
 	
-	
+	public Pedido buscar(Integer idPedido) /* throws pedidoException */{
+		Session session = null;
+		Pedido ped = null;
+		try {
+			session = HibernateUtil.getSessionFactory().openSession();
+			ped = session.load(Pedido.class, idPedido);
+			Hibernate.initialize(ped);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (session != null && session.isOpen()) {
+				session.close();
+			}
+		}
+		return ped;
+	}
 }

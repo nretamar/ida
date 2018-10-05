@@ -1,32 +1,23 @@
-package entity;
+package dto;
+
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
-import model.OrdenRecepcionItem;
-import model.Producto;
-import model.Remito;
-
-@Entity
-@Table(name ="ordenDeCompra")
-public class OrdenDeCompraEntity {
-	
-	@Id
+public class OrdenDeCompraDTO implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2470892162417206890L;
 	private Integer idOrdenDeCompra;
-	
-	private Producto producto;
+	private ProductoDTO producto;
 	private Date fechaEmitida;
 	private boolean ordenActiva;
 	private int cantidadOrdenada;
-	private Remito remito;
-	private List<OrdenRecepcionItem> recepcionesDelProducto;
-	
-
-	public OrdenDeCompraEntity(Integer idOrdenDeCompra, Producto producto, Date fechaEmitida, boolean ordenActiva,
-			int cantidadOrdenada, Remito remito, List<OrdenRecepcionItem> recepcionesDelProducto) {
+	private RemitoDTO remito;
+	private List<OrdenRecepcionItemDTO> recepcionesDelProducto;
+	public OrdenDeCompraDTO(Integer idOrdenDeCompra, ProductoDTO producto, Date fechaEmitida, boolean ordenActiva,
+			int cantidadOrdenada, RemitoDTO remito, List<OrdenRecepcionItemDTO> recepcionesDelProducto) {
 		super();
 		this.idOrdenDeCompra = idOrdenDeCompra;
 		this.producto = producto;
@@ -36,7 +27,7 @@ public class OrdenDeCompraEntity {
 		this.remito = remito;
 		this.recepcionesDelProducto = recepcionesDelProducto;
 	}
-	public OrdenDeCompraEntity() {
+	public OrdenDeCompraDTO() {
 		super();
 	}
 	public Integer getIdOrdenDeCompra() {
@@ -45,10 +36,10 @@ public class OrdenDeCompraEntity {
 	public void setIdOrdenDeCompra(Integer idOrdenDeCompra) {
 		this.idOrdenDeCompra = idOrdenDeCompra;
 	}
-	public Producto getProducto() {
+	public ProductoDTO getProducto() {
 		return producto;
 	}
-	public void setProducto(Producto producto) {
+	public void setProducto(ProductoDTO producto) {
 		this.producto = producto;
 	}
 	public Date getFechaEmitida() {
@@ -69,16 +60,16 @@ public class OrdenDeCompraEntity {
 	public void setCantidadOrdenada(int cantidadOrdenada) {
 		this.cantidadOrdenada = cantidadOrdenada;
 	}
-	public Remito getRemito() {
+	public RemitoDTO getRemito() {
 		return remito;
 	}
-	public void setRemito(Remito remito) {
+	public void setRemito(RemitoDTO remito) {
 		this.remito = remito;
 	}
-	public List<OrdenRecepcionItem> getRecepcionesDelProducto() {
+	public List<OrdenRecepcionItemDTO> getRecepcionesDelProducto() {
 		return recepcionesDelProducto;
 	}
-	public void setRecepcionesDelProducto(List<OrdenRecepcionItem> recepcionesDelProducto) {
+	public void setRecepcionesDelProducto(List<OrdenRecepcionItemDTO> recepcionesDelProducto) {
 		this.recepcionesDelProducto = recepcionesDelProducto;
 	}
 	

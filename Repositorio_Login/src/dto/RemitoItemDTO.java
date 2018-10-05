@@ -1,27 +1,23 @@
-package entity;
+package dto;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import java.io.Serializable;
 
-import model.Producto;
 
-@Entity
-@Table(name ="remitoItem")
-public class RemitoItemEntity {
-	
-	@Id
+public class RemitoItemDTO implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3493817465039559950L;
 	private Integer idItemRecibo;
-	
-	private Producto producto;
+	private ProductoDTO producto;
 	private int cantidad;
-	public RemitoItemEntity(Integer idItemRecibo, Producto producto, int cantidad) {
+	public RemitoItemDTO(Integer idItemRecibo, ProductoDTO producto, int cantidad) {
 		super();
 		this.idItemRecibo = idItemRecibo;
 		this.producto = producto;
 		this.cantidad = cantidad;
 	}
-	public RemitoItemEntity() {
+	public RemitoItemDTO() {
 		super();
 	}
 	public Integer getIdItemRecibo() {
@@ -30,10 +26,10 @@ public class RemitoItemEntity {
 	public void setIdItemRecibo(Integer idItemRecibo) {
 		this.idItemRecibo = idItemRecibo;
 	}
-	public Producto getProducto() {
+	public ProductoDTO getProducto() {
 		return producto;
 	}
-	public void setProducto(Producto producto) {
+	public void setProducto(ProductoDTO producto) {
 		this.producto = producto;
 	}
 	public int getCantidad() {
@@ -42,6 +38,5 @@ public class RemitoItemEntity {
 	public void setCantidad(int cantidad) {
 		this.cantidad = cantidad;
 	}
-	
 	
 }

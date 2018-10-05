@@ -1,30 +1,23 @@
-package entity;
+package dto;
 
+import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
-
-
-@Entity
-@Table(name="ordenRecepcionItem")
-public class OrdenRecepcionItemEntity {
-	
-	@Id
+public class OrdenRecepcionItemDTO implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8853111679134476959L;
 	private int idOrdenRecepcionItem;
-	
 	private Date fecha;
 	private int cantidad;
-
-	public OrdenRecepcionItemEntity(int idOrdenRecepcionItem, Date fecha, int cantidad) {
+	public OrdenRecepcionItemDTO(int idOrdenRecepcionItem, Date fecha, int cantidad) {
 		super();
 		this.idOrdenRecepcionItem = idOrdenRecepcionItem;
 		this.fecha = fecha;
 		this.cantidad = cantidad;
 	}
-	public OrdenRecepcionItemEntity() {
+	public OrdenRecepcionItemDTO() {
 		super();
 	}
 	public int getIdOrdenRecepcionItem() {
@@ -45,6 +38,5 @@ public class OrdenRecepcionItemEntity {
 	public void setCantidad(int cantidad) {
 		this.cantidad = cantidad;
 	}
-	
 	
 }

@@ -1,7 +1,10 @@
 package controlador;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import dao.PedidoDAO;
+import dto.PedidoDTO;
 import model.Pedido;
 
 //
@@ -25,15 +28,29 @@ import model.Pedido;
 public class ExpedicionControlador {
 	public static ExpedicionControlador instancia;
 	public ExpedicionControlador getInstancia() {
-	
+		if (instancia == null) {
+			instancia = new ExpedicionControlador();
+		}
+		return instancia;
 	}
 	
 	private void ExpedicionControlador() {
-	
+		
 	}
 	
 	public List<Pedido> findAllPedidos() {
+		List<PedidoDTO> pedidos = new ArrayList<PedidoDTO>();
+		
+		try {
+			for (Pedido ped : PedidoDAO.getInstancia().getAll()) {
+				pedidos.add(ped.toDTO());
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	
+		return pedidos;
 	}
 	
 	//La idea era un list de 2 variables, será con alta pedido y fue
@@ -42,7 +59,9 @@ public class ExpedicionControlador {
 	}*/
 	
 	public int altaPedido(PedidoDTO pedido) {
-	
+		Pedido pedidito = new Pedido(pedido);
+		
+		return null;
 	}
 	
 	public void bajaPedido(PedidoDTO pedido) {

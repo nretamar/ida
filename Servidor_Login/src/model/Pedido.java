@@ -39,6 +39,15 @@ public class Pedido {
 	public Pedido() {
 		super();
 	}
+	
+	public Pedido (PedidoDTO p){
+		this.direccionEnvioCoordinado= p.getDireccionEnvioCoordinado();
+		this.estadoPedido= p.getEstadoPedido();
+		this.fecha= p.getFecha();
+		this.idPedido= p.getIdPedido();
+		this.items= p.getItems();
+		this.tPersonaYfLogistica= p.istPersonaYfLogistica();
+	}
 
 	public Pedido(Integer idPedido, Date fecha, EstadoPedido estadoPedido, boolean tPersonaYfLogistica,
 			String direccionEnvioCoordinado, List<PedidoItem> items) {

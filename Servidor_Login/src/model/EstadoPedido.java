@@ -19,6 +19,7 @@ package model;
 
 
 public enum EstadoPedido {
+	CANCELADO,
 	FALTA_STOCK,
 	PENDIENTE_EN_PERSONA,
 	PENDIENTE_EN_LOGISTICA,

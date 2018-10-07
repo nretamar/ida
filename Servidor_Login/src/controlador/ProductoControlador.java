@@ -93,7 +93,25 @@ public class ProductoControlador {
 		
 	}
 	//PENDIENTE PARA HACER
+	//TODO
 	private void verificarMinimoStockAndCrearOrdenes() {
+		try {
+			List<Producto> lista = ProductoDAO.getInstancia().getAll();
+			
+			//Recorro todos los productos, si encuentro falta de stock, le consulto
+			//a OrdenDeCompra si existe Orden sobre ese producto Activa, si no existe,
+			//debera crear una nueva orden de compra.
+			
+			for(Producto item: lista) {
+				if(item.getStockActual() < item.getCantMinimaStock()) {
+					ComprasControlador.getInstancia().g
+				}
+			}
+			
+		} catch (ProductoException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 	

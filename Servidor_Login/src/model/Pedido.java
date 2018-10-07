@@ -55,17 +55,6 @@ public class Pedido {
 		this.tPersonaYfLogistica= p.istPersonaYfLogistica();
 	}
 
-	public Pedido(Integer idPedido, Date fecha, EstadoPedido estadoPedido, boolean tPersonaYfLogistica,
-			String direccionEnvioCoordinado, List<PedidoItem> items) {
-		super();
-		this.idPedido = idPedido;
-		this.fecha = fecha;
-		this.estadoPedido = estadoPedido;
-		this.tPersonaYfLogistica = tPersonaYfLogistica;
-		this.direccionEnvioCoordinado = direccionEnvioCoordinado;
-		this.items = items;
-	}
-
 	public PedidoDTO toDTO() {
 		PedidoDTO dto = new PedidoDTO();
 		dto.setIdPedido(this.getIdPedido());
@@ -193,5 +182,28 @@ public class Pedido {
 			}
 		}
 		return existe;
+	}
+	
+	public boolean cancelarPedido() {
+		//Consulto si mis productos siguen en el almacen, para que no me caguen
+		if (EstadoPedido.FALTA_STOCK.equals(estadoPedido) 
+				|| (EstadoPedido.PENDIENTE_EN_PERSONA.equals(estadoPedido)
+				|| EstadoPedido.PENDIENTE_EN_LOGISTICA.equals(estadoPedido))) {
+			
+			//Se asume que no se movió stock para despacho, asique todo
+			//sigue en el almacen sin tocar.
+			//Por falta de stock si se realizó una orden de compra, ...
+			//no cancelamos la orden de compra, por ahora.
+			
+			//Tarea: Devuelver mis productos reservados de este pedido a almacen
+			//¿Quien es el responsable de esto? ExpedicionControlador, yo solo soy un modelito
+			//de negocio, mi deber es avisarle con true que devuelva todo a ProductoControlador.
+			
+			this.setEstadoPedido(EstadoPedido.CANCELADO);
+			save();
+			return true;
+		}
+		//Ya que fue despachado, no se cancela el pedido y devuelvo false a la accion requerida.
+		return false;
 	}
 }

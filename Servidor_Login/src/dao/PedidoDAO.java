@@ -4,19 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.persistence.Query;
-
-import org.hibernate.Hibernate;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import entity.PedidoEntity;
 import entity.PedidoItemEntity;
 import exceptions.PedidoException;
-import exceptions.ProductoException;
 import model.Pedido;
 import model.PedidoItem;
-import model.Producto;
 import util.HibernateUtil;
 
 public class PedidoDAO {
@@ -95,7 +91,6 @@ public class PedidoDAO {
 				p.setIdPedido(codPedi);
 				ret = grabarConId(p);
 			} catch (PedidoException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
@@ -103,6 +98,17 @@ public class PedidoDAO {
 		}
 
 		return ret;
+	}
+	
+	public int ultimoCodigoPedido() throws PedidoException {
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		Session session = sf.openSession();
+		Integer ce = (Integer) session.createQuery("select isnull(max(ce.idPedido), 0) from PedidoEntity ce ")
+				.uniqueResult();
+		if (ce != null)
+			return ce;
+		else
+			throw new PedidoException("No se pudo obtener un nuevo id de Pedido válido");
 	}
 	
 	public Pedido grabarConId(Pedido p){
@@ -118,7 +124,6 @@ public class PedidoDAO {
 		try {
 			pp = buscar(p.getIdPedido());
 		} catch (Exception e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 
@@ -129,50 +134,33 @@ public class PedidoDAO {
 		}
 	}
 	
-	public List<Pedido> getAll() {
+	public List<Pedido> getAll() throws PedidoException {
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
 		List<Pedido> resultado = new ArrayList<Pedido>();
 		
 		Query query = session.createQuery("from PedidoEntity");
 
+		@SuppressWarnings("unchecked")
 		List<PedidoEntity> entidades = (List<PedidoEntity>) query.list();
 
 		if (entidades != null) {
 			for (PedidoEntity item : entidades) {
 				resultado.add(toNegocio(item));
 			}
-		} //else
-			//throw new ProductoException("Fallo en el listado de Productos");
-		return resultado;
-	}
-
-	public int ultimoCodigoPedido() /*throws ProductoException*/ {
+			return resultado;
+		} else
+			throw new PedidoException("Fallo en el listado de Pedidos");
+	}	
+	
+	public Pedido buscar(Integer idPedido) throws PedidoException {
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
-		Integer ce = (Integer) session.createQuery("select isnull(max(ce.idPedido), 0) from PedidoEntity ce ")
-				.uniqueResult();
-		if (ce != null)
-			return ce;
-		//else
-			//throw new ProductoException("No se pudo obtener un nuevo id de Producto válido");
-		return ce;
-	}
-	
-	public Pedido buscar(Integer idPedido) /* throws pedidoException */{
-		Session session = null;
-		Pedido ped = null;
-		try {
-			session = HibernateUtil.getSessionFactory().openSession();
-			ped = session.load(Pedido.class, idPedido);
-			Hibernate.initialize(ped);
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			if (session != null && session.isOpen()) {
-				session.close();
-			}
-		}
-		return ped;
+		PedidoEntity pe = (PedidoEntity) session.createQuery("from PedidoEntity where idPedido = ?")
+				.setParameter(0, idPedido).uniqueResult();
+		if (pe != null) {
+			return toNegocio(pe);
+		} else
+			throw new PedidoException("El pedido solicitado no existe");
 	}
 }

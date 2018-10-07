@@ -5,7 +5,9 @@ import java.util.List;
 
 import dao.PedidoDAO;
 import dto.PedidoDTO;
+import exceptions.PedidoException;
 import model.Pedido;
+import model.PedidoItem;
 
 //
 //
@@ -27,26 +29,25 @@ import model.Pedido;
 
 public class ExpedicionControlador {
 	public static ExpedicionControlador instancia;
+	
+	private ExpedicionControlador() {		
+	}
+	
 	public ExpedicionControlador getInstancia() {
 		if (instancia == null) {
 			instancia = new ExpedicionControlador();
 		}
 		return instancia;
-	}
+	}	
 	
-	private void ExpedicionControlador() {
-		
-	}
-	
-	public List<Pedido> findAllPedidos() {
+	public List<PedidoDTO> findAllPedidos() {
 		List<PedidoDTO> pedidos = new ArrayList<PedidoDTO>();
 		
 		try {
-			for (Pedido ped : PedidoDAO.getInstancia().getAll()) {
-				pedidos.add(ped.toDTO());
+			for (Pedido pedi : PedidoDAO.getInstancia().getAll()) {
+				pedidos.add(pedi.toDTO());
 			}
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
+		} catch (PedidoException e) {
 			e.printStackTrace();
 		}
 	
@@ -59,36 +60,80 @@ public class ExpedicionControlador {
 	}*/
 	
 	public int altaPedido(PedidoDTO pedido) {
-		Pedido pedidito = new Pedido(pedido);
-		
-		return null;
+		return new Pedido(pedido).save().toDTO().getIdPedido();
 	}
 	
-	public void bajaPedido(PedidoDTO pedido) {
-	
+	/*
+	 * Solo se puede dar de baja si el pedido esta:
+	 * FALTA_STOCK
+	 * PENDIENTE_EN_PERSONA
+	 * PENDIENTE_EN_LOGISTICA
+	 * 
+	 * NO se dara de baja a aquellos pedidos que fueron:
+	 * DESPACHADO_EN_LOGISTICA
+	 * DESPACHADO_EN_PERSONA
+	 */
+	public boolean bajaPedido(Integer idPedido) {
+		boolean cancelado;
+		Pedido pedido;
+		try {
+			pedido = PedidoDAO.getInstancia().buscar(idPedido);
+			cancelado = pedido.cancelarPedido();
+			
+			if(cancelado) {
+				//Devuelvo productos del pedido al almacen
+				List<PedidoItem> items = pedido.getItems();
+				for(PedidoItem item: items) {
+					ProductoControlador.getInstancia().sumarStockProducto(item.getProducto().getIdProducto(), item.getCantidad());
+				}
+				//Devuelto todos los productos al almacen, doy como exitosa la operación.
+				return true;
+			}
+			else
+				//El pedido fue despachado, por lo tanto no cancelo el pedido ni devuelvo nada al almacén.
+				return false;
+			
+		} catch (PedidoException e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 	
 	public void modificarPedido(PedidoDTO pedido) {
-	
+		if(pedido.getIdPedido() != null)
+			new Pedido(pedido).save();
 	}
 	
 	public PedidoDTO buscarPedido(Integer idPedido) {
-	
+		
+		for (PedidoDTO pedido : findAllPedidos()) {
+			if(pedido.getIdPedido().equals(idPedido))
+				return pedido;
+		}
+		return null;
 	}
 	
 	public void despacharEnPersona(Integer idPedido) {
-	
+		try {
+			PedidoDAO.getInstancia().buscar(idPedido).despacharEnPersona();
+		} catch (PedidoException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void despacharEnLogistica(Integer idPedido) {
-	
-	}
-	
-	public boolean cancelarPedidoPendiente(PedidoDTO pedido) {
-	
+		try {
+			PedidoDAO.getInstancia().buscar(idPedido).despacharEnLogistica();
+		} catch (PedidoException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public PedidoDTO buscarPedidoByDireccionEnvioCoordinado(String direccion) {
-	
+		for (PedidoDTO pedido : findAllPedidos()) {
+			if(pedido.getDireccionEnvioCoordinado().equals(direccion));
+				return pedido;
+		}
+		return null;
 	}
 }

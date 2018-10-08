@@ -6,6 +6,7 @@ import java.util.List;
 import dao.PedidoDAO;
 import dto.PedidoDTO;
 import exceptions.PedidoException;
+import model.EstadoPedido;
 import model.Pedido;
 import model.PedidoItem;
 
@@ -28,12 +29,13 @@ import model.PedidoItem;
 
 
 public class ExpedicionControlador {
+	
 	public static ExpedicionControlador instancia;
 	
 	private ExpedicionControlador() {		
 	}
 	
-	public ExpedicionControlador getInstancia() {
+	public static ExpedicionControlador getInstancia() {
 		if (instancia == null) {
 			instancia = new ExpedicionControlador();
 		}
@@ -60,7 +62,23 @@ public class ExpedicionControlador {
 	}*/
 	
 	public int altaPedido(PedidoDTO pedido) {
-		return new Pedido(pedido).save().toDTO().getIdPedido();
+		if(tengoStock(pedido))
+		{
+			//TODO
+			
+			if(pedido.getTPersonaYfLogistica() == true)
+			{
+				pedido.setEstadoPedido("FALTA_STOCK");
+			}
+		}
+		else
+		{//No tengo stock
+			pedido.setEstadoPedido("FALTA_STOCK");
+		}
+		Pedido model = new Pedido(pedido).save();
+		
+		
+		return model.toDTO().getIdPedido();
 	}
 	
 	/*
@@ -135,5 +153,30 @@ public class ExpedicionControlador {
 				return pedido;
 		}
 		return null;
+	}
+	
+	public int buscarFaltaStockByProducto(String codigoBarras)
+	{
+		List<Pedido> pedidos;
+		try {
+			pedidos = PedidoDAO.getInstancia().getAll();
+			
+			for(Pedido pedido: pedidos)
+			{
+				if(EstadoPedido.FALTA_STOCK.equals(pedido.getEstadoPedido()) )
+				{
+					if(pedido.poseoElProducto(codigoBarras)) {
+						pedido.get
+					}
+				}
+			}
+			
+			
+		} catch (PedidoException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//Ante la duda, 0 en vez de -1
+		return 0;
 	}
 }

@@ -48,7 +48,7 @@ public class PedidoDTO implements Serializable {
 		this.estadoPedido = estadoPedido;
 	}
 
-	public boolean istPersonaYfLogistica() {
+	public boolean getTPersonaYfLogistica() {
 		return tPersonaYfLogistica;
 	}
 

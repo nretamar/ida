@@ -2,6 +2,7 @@ package controlador;
 
 import java.util.List;
 
+import dto.OrdenDeCompraDTO;
 import model.OrdenDeCompra;
 
 //
@@ -23,14 +24,18 @@ import model.OrdenDeCompra;
 
 
 public class ComprasControlador {
+	
 	public static ComprasControlador instancia;
-	public ProductoControlador getInstancia() {
 	
+	public ComprasControlador() {		
 	}
 	
-	public void ComprasControlador() {
-	
-	}
+	public static ComprasControlador getInstancia() {
+		if (instancia == null) {
+			instancia = new ComprasControlador();
+		}
+		return instancia;
+	}	
 	
 	public List<OrdenDeCompraDTO> findAllOrdenesDeCompra() {
 	
@@ -56,7 +61,17 @@ public class ComprasControlador {
 	
 	}
 	
-	private List<OrdenDeCompra> buscarOrdenesActivasByProducto(String codigoBarras) {
+	/*
+	 * Devuelve las ordenes de compras activas del producto buscado
+	 */
+	public List<OrdenDeCompraDTO> buscarOrdenesActivasByProducto(String codigoBarras) {
 	
+	}
+	
+	/*
+	 * Devuelve la cantidad ordenada activa del producto buscado
+	 */
+	public int buscarOrdenesActivasByProductoCantidad(String codigoBarras) {
+		
 	}
 }

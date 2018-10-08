@@ -186,7 +186,7 @@ public class Pedido {
 	
 	public boolean cancelarPedido() {
 		//Consulto si mis productos siguen en el almacen, para que no me caguen
-		if (EstadoPedido.FALTA_STOCK.equals(estadoPedido) 
+		if (EstadoPedido.FALTA_STOCK.equals(estadoPedido)
 				|| (EstadoPedido.PENDIENTE_EN_PERSONA.equals(estadoPedido)
 				|| EstadoPedido.PENDIENTE_EN_LOGISTICA.equals(estadoPedido))) {
 			

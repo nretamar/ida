@@ -40,16 +40,36 @@ public class ProductoControlador {
 		return instancia;
 	}
 	
-	
+	/*
+	 * @return Solo devuelve productos activos
+	 */
 	public List<ProductoDTO> findAllProductos() {
 		List<ProductoDTO> productos = new ArrayList<ProductoDTO>();
 		
 		try {
-			for (Producto producto : ProductoDAO.getInstancia().getAll()) {
-				productos.add(producto.toDTO());
+			for (Producto producto : ProductoDAO.getInstancia().getAll())
+			{
+				if(producto.getEstadoActivo() == true)
+				{
+					productos.add(producto.toDTO());
+				}
 			}
 		} catch (ProductoException e) {
-			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return productos;
+	}
+	
+	public List<ProductoDTO> findAllProductosActivos() {
+		List<ProductoDTO> productos = new ArrayList<ProductoDTO>();
+		
+		try {
+			for (Producto producto : ProductoDAO.getInstancia().getAll()) {
+				if(producto.getEstadoActivo() == true)
+					productos.add(producto.toDTO());
+			}
+		} catch (ProductoException e) {
 			e.printStackTrace();
 		}
 
@@ -64,7 +84,6 @@ public class ProductoControlador {
 		try {
 			ProductoDAO.getInstancia().buscar(idProducto).darDeBaja();
 		} catch (ProductoException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -77,12 +96,14 @@ public class ProductoControlador {
 		try {
 			return ProductoDAO.getInstancia().buscar(idProducto).toDTO();
 		} catch (ProductoException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return null;
 		}
 	}
 	
+	/*
+	 * Devuelve un producto activo
+	 */
 	public ProductoDTO buscarProductoByCodigoBarras(String codigoBarras) {
 		
 		for (ProductoDTO producto : findAllProductos()) {
@@ -102,14 +123,18 @@ public class ProductoControlador {
 			//a OrdenDeCompra si existe Orden sobre ese producto Activa, si no existe,
 			//debera crear una nueva orden de compra.
 			
-			for(Producto item: lista) {
-				if(item.getStockActual() < item.getCantMinimaStock()) {
-					ComprasControlador.getInstancia().g
+			for(Producto item: lista) {																	//Recorro lista
+				if(item.getStockActual() < item.getCantMinimaStock()) {									//Verifico stock
+					//Obtengo cantidad pendiente pedida de este producto item
+					int cantidadOrdenada = ComprasControlador.getInstancia()
+							.buscarOrdenesActivasByProductoCantidad(item.getCodigoBarras());
+					//Cantidad pedida con falta de stock
+					int cantidadPedida = ExpedicionControlador.getInstancia().
+					//Verifico en ExpedicionControlador, los pedidos con FALTA_STOCK y los contabilizo
 				}
 			}
 			
 		} catch (ProductoException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -130,6 +155,9 @@ public class ProductoControlador {
 		}
 	}
 	
+	/*
+	 * Jamás habra stock negativo, si cantidad es menor a 0, cantidad será igual a 0.
+	 */
 	public void descontarStockProducto(Integer idProducto, Integer cantidad) {
 		ProductoDTO producto = buscarProductoById(idProducto);
 		if(producto != null) {

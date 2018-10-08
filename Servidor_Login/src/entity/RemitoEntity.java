@@ -18,15 +18,13 @@ public class RemitoEntity {
 	private Date fecha;
 	private List<RemitoItem> productosRecibidos;
 	
+	public RemitoEntity() {}
+	
 	public RemitoEntity(Integer idRemito, Date fecha, List<RemitoItem> productosRecibidos) {
 		super();
 		this.idRemito = idRemito;
 		this.fecha = fecha;
 		this.productosRecibidos = productosRecibidos;
-	}
-
-	public RemitoEntity() {
-		super();
 	}
 
 	public Integer getIdRemito() {

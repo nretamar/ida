@@ -13,12 +13,14 @@ public class RemitoDTO implements Serializable {
 	private Integer idRemito;
 	private Date fecha;
 	private List<RemitoItemDTO> productosRecibidos;
+	
 	public RemitoDTO(Integer idRemito, Date fecha, List<RemitoItemDTO> productosRecibidos) {
 		super();
 		this.idRemito = idRemito;
 		this.fecha = fecha;
 		this.productosRecibidos = productosRecibidos;
 	}
+	
 	public RemitoDTO() {
 		super();
 	}

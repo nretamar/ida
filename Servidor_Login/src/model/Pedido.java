@@ -1,6 +1,7 @@
 package model;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -40,6 +41,7 @@ public class Pedido {
 		
 	public Pedido() {
 		super();
+		this.items = new ArrayList<>();
 	}
 	
 	public Pedido (PedidoDTO p){
@@ -48,11 +50,12 @@ public class Pedido {
 		this.fecha= p.getFecha();
 		this.idPedido= p.getIdPedido();
 		
+		this.items = new ArrayList<>();
 		for (PedidoItemDTO item : p.getItems()) {
 			this.agregarItem(new PedidoItem(item));
 		}
 		
-		this.tPersonaYfLogistica= p.istPersonaYfLogistica();
+		this.tPersonaYfLogistica= p.getTPersonaYfLogistica();
 	}
 
 	public PedidoDTO toDTO() {
@@ -69,7 +72,7 @@ public class Pedido {
 		return dto;
 	}
 	
-	public Pedido save() {
+	public Pedido save() {				
 		return PedidoDAO.getInstancia().save(this);
 	}	
 	

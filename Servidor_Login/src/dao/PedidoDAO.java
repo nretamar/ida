@@ -36,7 +36,15 @@ public class PedidoDAO {
 		pedi.setEstadoPedido(pedido.getEstadoPedido());
 		pedi.settPersonaYfLogistica(pedido.getTPersonaYfLogistica());
 		pedi.setDireccionEnvioCoordinado(pedido.getDireccionEnvioCoordinado());
-		pedi.setItems(getItems(pedido.getItems()));
+		
+		if(pedido.getItems()!=null)
+		{
+			System.out.println("No es null, ID=" + pedido.getIdPedido());
+			System.out.println("Direccion= " + pedido.getDireccionEnvioCoordinado());
+			pedi.setItems(getItems(pedido.getItems()));
+		}
+		else
+			System.out.println("ES null");
 		
 		return pedi;
 
@@ -46,6 +54,11 @@ public class PedidoDAO {
 	 * Quizas esto no funcione
 	 */
 	private List<PedidoItem> getItems(List<PedidoItemEntity> items) {
+		for(PedidoItemEntity item : items)
+		{
+			System.out.println("ItemFor: " + item.getProducto().getDescripcion());
+		}
+		
 		return items.stream().map(i -> {
 			PedidoItem pedido = new PedidoItem();
 			pedido.setIdPedidoItem(i.getIdPedidoItem());
@@ -64,13 +77,19 @@ public class PedidoDAO {
 		pedi.setEstadoPedido(pedido.getEstadoPedido());
 		pedi.settPersonaYfLogistica(pedido.getTPersonaYfLogistica());
 		pedi.setDireccionEnvioCoordinado(pedido.getDireccionEnvioCoordinado());
-		pedi.setItems(getItemsEntity(pedido.getItems()));
+		
+		for(PedidoItem item : pedido.getItems())
+		{
+			System.out.println("item: " + item.getProducto().getDescripcion());
+		}
+		
+		pedi.setItems(getItemsToEntity(pedido.getItems()));
 
 		return pedi;
 	}
 	
-	private List<PedidoItemEntity> getItemsEntity(List<PedidoItem> items) {
-		return items.stream().map(i -> {			
+	private List<PedidoItemEntity> getItemsToEntity(List<PedidoItem> items) {
+		return items.stream().map(i -> {	
 			PedidoItemEntity entity = new PedidoItemEntity();
 			entity.setIdPedidoItem(i.getIdPedidoItem());
 			entity.setCantidad(i.getCantidad());

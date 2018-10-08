@@ -1,5 +1,6 @@
 package controlador;
 
+import java.util.Date;
 import java.util.List;
 
 import dto.OrdenDeCompraDTO;
@@ -45,6 +46,18 @@ public class ComprasControlador {
 	
 	}
 	
+	/*
+	 * dto.setIdOrdenDeCompra(null);
+	 * dto.setProducto(item.toDTO());
+	 * dto.setFechaEmitida(new Date());
+	 * dto.setOrdenActiva(true);
+	 * dto.setCantidadOrdenada(deboPedir);					
+	 * dto.setRemito(null);
+	 * dto.setRecepcionesDelProducto(null);
+	 * 
+	 * TODO
+	 * Inicializar Listas y crear Remito
+	 */
 	public void altaOrdenDeCompra(OrdenDeCompraDTO orden) {
 	
 	}

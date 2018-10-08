@@ -1,9 +1,11 @@
 package controlador;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import dao.ProductoDAO;
+import dto.OrdenDeCompraDTO;
 import dto.ProductoDTO;
 import exceptions.ProductoException;
 import model.Producto;
@@ -115,7 +117,7 @@ public class ProductoControlador {
 	}
 	//PENDIENTE PARA HACER
 	//TODO
-	private void verificarMinimoStockAndCrearOrdenes() {
+	public void verificarMinimoStockAndCrearOrdenes() {
 		try {
 			List<Producto> lista = ProductoDAO.getInstancia().getAll();
 			
@@ -123,16 +125,49 @@ public class ProductoControlador {
 			//a OrdenDeCompra si existe Orden sobre ese producto Activa, si no existe,
 			//debera crear una nueva orden de compra.
 			
-			for(Producto item: lista) {																	//Recorro lista
-				if(item.getStockActual() < item.getCantMinimaStock()) {									//Verifico stock
-					//Obtengo cantidad pendiente pedida de este producto item
-					int cantidadOrdenada = ComprasControlador.getInstancia()
-							.buscarOrdenesActivasByProductoCantidad(item.getCodigoBarras());
-					//Cantidad pedida con falta de stock
-					int cantidadPedida = ExpedicionControlador.getInstancia().
-					//Verifico en ExpedicionControlador, los pedidos con FALTA_STOCK y los contabilizo
-				}
+			for(Producto item: lista)		//Recorro lista
+			{
+				//Obtengo cantidad ordenada de este producto item
+				int cantidadOrdenada = ComprasControlador.getInstancia()
+						.buscarOrdenesActivasByProductoCantidad(item.getCodigoBarras());
+				//Cantidad pedida con falta de stock
+				int cantidadPedida = ExpedicionControlador.getInstancia()
+						.buscarFaltaStockByProducto(item.getCodigoBarras());
+				int deboPedir = item.getCantidadAPedir
+						(item.getStockActual() + cantidadOrdenada - cantidadPedida);
+				
+				//Realizo la orden de compra
+				if(deboPedir>0)
+				{
+					OrdenDeCompraDTO dto = new OrdenDeCompraDTO();
+					dto.setIdOrdenDeCompra(null);
+					dto.setProducto(item.toDTO());
+					dto.setFechaEmitida(new Date());
+					dto.setOrdenActiva(true);
+					dto.setCantidadOrdenada(deboPedir);					
+					dto.setRemito(null);
+					dto.setRecepcionesDelProducto(null);
+					
+					ComprasControlador.getInstancia().altaOrdenDeCompra(dto);
+				}	
 			}
+			
+			/*
+			 * TEST DE BLOC DE NOTAS
+			 * 
+			 * min = 10					min = 10
+			 * stock = 7				stock = 0
+			 * ord = 5					ord = 5
+			 * 						
+			 * ordenado = 5				ordenado = 10
+			 * pedido = 0				pedido = 14
+			 * 	
+			 * requerido = 10			requerido = 24
+			 * 
+			 * deboPedir = 7+5-0 = 0	deboPedir = 0+10-14 = 15
+			 * entonces:				entonces:
+			 * ordenado = 10			ordenado = 25
+			 */
 			
 		} catch (ProductoException e) {
 			e.printStackTrace();
@@ -141,7 +176,9 @@ public class ProductoControlador {
 	}
 	
 	/*
-	 * Significa que el cliente no le gustó el producto, y lo devolvió a la tienda
+	 * Aumento de stock al recibir mercaderías
+	 * 			ó
+	 * Significa que al cliente no le gustó el producto, y lo devolvió a la tienda
 	 */
 	public void sumarStockProducto(Integer idProducto, int cantidad) {
 		ProductoDTO producto = buscarProductoById(idProducto);

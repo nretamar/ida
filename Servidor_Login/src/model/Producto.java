@@ -189,9 +189,19 @@ public class Producto {
 		save();
 	}
 	
-	public int getCantidadByPedido(int cantidad) {
+	/*public int getCantidadByPedido(int cantidad) {
 		int aux = cantFijaCompra;
 		while (aux < cantidad)
+			aux += cantFijaCompra;
+		return aux;
+	}*/
+	
+	/*
+	 * Introduzca su stock actual (negativo o positivo)
+	 */
+	public int getCantidadAPedir(int cantidad) {
+		int aux = cantidad;
+		while (aux < cantMinimaStock)
 			aux += cantFijaCompra;
 		return aux;
 	}

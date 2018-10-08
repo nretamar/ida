@@ -16,6 +16,7 @@ public class OrdenDeCompraDTO implements Serializable {
 	private int cantidadOrdenada;
 	private RemitoDTO remito;
 	private List<OrdenRecepcionItemDTO> recepcionesDelProducto;
+	
 	public OrdenDeCompraDTO(Integer idOrdenDeCompra, ProductoDTO producto, Date fechaEmitida, boolean ordenActiva,
 			int cantidadOrdenada, RemitoDTO remito, List<OrdenRecepcionItemDTO> recepcionesDelProducto) {
 		super();

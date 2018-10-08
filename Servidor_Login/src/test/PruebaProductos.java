@@ -14,6 +14,7 @@ public class PruebaProductos {
 		
 		System.out.println("Queso id = " + ProductoControlador.getInstancia().altaProducto(crearProducto2()));
 		
+		System.out.println("Jamon buscado = " + ProductoControlador.getInstancia().buscarProductoById(1).getDescripcion());
 	}
 	
 	

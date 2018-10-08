@@ -62,7 +62,7 @@ public class ExpedicionControlador {
 	}*/
 	
 	public int altaPedido(PedidoDTO pedido) {
-		if(tengoStock(pedido))
+		/*if(tengoStock(pedido))
 		{
 			//TODO
 			
@@ -74,7 +74,7 @@ public class ExpedicionControlador {
 		else
 		{//No tengo stock
 			pedido.setEstadoPedido("FALTA_STOCK");
-		}
+		}*/
 		Pedido model = new Pedido(pedido).save();
 		
 		

@@ -2,9 +2,7 @@ package entity;
 
 import java.math.BigDecimal;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 //import javax.swing.ImageIcon;
 
 @Entity
@@ -12,6 +10,7 @@ import javax.persistence.Table;
 public class ProductoEntity {
 	
 	@Id
+	@Column(name="id_Producto")
 	private Integer idProducto;
 	
 	private String codigoBarras;

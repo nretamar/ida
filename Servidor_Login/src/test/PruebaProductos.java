@@ -8,13 +8,19 @@ import dto.ProductoDTO;
 public class PruebaProductos {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		
-		System.out.println("Jamon id = " + ProductoControlador.getInstancia().altaProducto(crearProducto()));
+		crearTodosLosProductos();
 		
-		System.out.println("Queso id = " + ProductoControlador.getInstancia().altaProducto(crearProducto2()));
 		
-		System.out.println("Jamon buscado = " + ProductoControlador.getInstancia().buscarProductoById(1).getDescripcion());
+	}
+	
+	public static void crearTodosLosProductos (){
+		
+		System.out.println("Creo Jamon id = " + ProductoControlador.getInstancia().altaProducto(crearProducto()));
+		
+		System.out.println("Creo Queso id = " + ProductoControlador.getInstancia().altaProducto(crearProducto2()));
+		
+		System.out.println("Busco Jamon = " + ProductoControlador.getInstancia().buscarProductoById(1).getDescripcion());
 	}
 	
 	

@@ -10,6 +10,7 @@ public class PedidoItemEntity {
 	private Integer idPedidoItem;
 	
 	@ManyToOne( cascade = CascadeType.ALL)
+	@JoinColumn(name="id_Producto")
 	@OrderBy("descripcion ASC")
 	private ProductoEntity producto;
 	private int cantidad;

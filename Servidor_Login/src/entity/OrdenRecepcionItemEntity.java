@@ -9,7 +9,7 @@ import javax.persistence.Table;
 
 
 @Entity
-@Table(name="ordenRecepcionItem")
+@Table(name="ordenRecepcionItems")
 public class OrdenRecepcionItemEntity {
 	
 	@Id
@@ -18,15 +18,8 @@ public class OrdenRecepcionItemEntity {
 	private Date fecha;
 	private int cantidad;
 
-	public OrdenRecepcionItemEntity(int idOrdenRecepcionItem, Date fecha, int cantidad) {
-		super();
-		this.idOrdenRecepcionItem = idOrdenRecepcionItem;
-		this.fecha = fecha;
-		this.cantidad = cantidad;
-	}
-	public OrdenRecepcionItemEntity() {
-		super();
-	}
+	public OrdenRecepcionItemEntity() {}
+	
 	public int getIdOrdenRecepcionItem() {
 		return idOrdenRecepcionItem;
 	}

@@ -28,7 +28,7 @@ public class PedidoEntity {
 	
 	
 	public PedidoEntity() {
-		 this.items = new ArrayList<>();
+		 this.items = new ArrayList<PedidoItemEntity>();
 	 }
 
 

@@ -2,28 +2,25 @@ package entity;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 
 import model.Producto;
 
 @Entity
-@Table(name ="remitoItem")
+@Table(name ="remitoItems")
 public class RemitoItemEntity {
 	
 	@Id
 	private Integer idItemRecibo;
 	
-	private Producto producto;
+	@JoinColumn(name="id_Producto")
+	private Producto producto;	
+	
 	private int cantidad;
-	public RemitoItemEntity(Integer idItemRecibo, Producto producto, int cantidad) {
-		super();
-		this.idItemRecibo = idItemRecibo;
-		this.producto = producto;
-		this.cantidad = cantidad;
-	}
-	public RemitoItemEntity() {
-		super();
-	}
+	
+	public RemitoItemEntity() {}
+	
 	public Integer getIdItemRecibo() {
 		return idItemRecibo;
 	}

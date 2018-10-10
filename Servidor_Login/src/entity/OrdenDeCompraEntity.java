@@ -1,9 +1,13 @@
 package entity;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import model.OrdenRecepcionItem;
@@ -11,33 +15,27 @@ import model.Producto;
 import model.Remito;
 
 @Entity
-@Table(name ="ordenDeCompra")
+@Table(name ="ordenesDeCompra")
 public class OrdenDeCompraEntity {
 	
 	@Id
 	private Integer idOrdenDeCompra;
 	
+	@JoinColumn(name="id_Producto")
 	private Producto producto;
 	private Date fechaEmitida;
 	private boolean ordenActiva;
 	private int cantidadOrdenada;
+	
+	@JoinColumn(name="id_Remito")
 	private Remito remito;
+	
+	@OneToMany(cascade = CascadeType.ALL)
 	private List<OrdenRecepcionItem> recepcionesDelProducto;
 	
 
-	public OrdenDeCompraEntity(Integer idOrdenDeCompra, Producto producto, Date fechaEmitida, boolean ordenActiva,
-			int cantidadOrdenada, Remito remito, List<OrdenRecepcionItem> recepcionesDelProducto) {
-		super();
-		this.idOrdenDeCompra = idOrdenDeCompra;
-		this.producto = producto;
-		this.fechaEmitida = fechaEmitida;
-		this.ordenActiva = ordenActiva;
-		this.cantidadOrdenada = cantidadOrdenada;
-		this.remito = remito;
-		this.recepcionesDelProducto = recepcionesDelProducto;
-	}
 	public OrdenDeCompraEntity() {
-		super();
+		this.recepcionesDelProducto = new ArrayList<OrdenRecepcionItem>();
 	}
 	public Integer getIdOrdenDeCompra() {
 		return idOrdenDeCompra;

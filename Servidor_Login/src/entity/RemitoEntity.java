@@ -1,8 +1,13 @@
 package entity;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -13,18 +18,16 @@ import model.RemitoItem;
 public class RemitoEntity {
 	
 	@Id 
+	@Column(name="id_Remito")
 	private Integer idRemito;
 	
 	private Date fecha;
+	
+	@OneToMany(cascade = CascadeType.ALL)
 	private List<RemitoItem> productosRecibidos;
 	
-	public RemitoEntity() {}
-	
-	public RemitoEntity(Integer idRemito, Date fecha, List<RemitoItem> productosRecibidos) {
-		super();
-		this.idRemito = idRemito;
-		this.fecha = fecha;
-		this.productosRecibidos = productosRecibidos;
+	public RemitoEntity() {
+		this.productosRecibidos = new ArrayList<RemitoItem>();
 	}
 
 	public Integer getIdRemito() {

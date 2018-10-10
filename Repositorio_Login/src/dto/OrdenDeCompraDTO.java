@@ -40,7 +40,7 @@ public class OrdenDeCompraDTO implements Serializable {
 	public void setFechaEmitida(Date fechaEmitida) {
 		this.fechaEmitida = fechaEmitida;
 	}
-	public boolean isOrdenActiva() {
+	public boolean getOrdenActiva() {
 		return ordenActiva;
 	}
 	public void setOrdenActiva(boolean ordenActiva) {

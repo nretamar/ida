@@ -1,9 +1,15 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import dao.OrdenDeCompraDAO;
+import dao.ProductoDAO;
 import dto.OrdenDeCompraDTO;
+import dto.OrdenRecepcionItemDTO;
+import dto.RemitoDTO;
+import exceptions.ProductoException;
 
 //
 //
@@ -31,14 +37,132 @@ public class OrdenDeCompra {
 	private int cantidadOrdenada;
 	private Remito remito;
 	private List<OrdenRecepcionItem> recepcionesDelProducto;
-	public OrdenDeCompraDTO toDTO() {
 	
+	public OrdenDeCompra() {
+		recepcionesDelProducto = new ArrayList<OrdenRecepcionItem>();
+	}
+	
+	public OrdenDeCompra(OrdenDeCompraDTO dto) {
+		this.idOrdenDeCompra = dto.getIdOrdenDeCompra();
+		
+		Producto model;
+		try {
+			model = ProductoDAO.getInstancia().buscar(dto.getProducto().getIdProducto());
+			this.producto = model;
+		} catch (ProductoException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		this.fechaEmitida = dto.getFechaEmitida();
+		this.ordenActiva = dto.getOrdenActiva();
+		this.cantidadOrdenada = dto.getCantidadOrdenada();
+		
+		//Cuando creo la orden, el constructor no se encarga de crear el remito.
+		this.remito = null;
+		
+		
+		recepcionesDelProducto = new ArrayList<OrdenRecepcionItem>();
+		for(OrdenRecepcionItemDTO item: dto.getRecepcionesDelProducto()) {
+			this.agregarItem(new OrdenRecepcionItem(item));
+		}
+		
+	}
+	
+	public void agregarItem(OrdenRecepcionItem item) {
+		boolean existe = false;
+		for(OrdenRecepcionItem i : this.recepcionesDelProducto) {
+			if(i.)
+			
+			
+			if(i.getProducto().getIdProducto().equals((item.getProducto().getIdProducto()))){
+				i.setCantidad(i.getCantidad() + item.getCantidad());
+				existe = true;
+				break;
+			}
+		}
+		if(!existe)
+			this.items.add(item);
+	}
+
+	public OrdenDeCompraDTO toDTO() {
+		OrdenDeCompraDTO dto = new OrdenDeCompraDTO();
+		dto.setIdOrdenDeCompra(idOrdenDeCompra);
+		dto.setProducto(producto.toDTO());
+		dto.setFechaEmitida(fechaEmitida);
+		dto.setOrdenActiva(ordenActiva);
+		dto.setCantidadOrdenada(cantidadOrdenada);
+		dto.setRemito(remito.toDTO());
+		
+		for(OrdenRecepcionItem item : this.recepcionesDelProducto) {
+			dto.getRecepcionesDelProducto().add(item.toDTO());
+		}
+		
+		return dto;
 	}
 	
 	public OrdenDeCompra save() {
-	
+		return OrdenDeCompraDAO.getInstancia().save(this);
 	}
 	
+	
+	
+	public Integer getIdOrdenDeCompra() {
+		return idOrdenDeCompra;
+	}
+
+	public void setIdOrdenDeCompra(Integer idOrdenDeCompra) {
+		this.idOrdenDeCompra = idOrdenDeCompra;
+	}
+
+	public Producto getProducto() {
+		return producto;
+	}
+
+	public void setProducto(Producto producto) {
+		this.producto = producto;
+	}
+
+	public Date getFechaEmitida() {
+		return fechaEmitida;
+	}
+
+	public void setFechaEmitida(Date fechaEmitida) {
+		this.fechaEmitida = fechaEmitida;
+	}
+
+	public boolean getOrdenActiva() {
+		return ordenActiva;
+	}
+
+	public void setOrdenActiva(boolean ordenActiva) {
+		this.ordenActiva = ordenActiva;
+	}
+
+	public int getCantidadOrdenada() {
+		return cantidadOrdenada;
+	}
+
+	public void setCantidadOrdenada(int cantidadOrdenada) {
+		this.cantidadOrdenada = cantidadOrdenada;
+	}
+
+	public Remito getRemito() {
+		return remito;
+	}
+
+	public void setRemito(Remito remito) {
+		this.remito = remito;
+	}
+
+	public List<OrdenRecepcionItem> getRecepcionesDelProducto() {
+		return recepcionesDelProducto;
+	}
+
+	public void setRecepcionesDelProducto(List<OrdenRecepcionItem> recepcionesDelProducto) {
+		this.recepcionesDelProducto = recepcionesDelProducto;
+	}
+
 	public boolean estoyActivo() {
 	
 	}
@@ -51,7 +175,7 @@ public class OrdenDeCompra {
 	
 	}
 	
-	private void altaRemitoWhenTodoRecibido(Object RemitoDTO remito) {
+	private void altaRemitoWhenTodoRecibido(RemitoDTO remito) {
 	
 	}
 	

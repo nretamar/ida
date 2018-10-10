@@ -29,7 +29,7 @@ public class Servicios {
 		if(timer!=null)
 			this.detenerServicios();
 		timer = new Timer();
-		timer.schedule(new pendiente(), 0, 1000);
+		timer.schedule(new pendiente(), 0, 15000);
 		//timer.schedule(new Aviso(), 0, 10000);
 		
 		//Este print significa, que el timer corre para siempre y mi Syso de abajo se ejecuta
@@ -39,10 +39,6 @@ public class Servicios {
 	public void detenerServicios() {
 		if(timer!=null) {
 			timer.cancel();
-			timer.cancel();
-			timer.cancel();
-			timer.purge();
-			timer.purge();
 			timer.purge();
 			timer = new Timer();
 		}

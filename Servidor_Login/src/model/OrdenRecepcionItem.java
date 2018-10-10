@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Date;
+
 import dto.OrdenRecepcionItemDTO;
 
 //
@@ -24,6 +26,8 @@ public class OrdenRecepcionItem {
 	private int idOrdenRecepcionItem;
 	private Date fecha;
 	private int cantidad;
+	
+	
 	public OrdenRecepcionItemDTO toDTO() {
 	
 	}

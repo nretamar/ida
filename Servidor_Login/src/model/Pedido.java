@@ -41,21 +41,21 @@ public class Pedido {
 		
 	public Pedido() {
 		super();
-		this.items = new ArrayList<>();
+		this.items = new ArrayList<PedidoItem>();
 	}
 	
 	public Pedido (PedidoDTO p){
-		this.direccionEnvioCoordinado= p.getDireccionEnvioCoordinado();
-		this.estadoPedido = EstadoPedido.valueOf(p.getEstadoPedido());
-		this.fecha= p.getFecha();
 		this.idPedido= p.getIdPedido();
+		this.fecha= p.getFecha();
+		this.estadoPedido = EstadoPedido.valueOf(p.getEstadoPedido());
+		this.tPersonaYfLogistica= p.getTPersonaYfLogistica();
+		this.direccionEnvioCoordinado= p.getDireccionEnvioCoordinado();
+		
 		
 		this.items = new ArrayList<>();
 		for (PedidoItemDTO item : p.getItems()) {
 			this.agregarItem(new PedidoItem(item));
 		}
-		
-		this.tPersonaYfLogistica= p.getTPersonaYfLogistica();
 	}
 
 	public PedidoDTO toDTO() {

@@ -42,8 +42,9 @@ public class PedidoDAO {
 			pedi.setItems(getItems(pedido.getItems()));
 		}
 		else
-			System.out.println("ES null");
-		
+		{
+			//System.out.println("ES null");
+		}
 		return pedi;
 
 	}

@@ -91,7 +91,7 @@ public class PruebaPedidos {
 		item1.setIdPedidoItem(null);
 		item1.setProducto(p1);
 		item1.setCantidad(2);		
-		//lista.add(item1);
+		lista.add(item1);
 		
 		PedidoItemDTO item2 = new PedidoItemDTO();
 		ProductoDTO p2 = ProductoControlador.getInstancia().buscarProductoById(2);
@@ -99,7 +99,7 @@ public class PruebaPedidos {
 		item2.setProducto(p2);
 		item2.setCantidad(7);		
 		lista.add(item2);
-		lista.add(item1);		//Para desordenar y probar
+		//lista.add(item1);		//Para desordenar y probar
 		
 		return lista;
 		
@@ -114,7 +114,7 @@ public class PruebaPedidos {
 		item1.setIdPedidoItem(null);
 		item1.setProducto(p1);
 		item1.setCantidad(500);		
-		//lista.add(item1);
+		lista.add(item1);
 		
 		PedidoItemDTO item2 = new PedidoItemDTO();
 		ProductoDTO p2 = ProductoControlador.getInstancia().buscarProductoById(2);
@@ -122,7 +122,15 @@ public class PruebaPedidos {
 		item2.setProducto(p2);
 		item2.setCantidad(500);		
 		lista.add(item2);
-		lista.add(item1);	//Para desordenar y probar
+		//lista.add(item1);	//Para desordenar y probar
+		
+		//Agrego devuelta a jamon para probar agrupación.
+		PedidoItemDTO item3 = new PedidoItemDTO();
+		ProductoDTO p3 = ProductoControlador.getInstancia().buscarProductoById(1);
+		item3.setIdPedidoItem(null);
+		item3.setProducto(p3);
+		item3.setCantidad(75);		
+		lista.add(item3);
 		
 		return lista;
 		

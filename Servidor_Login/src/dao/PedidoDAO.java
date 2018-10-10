@@ -48,9 +48,6 @@ public class PedidoDAO {
 
 	}
 	
-	/*
-	 * Quizas esto no funcione
-	 */
 	private List<PedidoItem> getItems(List<PedidoItemEntity> items) {
 		/*for(PedidoItemEntity item : items)
 		{

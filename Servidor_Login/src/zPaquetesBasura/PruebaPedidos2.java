@@ -1,4 +1,4 @@
-package server;
+package zPaquetesBasura;
 
 import java.math.BigDecimal;
 
@@ -7,9 +7,9 @@ import controlador.ProductoControlador;
 import dto.PedidoDTO;
 import dto.ProductoDTO;
 
-public class PruebaPedidos {
+public class PruebaPedidos2 {
 
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		
 		System.out.println("Jamon id = " + ProductoControlador.getInstancia().altaProducto(crearProducto()));
@@ -17,7 +17,7 @@ public class PruebaPedidos {
 		System.out.println("Queso id = " + ProductoControlador.getInstancia().altaProducto(crearProducto2()));
 		
 		ExpedicionControlador.getInstancia().altaPedido(crearPedido(crearProducto()));
-	}
+	}*/
 	
 	
 	
@@ -59,7 +59,7 @@ public class PruebaPedidos {
 		ped.setFecha(null);
 		ped.setIdPedido(18);
 		ped.setItems(null);
-		ped.setPersonaYfLogistica(false);
+		ped.settPersonaYfLogistica(false);
 		
 		return ped;
 	}

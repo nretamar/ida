@@ -3,6 +3,8 @@ package test;
 
 import java.rmi.RemoteException;
 
+import servicios.Servicios;
+
 
 
 public class LevantarServer {
@@ -11,6 +13,7 @@ public class LevantarServer {
 		
 			try {
 				new server.Server();
+				Servicios.getInstancia().levantarServicios();
 			} catch (RemoteException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

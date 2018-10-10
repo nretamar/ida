@@ -8,6 +8,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.math.BigDecimal;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.ImageIcon;
@@ -31,7 +32,7 @@ public class pnlAdminArticulos extends JPanel implements ActionListener {
 
 	ImageIcon fondo;
 	JFrame principal;
-	JTable tblArticulos;
+	JTable tblProductos;
 	JButton btnBaja, btnAlta, btnModificar, btnAtras, btnBuscar;
 	JLabel lblLimpiar, lblCodBarras, lblDescripcion, lblTamanio, lblUnidad, lblPrecioV, lblCantFCompra, lblCantOcupaU,
 			lblPresentacion;
@@ -59,11 +60,12 @@ public class pnlAdminArticulos extends JPanel implements ActionListener {
 		this.setLayout(null);
 		this.setSize(1000, 600);
 
-		try {
-			articulos = ArticuloDelegate.getInstancia().findAllArticulos();
-		} catch (GenericRemoteException e) {
-			e.printStackTrace();
-		}
+		//try {
+			//articulos = ArticuloDelegate.getInstancia().findAllArticulos();
+			articulos = new ArrayList();
+		//} catch (GenericRemoteException e) {
+		//	e.printStackTrace();
+		//}
 
 		datos = new String[articulos.size()][9];
 
@@ -82,14 +84,14 @@ public class pnlAdminArticulos extends JPanel implements ActionListener {
 		}
 
 		model = new DefaultTableModel(datos, columnas);
-		tblArticulos = new JTable(model);
+		tblProductos = new JTable(model);
 		scrollBar = new JScrollPane();
-		scrollBar.setViewportView(tblArticulos);
+		scrollBar.setViewportView(tblProductos);
 		scrollBar.setBounds(35, 75, 425, 420);
 
-		tblArticulos.addMouseListener(new MouseAdapter() {
+		tblProductos.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
-				row = tblArticulos.getSelectedRow();
+				row = tblProductos.getSelectedRow();
 				idA = Integer.parseInt(datos[row][0]);
 
 				txtCodBarras.setText(datos[row][1]);
@@ -179,7 +181,7 @@ public class pnlAdminArticulos extends JPanel implements ActionListener {
 				}
 				datos = datos2;
 				model.setDataVector(datos, columnas);
-				tblArticulos.setModel(model);
+				tblProductos.setModel(model);
 				principal.repaint();
 			}
 		});
@@ -367,7 +369,7 @@ public class pnlAdminArticulos extends JPanel implements ActionListener {
 								String[][] resBusqueda = buscarArticulos(datos, resp);
 								if (resBusqueda != null) {
 									modeloBusqueda = new DefaultTableModel(resBusqueda, columnas);
-									tblArticulos.setModel(modeloBusqueda);
+									tblProductos.setModel(modeloBusqueda);
 									datos = resBusqueda;
 									principal.repaint();
 								} else {

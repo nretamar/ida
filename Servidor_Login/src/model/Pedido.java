@@ -123,11 +123,29 @@ public class Pedido {
 	public void setItems(List<PedidoItem> items) {
 		this.items = items;
 	}
+	
+	public void cancelar() {
+		//Recordar devolver el stock si esta pendiente o despachado
+		this.setEstadoPedido(EstadoPedido.CANCELADO);
+		save();
+	}
 
 	public void faltaStock() {
 		this.setEstadoPedido(EstadoPedido.FALTA_STOCK);
 		save();
 	}
+	
+	public void pendiente() {
+		if (EstadoPedido.FALTA_STOCK.equals(estadoPedido)) {
+			if(tPersonaYfLogistica == true)
+				this.setEstadoPedido(EstadoPedido.PENDIENTE_EN_PERSONA);
+			else
+				this.setEstadoPedido(EstadoPedido.PENDIENTE_EN_LOGISTICA);
+			save();
+		}
+	}
+	
+	/*
 	public void pendienteEnPersona() {
 		if (EstadoPedido.FALTA_STOCK.equals(estadoPedido)) {
 			this.setEstadoPedido(EstadoPedido.PENDIENTE_EN_PERSONA);
@@ -139,8 +157,19 @@ public class Pedido {
 			this.setEstadoPedido(EstadoPedido.PENDIENTE_EN_LOGISTICA);
 			save();
 		}
+	}*/
+	
+	public void despachar() {
+		if (EstadoPedido.PENDIENTE_EN_PERSONA.equals(estadoPedido)) {
+			this.setEstadoPedido(EstadoPedido.DESPACHADO_EN_PERSONA);
+		}
+		if (EstadoPedido.PENDIENTE_EN_LOGISTICA.equals(estadoPedido)) {
+			this.setEstadoPedido(EstadoPedido.DESPACHADO_EN_LOGISTICA);
+		}
+		save();
 	}
 	
+	/*
 	public void despacharEnPersona() {
 		if (EstadoPedido.PENDIENTE_EN_PERSONA.equals(estadoPedido)) {
 			this.setEstadoPedido(EstadoPedido.DESPACHADO_EN_PERSONA);
@@ -154,7 +183,7 @@ public class Pedido {
 			save();
 		}
 	}
-	
+	*/
 	public BigDecimal getTotal() {
 		BigDecimal total = BigDecimal.ZERO;
 		for(PedidoItem item : items) {

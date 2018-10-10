@@ -5,6 +5,7 @@ import java.util.List;
 
 import dao.PedidoDAO;
 import dto.PedidoDTO;
+import dto.ProductoDTO;
 import exceptions.PedidoException;
 import model.EstadoPedido;
 import model.Pedido;
@@ -56,29 +57,91 @@ public class ExpedicionControlador {
 		return pedidos;
 	}
 	
-	//La idea era un list de 2 variables, será con alta pedido y fue
-	/*public boolean realizarVenta(List<String codigoBarras, int cantidad>, String direccionEnvioCoordinado) {
-	
-	}*/
-	
 	public int altaPedido(PedidoDTO pedido) {
-		/*if(tengoStock(pedido))
-		{
-			//TODO
-			
-			if(pedido.getTPersonaYfLogistica() == true)
-			{
-				pedido.setEstadoPedido("FALTA_STOCK");
-			}
-		}
-		else
-		{//No tengo stock
-			pedido.setEstadoPedido("FALTA_STOCK");
-		}*/
+		//Creo pedido con falta de stock
+		pedido.setEstadoPedido("FALTA_STOCK");
 		Pedido model = new Pedido(pedido).save();
+		//Una vez creado el pedido, automaticamente le asigno sus productos
+		//y pasa a pendiente si hay stock
+		PedidoDTO ret = pendienteSiTengoStock(model.getIdPedido());
 		
+		return ret.getIdPedido();
+	}
+	
+	public void actualizarTodoFaltaDeStockAPendiente() {
+		for(PedidoDTO item : findAllPedidos())
+			pendienteSiTengoStock(item.getIdPedido());
 		
-		return model.toDTO().getIdPedido();
+	}
+	
+	/*
+	 * Solo con falta stock se actualiza a pendiente
+	 */
+	public PedidoDTO pendienteSiTengoStock(Integer idPedido) {
+		if(tengoStock(idPedido))
+		{
+			//Modifico mi pedido
+			try {
+				//Me aseguro que ese pedido sea Falta Stock
+				Pedido p = PedidoDAO.getInstancia().buscar(idPedido);
+				if(EstadoPedido.FALTA_STOCK.equals(p.getEstadoPedido()))
+				{
+					//Debo descontar el stock en productos
+					for(PedidoItem item : p.getItems())
+					{
+						//Una linea hecha una sola, descuenta stock en ese producto antes
+						//de pasar a estado pendiente.
+							//VISUALIZACION DEBUG
+							//ProductoDTO dto = ProductoControlador.getInstancia().buscarProductoById(item.getProducto().getIdProducto());
+							//System.out.println("1ERA FASE:");
+							//System.out.println("Producto: " + dto.getDescripcion() + "  stockActual: " + dto.getStockActual());
+						ProductoControlador.getInstancia()
+						.descontarStockProducto(item.getProducto().getIdProducto()
+								, item.getCantidad());
+						
+							//dto = ProductoControlador.getInstancia().buscarProductoById(item.getProducto().getIdProducto());
+							//System.out.println("2DA FASE:");
+							//System.out.println("Producto: " + dto.getDescripcion() + "  stockActual: " + dto.getStockActual());
+							//System.out.println("");
+					}
+					
+					//Cambio de estado a pendiente
+					//Debo pedir devuelta "p", porque sino me vuelve a grabar cantidades viejas. 
+					p = PedidoDAO.getInstancia().buscar(idPedido);
+					p.pendiente();
+				}
+				//Devuelvo el pedido actualizado.
+				return buscarPedido(idPedido);
+				
+				
+			} catch (PedidoException e) {
+				e.printStackTrace();
+			}
+			
+		}
+		return buscarPedido(idPedido);
+		
+	}
+	
+	public boolean tengoStock(Integer idPedido) {
+		try {
+			boolean tengoStock = true;
+			Pedido p = PedidoDAO.getInstancia().buscar(idPedido);
+			
+			for(PedidoItem item : p.getItems())
+			{
+				//Si no tengo stock, le clavo el false
+				if(!ProductoControlador.getInstancia()
+						.tengoStock(item.getProducto().getIdProducto(), item.getCantidad()))
+					tengoStock = false;
+			}
+			return tengoStock;
+			
+		} catch (PedidoException e) {
+			e.printStackTrace();
+		}
+		return false;
+		
 	}
 	
 	/*
@@ -131,17 +194,48 @@ public class ExpedicionControlador {
 		return null;
 	}
 	
-	public void despacharEnPersona(Integer idPedido) {
-		try {
-			PedidoDAO.getInstancia().buscar(idPedido).despacharEnPersona();
-		} catch (PedidoException e) {
-			e.printStackTrace();
+	public List<PedidoDTO> buscarPedidosPendientesDespacho() {
+		List<PedidoDTO> todos = findAllPedidos();
+		List<PedidoDTO> pendientes = new ArrayList<PedidoDTO>();
+		
+		for(PedidoDTO item : todos)
+		{
+			if(item.getEstadoPedido().equals("PENDIENTE_EN_PERSONA")
+					|| item.getEstadoPedido().equals("PENDIENTE_EN_LOGISTICA"))
+			{
+				pendientes.add(item);
+			}
 		}
+		return pendientes;
 	}
 	
-	public void despacharEnLogistica(Integer idPedido) {
+	public void cancelar(Integer idPedido) {
+		Pedido p;
 		try {
-			PedidoDAO.getInstancia().buscar(idPedido).despacharEnLogistica();
+			p = PedidoDAO.getInstancia().buscar(idPedido);
+			
+			if (!EstadoPedido.FALTA_STOCK.equals(p.getEstadoPedido()) 
+					&& !EstadoPedido.CANCELADO.equals(p.getEstadoPedido()))
+			{
+				//Devuelvo productos
+				for(PedidoItem item : p.getItems())
+				{
+					//Devuelvo cantidad a ese producto especifico.
+					ProductoControlador.getInstancia()
+					.sumarStockProducto(item.getProducto().getIdProducto(), item
+							.getCantidad());
+				}
+			}
+			p.cancelar();
+			
+		} catch (PedidoException e) {
+			e.printStackTrace();
+		}		
+	}
+	
+	public void despachar(Integer idPedido) {
+		try {
+			PedidoDAO.getInstancia().buscar(idPedido).despachar();
 		} catch (PedidoException e) {
 			e.printStackTrace();
 		}
@@ -155,25 +249,34 @@ public class ExpedicionControlador {
 		return null;
 	}
 	
+	/*
+	 * @return cantidad faltante del producto.
+	 */
 	public int buscarFaltaStockByProducto(String codigoBarras)
 	{
 		List<Pedido> pedidos;
-		try {
+		try
+		{
 			pedidos = PedidoDAO.getInstancia().getAll();
-			
+			int cantidadFaltante = 0;
 			for(Pedido pedido: pedidos)
 			{
 				if(EstadoPedido.FALTA_STOCK.equals(pedido.getEstadoPedido()) )
 				{
-					if(pedido.poseoElProducto(codigoBarras)) {
-						pedido.get
+					//Me fijo si tengo el/los producto en items
+					for(PedidoItem item : pedido.getItems())
+					{
+						if(item.getProducto().getCodigoBarras().equals(codigoBarras))
+						{
+							cantidadFaltante = cantidadFaltante + item.getCantidad();
+						}
 					}
 				}
 			}
+			return cantidadFaltante;
 			
 			
 		} catch (PedidoException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		//Ante la duda, 0 en vez de -1

@@ -207,4 +207,16 @@ public class ProductoControlador {
 		}
 	}
 	
+	public boolean tengoStock (Integer idProducto, Integer cantidadPedida) {
+		Producto p;
+		try {
+			p = ProductoDAO.getInstancia().buscar(idProducto);
+			return (cantidadPedida <= p.getStockActual());
+		} catch (ProductoException e) {
+			e.printStackTrace();
+		}
+		
+		return false;
+	}
+	
 }

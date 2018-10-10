@@ -1,28 +1,24 @@
 package dto;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 
 public class RemitoDTO implements Serializable {
+	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -5225970438898278830L;
+	
 	private Integer idRemito;
 	private Date fecha;
 	private List<RemitoItemDTO> productosRecibidos;
 	
-	public RemitoDTO(Integer idRemito, Date fecha, List<RemitoItemDTO> productosRecibidos) {
-		super();
-		this.idRemito = idRemito;
-		this.fecha = fecha;
-		this.productosRecibidos = productosRecibidos;
-	}
-	
 	public RemitoDTO() {
-		super();
+		productosRecibidos = new ArrayList<RemitoItemDTO>();
 	}
 	public Integer getIdRemito() {
 		return idRemito;

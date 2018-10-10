@@ -11,15 +11,11 @@ public class RemitoItemDTO implements Serializable {
 	private Integer idItemRecibo;
 	private ProductoDTO producto;
 	private int cantidad;
-	public RemitoItemDTO(Integer idItemRecibo, ProductoDTO producto, int cantidad) {
-		super();
-		this.idItemRecibo = idItemRecibo;
-		this.producto = producto;
-		this.cantidad = cantidad;
-	}
-	public RemitoItemDTO() {
-		super();
-	}
+	
+	
+	public RemitoItemDTO() {}
+	
+	
 	public Integer getIdItemRecibo() {
 		return idItemRecibo;
 	}

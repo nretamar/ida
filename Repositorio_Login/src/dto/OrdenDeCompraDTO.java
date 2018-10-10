@@ -1,6 +1,7 @@
 package dto;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -17,19 +18,9 @@ public class OrdenDeCompraDTO implements Serializable {
 	private RemitoDTO remito;
 	private List<OrdenRecepcionItemDTO> recepcionesDelProducto;
 	
-	public OrdenDeCompraDTO(Integer idOrdenDeCompra, ProductoDTO producto, Date fechaEmitida, boolean ordenActiva,
-			int cantidadOrdenada, RemitoDTO remito, List<OrdenRecepcionItemDTO> recepcionesDelProducto) {
-		super();
-		this.idOrdenDeCompra = idOrdenDeCompra;
-		this.producto = producto;
-		this.fechaEmitida = fechaEmitida;
-		this.ordenActiva = ordenActiva;
-		this.cantidadOrdenada = cantidadOrdenada;
-		this.remito = remito;
-		this.recepcionesDelProducto = recepcionesDelProducto;
-	}
+	
 	public OrdenDeCompraDTO() {
-		super();
+		recepcionesDelProducto = new ArrayList<OrdenRecepcionItemDTO>();
 	}
 	public Integer getIdOrdenDeCompra() {
 		return idOrdenDeCompra;

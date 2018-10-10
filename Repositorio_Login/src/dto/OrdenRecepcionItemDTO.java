@@ -11,15 +11,11 @@ public class OrdenRecepcionItemDTO implements Serializable {
 	private int idOrdenRecepcionItem;
 	private Date fecha;
 	private int cantidad;
-	public OrdenRecepcionItemDTO(int idOrdenRecepcionItem, Date fecha, int cantidad) {
-		super();
-		this.idOrdenRecepcionItem = idOrdenRecepcionItem;
-		this.fecha = fecha;
-		this.cantidad = cantidad;
-	}
-	public OrdenRecepcionItemDTO() {
-		super();
-	}
+	
+	
+	public OrdenRecepcionItemDTO() {}
+	
+	
 	public int getIdOrdenRecepcionItem() {
 		return idOrdenRecepcionItem;
 	}

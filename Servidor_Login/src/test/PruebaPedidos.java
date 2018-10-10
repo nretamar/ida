@@ -6,7 +6,6 @@ import java.util.List;
 
 import controlador.ExpedicionControlador;
 import controlador.ProductoControlador;
-import dao.PedidoDAO;
 import dto.PedidoDTO;
 import dto.PedidoItemDTO;
 import dto.ProductoDTO;
@@ -20,8 +19,8 @@ public class PruebaPedidos {
 		
 		crearPedidos();
 		
-		PedidoDTO pedido = ExpedicionControlador.getInstancia().buscarPedido(1);
-		imprimirPedido(pedido);
+		PedidoDTO pedido1 = ExpedicionControlador.getInstancia().buscarPedido(1);
+		imprimirPedido(pedido1);
 		
 		PedidoDTO pedido2 = ExpedicionControlador.getInstancia().buscarPedido(2);
 		imprimirPedido(pedido2);
@@ -30,9 +29,20 @@ public class PruebaPedidos {
 		ProductoControlador.getInstancia().sumarStockProducto(1, 1000);
 		ProductoControlador.getInstancia().sumarStockProducto(2, 2000);
 		
+		System.out.println("Al tener stock, paso a pendiente a pedido2");
 		ExpedicionControlador.getInstancia().actualizarTodoFaltaDeStockAPendiente();
+		pedido2 = ExpedicionControlador.getInstancia().buscarPedido(2);
+		imprimirPedido(pedido2);
 		
+		System.out.println("Despacho pedido2 y lo muestro");
+		ExpedicionControlador.getInstancia().despachar(pedido2.getIdPedido());
+		pedido2 = ExpedicionControlador.getInstancia().buscarPedido(2);
+		imprimirPedido(pedido2);
 		
+		System.out.println("Despacho pedido1 y lo muestro");
+		ExpedicionControlador.getInstancia().despachar(pedido1.getIdPedido());
+		pedido1 = ExpedicionControlador.getInstancia().buscarPedido(1);
+		imprimirPedido(pedido1);
 		
 	}
 	
@@ -81,7 +91,7 @@ public class PruebaPedidos {
 		item1.setIdPedidoItem(null);
 		item1.setProducto(p1);
 		item1.setCantidad(2);		
-		lista.add(item1);
+		//lista.add(item1);
 		
 		PedidoItemDTO item2 = new PedidoItemDTO();
 		ProductoDTO p2 = ProductoControlador.getInstancia().buscarProductoById(2);
@@ -89,6 +99,7 @@ public class PruebaPedidos {
 		item2.setProducto(p2);
 		item2.setCantidad(7);		
 		lista.add(item2);
+		lista.add(item1);		//Para desordenar y probar
 		
 		return lista;
 		
@@ -103,7 +114,7 @@ public class PruebaPedidos {
 		item1.setIdPedidoItem(null);
 		item1.setProducto(p1);
 		item1.setCantidad(500);		
-		lista.add(item1);
+		//lista.add(item1);
 		
 		PedidoItemDTO item2 = new PedidoItemDTO();
 		ProductoDTO p2 = ProductoControlador.getInstancia().buscarProductoById(2);
@@ -111,6 +122,7 @@ public class PruebaPedidos {
 		item2.setProducto(p2);
 		item2.setCantidad(500);		
 		lista.add(item2);
+		lista.add(item1);	//Para desordenar y probar
 		
 		return lista;
 		

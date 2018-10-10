@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import model.RemitoItem;
 
 @Entity
 @Table(name ="remitos")
@@ -24,10 +23,10 @@ public class RemitoEntity {
 	private Date fecha;
 	
 	@OneToMany(cascade = CascadeType.ALL)
-	private List<RemitoItem> productosRecibidos;
+	private List<RemitoItemEntity> productosRecibidos;
 	
 	public RemitoEntity() {
-		this.productosRecibidos = new ArrayList<RemitoItem>();
+		this.productosRecibidos = new ArrayList<RemitoItemEntity>();
 	}
 
 	public Integer getIdRemito() {
@@ -46,11 +45,11 @@ public class RemitoEntity {
 		this.fecha = fecha;
 	}
 
-	public List<RemitoItem> getProductosRecibidos() {
+	public List<RemitoItemEntity> getProductosRecibidos() {
 		return productosRecibidos;
 	}
 
-	public void setProductosRecibidos(List<RemitoItem> productosRecibidos) {
+	public void setProductosRecibidos(List<RemitoItemEntity> productosRecibidos) {
 		this.productosRecibidos = productosRecibidos;
 	}
 	

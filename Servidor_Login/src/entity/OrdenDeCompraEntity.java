@@ -7,12 +7,11 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
-import model.OrdenRecepcionItem;
-import model.Producto;
-import model.Remito;
 
 @Entity
 @Table(name ="ordenesDeCompra")
@@ -21,21 +20,24 @@ public class OrdenDeCompraEntity {
 	@Id
 	private Integer idOrdenDeCompra;
 	
+	@ManyToOne( cascade = CascadeType.ALL)
 	@JoinColumn(name="id_Producto")
-	private Producto producto;
+	@OrderBy("descripcion ASC")
+	private ProductoEntity producto;
 	private Date fechaEmitida;
 	private boolean ordenActiva;
 	private int cantidadOrdenada;
 	
-	@JoinColumn(name="id_Remito")
-	private Remito remito;
+	@ManyToOne( cascade = CascadeType.ALL)
+	@OrderBy("descripcion ASC")
+	private RemitoEntity remito;
 	
 	@OneToMany(cascade = CascadeType.ALL)
-	private List<OrdenRecepcionItem> recepcionesDelProducto;
+	private List<OrdenRecepcionItemEntity> recepcionesDelProducto;
 	
 
 	public OrdenDeCompraEntity() {
-		this.recepcionesDelProducto = new ArrayList<OrdenRecepcionItem>();
+		this.recepcionesDelProducto = new ArrayList<OrdenRecepcionItemEntity>();
 	}
 	public Integer getIdOrdenDeCompra() {
 		return idOrdenDeCompra;
@@ -43,10 +45,10 @@ public class OrdenDeCompraEntity {
 	public void setIdOrdenDeCompra(Integer idOrdenDeCompra) {
 		this.idOrdenDeCompra = idOrdenDeCompra;
 	}
-	public Producto getProducto() {
+	public ProductoEntity getProducto() {
 		return producto;
 	}
-	public void setProducto(Producto producto) {
+	public void setProducto(ProductoEntity producto) {
 		this.producto = producto;
 	}
 	public Date getFechaEmitida() {
@@ -67,16 +69,16 @@ public class OrdenDeCompraEntity {
 	public void setCantidadOrdenada(int cantidadOrdenada) {
 		this.cantidadOrdenada = cantidadOrdenada;
 	}
-	public Remito getRemito() {
+	public RemitoEntity getRemito() {
 		return remito;
 	}
-	public void setRemito(Remito remito) {
+	public void setRemito(RemitoEntity remito) {
 		this.remito = remito;
 	}
-	public List<OrdenRecepcionItem> getRecepcionesDelProducto() {
+	public List<OrdenRecepcionItemEntity> getRecepcionesDelProducto() {
 		return recepcionesDelProducto;
 	}
-	public void setRecepcionesDelProducto(List<OrdenRecepcionItem> recepcionesDelProducto) {
+	public void setRecepcionesDelProducto(List<OrdenRecepcionItemEntity> recepcionesDelProducto) {
 		this.recepcionesDelProducto = recepcionesDelProducto;
 	}
 	

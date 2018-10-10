@@ -22,13 +22,13 @@ public class HibernateUtil
         {
         	 AnnotationConfiguration config = new AnnotationConfiguration();
              config.addAnnotatedClass(ClienteEntity.class);
-             //config.addAnnotatedClass(OrdenDeCompraEntity.class);
-             //config.addAnnotatedClass(OrdenRecepcionItemEntity.class);
+             config.addAnnotatedClass(OrdenDeCompraEntity.class);
+             config.addAnnotatedClass(OrdenRecepcionItemEntity.class);
              config.addAnnotatedClass(PedidoEntity.class);
              config.addAnnotatedClass(PedidoItemEntity.class);
              config.addAnnotatedClass(ProductoEntity.class);
-             //config.addAnnotatedClass(RemitoEntity.class);
-             //config.addAnnotatedClass(RemitoItemEntity.class);
+             config.addAnnotatedClass(RemitoEntity.class);
+             config.addAnnotatedClass(RemitoItemEntity.class);
              
              sessionFactory = config.buildSessionFactory();
         }

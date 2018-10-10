@@ -1,11 +1,13 @@
 package entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
-import model.Producto;
 
 @Entity
 @Table(name ="remitoItems")
@@ -14,8 +16,10 @@ public class RemitoItemEntity {
 	@Id
 	private Integer idItemRecibo;
 	
+	@ManyToOne( cascade = CascadeType.ALL)
 	@JoinColumn(name="id_Producto")
-	private Producto producto;	
+	@OrderBy("descripcion ASC")
+	private ProductoEntity producto;	
 	
 	private int cantidad;
 	
@@ -27,10 +31,10 @@ public class RemitoItemEntity {
 	public void setIdItemRecibo(Integer idItemRecibo) {
 		this.idItemRecibo = idItemRecibo;
 	}
-	public Producto getProducto() {
+	public ProductoEntity getProducto() {
 		return producto;
 	}
-	public void setProducto(Producto producto) {
+	public void setProducto(ProductoEntity producto) {
 		this.producto = producto;
 	}
 	public int getCantidad() {

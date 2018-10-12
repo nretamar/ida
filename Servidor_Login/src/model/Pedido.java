@@ -192,6 +192,9 @@ public class Pedido {
 		return total;
 	}
 	
+	/*
+	 * No persiste
+	 */
 	public void agregarItem(PedidoItem item) {
 		boolean existe = false;
 		for(PedidoItem i : this.items) {
@@ -203,6 +206,7 @@ public class Pedido {
 		}
 		if(!existe)
 			this.items.add(item);
+		//save();
 	}
 	
 	public boolean poseoElProducto(String codigoBarras) {

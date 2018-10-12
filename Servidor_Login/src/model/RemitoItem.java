@@ -1,6 +1,8 @@
 package model;
 
+import dao.ProductoDAO;
 import dto.RemitoItemDTO;
+import exceptions.ProductoException;
 
 //
 //
@@ -21,18 +23,58 @@ import dto.RemitoItemDTO;
 
 
 public class RemitoItem {
-	private Integer idItemRecibo;
+	private Integer idRemitoItem;
 	private Producto producto;
 	private int cantidad;
+	
+	public RemitoItem () {}
+	
+	public RemitoItem (RemitoItemDTO dto) {
+		idRemitoItem = dto.getIdRemitoItem();
+		
+		Producto model;
+		try {
+			model = ProductoDAO.getInstancia().buscar(dto.getProducto().getIdProducto());
+			this.producto = model;
+		} catch (ProductoException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		cantidad = dto.getCantidad();
+	}
+	
 	public RemitoItemDTO toDTO() {
-	
+		RemitoItemDTO dto = new RemitoItemDTO();
+		dto.setIdRemitoItem(this.idRemitoItem);
+		dto.setProducto(this.producto.toDTO());
+		dto.setCantidad(this.cantidad);
+		return dto;
 	}
-	
-	public int getIdProducto() {
-	
+
+	public Integer getIdRemitoItem() {
+		return idRemitoItem;
 	}
-	
+
+	public void setIdRemitoItem(Integer idRemitoItem) {
+		this.idRemitoItem = idRemitoItem;
+	}
+
+	public Producto getProducto() {
+		return producto;
+	}
+
+	public void setProducto(Producto producto) {
+		this.producto = producto;
+	}
+
 	public int getCantidad() {
-	
+		return cantidad;
 	}
+
+	public void setCantidad(int cantidad) {
+		this.cantidad = cantidad;
+	}
+	
+	
 }

@@ -8,7 +8,7 @@ public class RemitoItemDTO implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -3493817465039559950L;
-	private Integer idItemRecibo;
+	private Integer idRemitoItem;
 	private ProductoDTO producto;
 	private int cantidad;
 	
@@ -16,11 +16,11 @@ public class RemitoItemDTO implements Serializable {
 	public RemitoItemDTO() {}
 	
 	
-	public Integer getIdItemRecibo() {
-		return idItemRecibo;
+	public Integer getIdRemitoItem() {
+		return idRemitoItem;
 	}
-	public void setIdItemRecibo(Integer idItemRecibo) {
-		this.idItemRecibo = idItemRecibo;
+	public void setIdRemitoItem(Integer idRemitoItem) {
+		this.idRemitoItem = idRemitoItem;
 	}
 	public ProductoDTO getProducto() {
 		return producto;

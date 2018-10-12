@@ -28,10 +28,6 @@ public class OrdenDeCompraEntity {
 	private boolean ordenActiva;
 	private int cantidadOrdenada;
 	
-	@ManyToOne( cascade = CascadeType.ALL)
-	@OrderBy("descripcion ASC")
-	private RemitoEntity remito;
-	
 	@OneToMany(cascade = CascadeType.ALL)
 	private List<OrdenRecepcionItemEntity> recepcionesDelProducto;
 	
@@ -57,7 +53,7 @@ public class OrdenDeCompraEntity {
 	public void setFechaEmitida(Date fechaEmitida) {
 		this.fechaEmitida = fechaEmitida;
 	}
-	public boolean isOrdenActiva() {
+	public boolean getOrdenActiva() {
 		return ordenActiva;
 	}
 	public void setOrdenActiva(boolean ordenActiva) {
@@ -68,12 +64,6 @@ public class OrdenDeCompraEntity {
 	}
 	public void setCantidadOrdenada(int cantidadOrdenada) {
 		this.cantidadOrdenada = cantidadOrdenada;
-	}
-	public RemitoEntity getRemito() {
-		return remito;
-	}
-	public void setRemito(RemitoEntity remito) {
-		this.remito = remito;
 	}
 	public List<OrdenRecepcionItemEntity> getRecepcionesDelProducto() {
 		return recepcionesDelProducto;

@@ -15,7 +15,6 @@ public class OrdenDeCompraDTO implements Serializable {
 	private Date fechaEmitida;
 	private boolean ordenActiva;
 	private int cantidadOrdenada;
-	private RemitoDTO remito;
 	private List<OrdenRecepcionItemDTO> recepcionesDelProducto;
 	
 	
@@ -51,12 +50,6 @@ public class OrdenDeCompraDTO implements Serializable {
 	}
 	public void setCantidadOrdenada(int cantidadOrdenada) {
 		this.cantidadOrdenada = cantidadOrdenada;
-	}
-	public RemitoDTO getRemito() {
-		return remito;
-	}
-	public void setRemito(RemitoDTO remito) {
-		this.remito = remito;
 	}
 	public List<OrdenRecepcionItemDTO> getRecepcionesDelProducto() {
 		return recepcionesDelProducto;

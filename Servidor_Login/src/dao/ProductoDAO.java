@@ -139,6 +139,7 @@ public class ProductoDAO {
 		
 		Query query = session.createQuery("from ProductoEntity");
 
+		@SuppressWarnings("unchecked")
 		List<ProductoEntity> entidades = (List<ProductoEntity>) query.list();
 
 		if (entidades != null) {

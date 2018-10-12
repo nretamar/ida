@@ -1,10 +1,20 @@
 package controlador;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import dao.OrdenDeCompraDAO;
+import dao.ProductoDAO;
 import dto.OrdenDeCompraDTO;
+import dto.ProductoDTO;
+import dto.RemitoDTO;
+import dto.RemitoItemDTO;
+import exceptions.OrdenDeCompraException;
+import exceptions.ProductoException;
 import model.OrdenDeCompra;
+import model.Remito;
+import model.RemitoItem;
 
 //
 //
@@ -28,8 +38,7 @@ public class ComprasControlador {
 	
 	public static ComprasControlador instancia;
 	
-	public ComprasControlador() {		
-	}
+	public ComprasControlador() {}
 	
 	public static ComprasControlador getInstancia() {
 		if (instancia == null) {
@@ -39,11 +48,36 @@ public class ComprasControlador {
 	}	
 	
 	public List<OrdenDeCompraDTO> findAllOrdenesDeCompra() {
+		List<OrdenDeCompraDTO> ordenesDeCompra = new ArrayList<OrdenDeCompraDTO>();
+		
+		try {
+			for (OrdenDeCompra orden : OrdenDeCompraDAO.getInstancia().getAll()) {
+				ordenesDeCompra.add(orden.toDTO());
+			}
+		} catch (OrdenDeCompraException e) {
+			e.printStackTrace();
+		}
 	
+		return ordenesDeCompra;
 	}
 	
 	public List<OrdenDeCompraDTO> findAllOrdenesDeCompraActivas() {
+		List<OrdenDeCompraDTO> ordenesDeCompra = new ArrayList<OrdenDeCompraDTO>();
+		
+		try {
+			for (OrdenDeCompra orden : OrdenDeCompraDAO.getInstancia().getAll()) {
+				if(orden.estoyActivo())
+				{
+					ordenesDeCompra.add(orden.toDTO());
+				}				
+			}
+		} catch (OrdenDeCompraException e) {
+			e.printStackTrace();
+		}
 	
+		return ordenesDeCompra;
+		
+		
 	}
 	
 	/*
@@ -58,16 +92,78 @@ public class ComprasControlador {
 	 * TODO
 	 * Inicializar Listas y crear Remito
 	 */
-	public void altaOrdenDeCompra(OrdenDeCompraDTO orden) {
-	
+	public Integer altaOrdenDeCompra(OrdenDeCompraDTO orden) {
+		//Creo orden de compra como activa por default.
+		orden.setOrdenActiva(true);
+		OrdenDeCompra model = new OrdenDeCompra(orden).save();
+		//Una vez creada la orden, automaticamente y pasa a
+		//pendiente si cantidadRestante de entrega es cero
+		model.estoyActivo();
+		
+		return model.getIdOrdenDeCompra();
 	}
 	
-	public void altaRemito(RemitoDTO remito) {
-	
+	public Integer altaRemito(RemitoDTO remito) {
+		return new Remito(remito).save().getIdRemito();
+		
 	}
 	
-	public String recepcionarCompra(String codigoBarras, int cantidad) {
-	
+	public RemitoDTO recepcionarCompra(List<RemitoItemDTO> items) {
+		
+		//chequeo que lo que me pasó sea válido
+		if(items != null && !items.isEmpty())
+		{
+			//¿Asique es válido? Bien, te creo tu remito :v
+			//Por las dudas, agrupo todo por producto
+			List<RemitoItemDTO> agrupado = new ArrayList<RemitoItemDTO>();
+			for(RemitoItemDTO item : items)
+			{
+				boolean existe = false;
+				//Me fijo si existe en mi List agrupado, de lo contrario, lo creo
+				for(RemitoItemDTO i : agrupado) {
+					if(i.getProducto().getCodigoBarras().equals((item.getProducto().getCodigoBarras()))){
+						i.setCantidad(i.getCantidad() + item.getCantidad());
+						existe = true;
+					}
+				}
+				if(!existe)
+					agrupado.add(item);
+			}
+			
+			//Ya aca va todo bien, prosigamos..
+			Remito remito = new Remito();
+			remito.setFecha(new Date());
+			
+			//Recorro lo que me trajiste
+			for(RemitoItemDTO item : agrupado)
+			{
+				//Tengo un producto para chequear en ordenes de compra
+				int cantidadEntregada = recepcionarUnProducto(item);
+				if(cantidadEntregada > 0)
+				{
+					try {
+						RemitoItem ite = new RemitoItem();
+						ite.setCantidad(cantidadEntregada);
+						ite.setIdRemitoItem(null);
+						int idProducto = ProductoControlador.getInstancia()
+								.buscarProductoByCodigoBarras(item.getProducto().getCodigoBarras()).getIdProducto();
+						ite.setProducto(ProductoDAO.getInstancia().buscar(idProducto));
+						remito.agregarItem(ite);
+					} catch (ProductoException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+			remito.save();
+			return remito.toDTO();
+		}
+		else
+		{
+			//No te doy nada por bufón y chistoso >:V
+			return null;
+		}
+		
+		
 	}
 	
 	public void recepcionarCompraCreandoOrden(String codigoBarras, int cantidad) {
@@ -75,16 +171,104 @@ public class ComprasControlador {
 	}
 	
 	/*
-	 * Devuelve las ordenes de compras activas del producto buscado
+	 * @return cantidad entregada a Almacen
 	 */
-	public List<OrdenDeCompraDTO> buscarOrdenesActivasByProducto(String codigoBarras) {
-	
+	private int recepcionarUnProducto (RemitoItemDTO item) {
+		List<OrdenDeCompra> ordenes = buscarOrdenesActivasByProductoModel(item.getProducto().getCodigoBarras());
+		int entregadoSobrante = item.getCantidad();
+		//Recorro ordenes activas de mi producto, y se las entrego
+		for (OrdenDeCompra orden : ordenes)
+		{
+			
+			if(entregadoSobrante > 0)
+			{
+				//Me devuelve lo que le sobra a esa orden
+				entregadoSobrante = orden.recepcionarCompra(entregadoSobrante);
+			}
+		}
+		
+		//Si es menor, significa que recepcioné mercadería, debo informarlo a ProductoControlador (Almacén en si)
+		if(entregadoSobrante < item.getCantidad())
+		{
+			//¿Que pasa si recibo mercaderia y dí de baja el producto durante el trayecto del camión?
+			int cantidadEntregada = item.getCantidad() - entregadoSobrante;
+			ProductoDTO p = ProductoControlador.getInstancia().buscarProductoByCodigoBarras(item.getProducto().getCodigoBarras());
+			
+			//¿Dí de baja ese producto?
+			if(p != null)
+			{
+				ProductoControlador.getInstancia().sumarStockProducto(p.getIdProducto(), cantidadEntregada);
+				return cantidadEntregada;
+			}
+			else
+			{
+				//TODO ¿Que pasa si recibo mercaderia y dí de baja el producto durante el trayecto del camión?
+				//Temporalmente marco mi orden como enviado, 
+				return 0;
+			}
+		}
+		else
+		{
+			return entregadoSobrante;//No acepte nada
+		}
 	}
 	
 	/*
-	 * Devuelve la cantidad ordenada activa del producto buscado
+	 * Devuelve las ordenes de compras activas del producto buscado
+	 */
+	
+	private List<OrdenDeCompra> buscarOrdenesActivasByProductoModel(String codigoBarras) {
+		List<OrdenDeCompra> ordenes = new ArrayList<OrdenDeCompra>();
+		
+		try {
+			for (OrdenDeCompra orden : OrdenDeCompraDAO.getInstancia().getAll()) {
+				if(orden.getOrdenActiva() == true && orden.getProducto().equals(codigoBarras))
+				{
+					ordenes.add(orden);
+				}
+			}
+		} catch (OrdenDeCompraException e) {
+			e.printStackTrace();
+		}
+
+		return ordenes;
+	}
+	
+	public List<OrdenDeCompraDTO> buscarOrdenesActivasByProducto(String codigoBarras) {
+		List<OrdenDeCompraDTO> ordenes = new ArrayList<OrdenDeCompraDTO>();
+		
+		try {
+			for (OrdenDeCompra orden : OrdenDeCompraDAO.getInstancia().getAll()) {
+				if(orden.getOrdenActiva() == true && orden.getProducto().equals(codigoBarras))
+				{
+					ordenes.add(orden.toDTO());
+				}
+			}
+		} catch (OrdenDeCompraException e) {
+			e.printStackTrace();
+		}
+
+		return ordenes;
+	}
+	
+	/*
+	 * Devuelve la cantidad ordenada activa restante del producto buscado
 	 */
 	public int buscarOrdenesActivasByProductoCantidad(String codigoBarras) {
+		int cantidadRestante = 0;
+		
+		try {
+			for (OrdenDeCompra orden : OrdenDeCompraDAO.getInstancia().getAll()) {
+				if(orden.getOrdenActiva() == true && orden.getProducto().equals(codigoBarras))
+				{
+					cantidadRestante = cantidadRestante + orden.getCantidadRestanteEntrega();
+				}
+			}
+		} catch (OrdenDeCompraException e) {
+			e.printStackTrace();
+		}
+
+		return cantidadRestante;
 		
 	}
 }

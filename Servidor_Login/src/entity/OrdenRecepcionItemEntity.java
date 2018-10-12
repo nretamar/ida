@@ -13,17 +13,17 @@ import javax.persistence.Table;
 public class OrdenRecepcionItemEntity {
 	
 	@Id
-	private int idOrdenRecepcionItem;
+	private Integer idOrdenRecepcionItem;
 	
 	private Date fecha;
 	private int cantidad;
 
 	public OrdenRecepcionItemEntity() {}
 	
-	public int getIdOrdenRecepcionItem() {
+	public Integer getIdOrdenRecepcionItem() {
 		return idOrdenRecepcionItem;
 	}
-	public void setIdOrdenRecepcionItem(int idOrdenRecepcionItem) {
+	public void setIdOrdenRecepcionItem(Integer idOrdenRecepcionItem) {
 		this.idOrdenRecepcionItem = idOrdenRecepcionItem;
 	}
 	public Date getFecha() {

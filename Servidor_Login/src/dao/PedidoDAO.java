@@ -79,7 +79,14 @@ public class PedidoDAO {
 			System.out.println("item: " + item.getProducto().getDescripcion());
 		}*/
 		
-		pedi.setItems(getItemsToEntity(pedido.getItems()));
+		if(pedido.getItems() != null)
+		{
+			pedi.setItems(getItemsToEntity(pedido.getItems()));
+		}
+		else
+		{
+			//System.out.println("ES null");
+		}
 
 		return pedi;
 	}
@@ -115,7 +122,6 @@ public class PedidoDAO {
 			//Cocinado la gallina :)
 			
 		} catch (PedidoException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		
@@ -202,7 +208,7 @@ public class PedidoDAO {
 			return resultado;
 		} else
 			throw new PedidoException("Fallo en el listado de Pedidos");
-	}	
+	}
 	
 	public Pedido buscar(Integer idPedido) throws PedidoException {
 		SessionFactory sf = HibernateUtil.getSessionFactory();

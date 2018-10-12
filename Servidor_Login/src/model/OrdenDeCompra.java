@@ -8,7 +8,6 @@ import dao.OrdenDeCompraDAO;
 import dao.ProductoDAO;
 import dto.OrdenDeCompraDTO;
 import dto.OrdenRecepcionItemDTO;
-import dto.RemitoDTO;
 import exceptions.ProductoException;
 
 //
@@ -35,7 +34,6 @@ public class OrdenDeCompra {
 	private Date fechaEmitida;
 	private boolean ordenActiva;
 	private int cantidadOrdenada;
-	private Remito remito;
 	private List<OrdenRecepcionItem> recepcionesDelProducto;
 	
 	public OrdenDeCompra() {
@@ -50,16 +48,12 @@ public class OrdenDeCompra {
 			model = ProductoDAO.getInstancia().buscar(dto.getProducto().getIdProducto());
 			this.producto = model;
 		} catch (ProductoException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 		this.fechaEmitida = dto.getFechaEmitida();
 		this.ordenActiva = dto.getOrdenActiva();
 		this.cantidadOrdenada = dto.getCantidadOrdenada();
-		
-		//Cuando creo la orden, el constructor no se encarga de crear el remito.
-		this.remito = null;
 		
 		
 		recepcionesDelProducto = new ArrayList<OrdenRecepcionItem>();
@@ -69,20 +63,11 @@ public class OrdenDeCompra {
 		
 	}
 	
+	/*
+	 * No persiste
+	 */
 	public void agregarItem(OrdenRecepcionItem item) {
-		boolean existe = false;
-		for(OrdenRecepcionItem i : this.recepcionesDelProducto) {
-			if(i.)
-			
-			
-			if(i.getProducto().getIdProducto().equals((item.getProducto().getIdProducto()))){
-				i.setCantidad(i.getCantidad() + item.getCantidad());
-				existe = true;
-				break;
-			}
-		}
-		if(!existe)
-			this.items.add(item);
+		this.recepcionesDelProducto.add(item);
 	}
 
 	public OrdenDeCompraDTO toDTO() {
@@ -92,7 +77,6 @@ public class OrdenDeCompra {
 		dto.setFechaEmitida(fechaEmitida);
 		dto.setOrdenActiva(ordenActiva);
 		dto.setCantidadOrdenada(cantidadOrdenada);
-		dto.setRemito(remito.toDTO());
 		
 		for(OrdenRecepcionItem item : this.recepcionesDelProducto) {
 			dto.getRecepcionesDelProducto().add(item.toDTO());
@@ -147,14 +131,6 @@ public class OrdenDeCompra {
 		this.cantidadOrdenada = cantidadOrdenada;
 	}
 
-	public Remito getRemito() {
-		return remito;
-	}
-
-	public void setRemito(Remito remito) {
-		this.remito = remito;
-	}
-
 	public List<OrdenRecepcionItem> getRecepcionesDelProducto() {
 		return recepcionesDelProducto;
 	}
@@ -162,24 +138,96 @@ public class OrdenDeCompra {
 	public void setRecepcionesDelProducto(List<OrdenRecepcionItem> recepcionesDelProducto) {
 		this.recepcionesDelProducto = recepcionesDelProducto;
 	}
-
-	public boolean estoyActivo() {
 	
+	/*
+	 * Verifica y persiste si el estadoActivo cambia su valor.
+	 */
+	public boolean estoyActivo() {
+		int cantidadRestante = this.getCantidadRestanteEntrega();
+				
+		//Cambio o mantengo bien el boolean, por las dudas.
+		if(cantidadRestante > 0)
+		{			
+			if(this.ordenActiva == false)
+			{
+				this.ordenActiva = true;
+				save();
+			}
+			
+			return true;
+		}
+		else
+		{
+			//CantRestante == 0, o si es menor a 0, aunque no debería pasar.
+			if(this.ordenActiva == true)
+			{
+				this.ordenActiva = false;
+				save();
+			}
+			
+			return false;
+		}
+	}
+	
+	public int getCantidadRestanteEntrega() {
+		int cantidadRestante = this.cantidadOrdenada;
+		//Recorro mis recepciones.
+		for(OrdenRecepcionItem item : this.recepcionesDelProducto) {
+			cantidadRestante = cantidadRestante - item.getCantidad();
+		}
+		return cantidadRestante;
 	}
 	
 	public boolean tengoProducto(String codigoBarras) {
-	
+		if(this.producto.getCodigoBarras().equals(codigoBarras))
+			return true;
+		else
+			return false;
 	}
 	
-	public void recepcionarCompra(int cantidad) {
-	
+	/*
+	 * @return sobrantes. 
+	 */
+	public int recepcionarCompra(int cantidad) {
+		if(estoyActivo())
+		{
+			int sobrante = 0;
+			OrdenRecepcionItem item = new OrdenRecepcionItem();
+			item.setFecha(new Date());
+			item.setIdOrdenRecepcionItem(null);
+			
+			//Averiguo cuanto me falta
+			int cantidadRestante = this.getCantidadRestanteEntrega();
+			
+			if(cantidadRestante >= cantidad)
+			{
+				item.setCantidad(cantidad);
+			}
+			else
+			{//recibo mas de lo que quiero
+				sobrante = cantidad - cantidadRestante;
+				item.setCantidad(cantidadRestante);
+			}
+			this.recepcionesDelProducto.add(item);
+			save();
+			return sobrante;
+		}
+		else
+		{
+			return cantidad;
+		}
 	}
 	
-	private void altaRemitoWhenTodoRecibido(RemitoDTO remito) {
-	
+	public void verificarSiRecibiTodo() {
+		estoyActivo();	//Mismo método.
 	}
 	
 	public int getTotalRecibido() {
-	
+		int cantidadRecibida = 0;
+		//Recorro mis recepciones.
+		for(OrdenRecepcionItem item : this.recepcionesDelProducto) {
+			cantidadRecibida = cantidadRecibida + item.getCantidad();
+		}
+		return cantidadRecibida;
 	}
 }

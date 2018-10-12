@@ -56,7 +56,7 @@ public class ExpedicionControlador {
 		return pedidos;
 	}
 	
-	public int altaPedido(PedidoDTO pedido) {
+	public Integer altaPedido(PedidoDTO pedido) {
 		//Creo pedido con falta de stock
 		pedido.setEstadoPedido("FALTA_STOCK");
 		Pedido model = new Pedido(pedido).save();

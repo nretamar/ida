@@ -1,9 +1,12 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import dao.RemitoDAO;
 import dto.RemitoDTO;
+import dto.RemitoItemDTO;
 
 //
 //
@@ -27,23 +30,107 @@ public class Remito {
 	private Integer idRemito;
 	private Date fecha;
 	private List<RemitoItem> productosRecibidos;
-	public RemitoDTO toDTO() {
 	
+	public Remito() {
+		this.productosRecibidos = new ArrayList<RemitoItem>();
+	}
+	
+	public Remito(RemitoDTO dto) {
+		this.idRemito = dto.getIdRemito();
+		this.fecha = dto.getFecha();
+		
+		this.productosRecibidos = new ArrayList<RemitoItem>();
+		for(RemitoItemDTO item : dto.getProductosRecibidos()) {
+			this.agregarItem(new RemitoItem(item));
+		}
+	}
+	
+	public RemitoDTO toDTO() {
+		RemitoDTO dto = new RemitoDTO();
+		dto.setIdRemito(this.getIdRemito());
+		dto.setFecha(this.getFecha());
+		
+		for(RemitoItem item : this.productosRecibidos) {
+			dto.getProductosRecibidos().add(item.toDTO());
+		}
+		return dto;
+		
 	}
 	
 	public Remito save() {
-	
+		return RemitoDAO.getInstancia().save(this);
 	}
 	
-	public void agregarProducto(int idProducto, int cantidad) {
 	
+	
+	public Integer getIdRemito() {
+		return idRemito;
+	}
+
+	public void setIdRemito(Integer idRemito) {
+		this.idRemito = idRemito;
+	}
+
+	public Date getFecha() {
+		return fecha;
+	}
+
+	public void setFecha(Date fecha) {
+		this.fecha = fecha;
+	}
+
+	public List<RemitoItem> getProductosRecibidos() {
+		return productosRecibidos;
+	}
+
+	public void setProductosRecibidos(List<RemitoItem> productosRecibidos) {
+		this.productosRecibidos = productosRecibidos;
 	}
 	
-	public boolean poseoProducto(int idProducto) {
 	
+	/*
+	 * No persiste en BD.
+	 */
+	public void agregarItem(RemitoItem item) {
+		boolean existe = false;
+		for(RemitoItem i : this.productosRecibidos) {
+			if(i.getProducto().getIdProducto().equals((item.getProducto().getIdProducto()))){
+				i.setCantidad(i.getCantidad() + item.getCantidad());
+				existe = true;
+				break;
+			}
+		}
+		if(!existe)
+			this.productosRecibidos.add(item);
 	}
 	
-	public int cantidadRecibidaDelProducto(Object idProducto) {
+	public boolean poseoProducto(String codigoBarras) {
+		boolean existe = false;
+		for(RemitoItem i : this.productosRecibidos) {
+			if(i.getProducto().getCodigoBarras().equals(codigoBarras)){
+				existe = true;
+				break;
+			}
+		}
+		return existe;
+	}
 	
+	public int cantidadRecibidaDelProducto(String codigoBarras) {
+		//Consulto si tengo el producto
+		if(this.poseoProducto(codigoBarras))
+		{
+			int cantidad = 0;
+			//Busco Item
+			for(RemitoItem i : this.productosRecibidos) {
+				if(i.getProducto().getCodigoBarras().equals(codigoBarras)){
+					cantidad = cantidad + i.getCantidad();
+				}
+			}
+			return cantidad;
+		}
+		else
+		{
+			return 0;
+		}
 	}
 }

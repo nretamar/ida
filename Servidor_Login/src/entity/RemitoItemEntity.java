@@ -14,7 +14,7 @@ import javax.persistence.Table;
 public class RemitoItemEntity {
 	
 	@Id
-	private Integer idItemRecibo;
+	private Integer idRemitoItem;
 	
 	@ManyToOne( cascade = CascadeType.ALL)
 	@JoinColumn(name="id_Producto")
@@ -25,11 +25,11 @@ public class RemitoItemEntity {
 	
 	public RemitoItemEntity() {}
 	
-	public Integer getIdItemRecibo() {
-		return idItemRecibo;
+	public Integer getIdRemitoItem() {
+		return idRemitoItem;
 	}
-	public void setIdItemRecibo(Integer idItemRecibo) {
-		this.idItemRecibo = idItemRecibo;
+	public void setIdRemitoItem(Integer idRemitoItem) {
+		this.idRemitoItem = idRemitoItem;
 	}
 	public ProductoEntity getProducto() {
 		return producto;

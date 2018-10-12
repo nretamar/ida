@@ -8,7 +8,7 @@ public class OrdenRecepcionItemDTO implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 8853111679134476959L;
-	private int idOrdenRecepcionItem;
+	private Integer idOrdenRecepcionItem;
 	private Date fecha;
 	private int cantidad;
 	
@@ -16,10 +16,10 @@ public class OrdenRecepcionItemDTO implements Serializable {
 	public OrdenRecepcionItemDTO() {}
 	
 	
-	public int getIdOrdenRecepcionItem() {
+	public Integer getIdOrdenRecepcionItem() {
 		return idOrdenRecepcionItem;
 	}
-	public void setIdOrdenRecepcionItem(int idOrdenRecepcionItem) {
+	public void setIdOrdenRecepcionItem(Integer idOrdenRecepcionItem) {
 		this.idOrdenRecepcionItem = idOrdenRecepcionItem;
 	}
 	public Date getFecha() {

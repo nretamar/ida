@@ -48,8 +48,8 @@ public class PruebaCompras {
 		}
 		
 		
-		recepcionarCompras2();//Le mando los 80 restantes
-		
+		//recepcionarCompras2();//Le mando los 80 restantes
+		recepcionarCompras4();
 		
 		System.out.println();
 		System.out.println();
@@ -59,7 +59,7 @@ public class PruebaCompras {
 			imprimirOrdenesDeCompra(item);
 		}
 		
-		
+		/*
 		recepcionarCompras3();//Le mando los 80 restantes
 		System.out.println();
 		System.out.println();
@@ -67,7 +67,7 @@ public class PruebaCompras {
 		for(OrdenDeCompraDTO item : lista)
 		{
 			imprimirOrdenesDeCompra(item);
-		}
+		}*/
 		
 		
 		
@@ -127,6 +127,24 @@ public class PruebaCompras {
 		ComprasControlador.getInstancia().recepcionarCompra(items);
 	}
 	
+	//Combinacion de recepcion 2 y 3
+	public static void recepcionarCompras4(){
+		List<RemitoItemDTO> items = new ArrayList<RemitoItemDTO>();
+		RemitoItemDTO remito1 = new RemitoItemDTO();
+		remito1.setProducto(ProductoControlador.getInstancia().buscarProductoByCodigoBarras("123-AA-Jamon"));
+		remito1.setCantidad(80);
+		remito1.setIdRemitoItem(null);
+		items.add(remito1);
+		
+		RemitoItemDTO remito2 = new RemitoItemDTO();
+		remito2.setProducto(ProductoControlador.getInstancia().buscarProductoByCodigoBarras("123-BB-Queso"));
+		remito2.setCantidad(400);
+		remito2.setIdRemitoItem(null);
+		items.add(remito2);
+		
+		ComprasControlador.getInstancia().recepcionarCompra(items);
+	}
+	
 	public static void imprimirOrdenesDeCompra(OrdenDeCompraDTO dto){
 		System.out.println("==== Orden de compra =====");
 		System.out.println("Producto: "+dto.getProducto().getDescripcion() + "    Cantidad: " + dto.getCantidadOrdenada());
@@ -136,5 +154,7 @@ public class PruebaCompras {
 		System.out.println("CantidadOrdenada: " + dto.getCantidadOrdenada() + "     CantidadRestante: " + cantRecibida);
 		System.out.println("==== Fin Orden de compra =====");
 	}
+	
+	
 
 }

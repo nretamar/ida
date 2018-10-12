@@ -4,6 +4,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import controlador.ExpedicionControlador;
+import controlador.ProductoControlador;
 
 public class Servicios {
 	
@@ -29,7 +30,7 @@ public class Servicios {
 		if(timer!=null)
 			this.detenerServicios();
 		timer = new Timer();
-		//timer.schedule(new tareasRealTime(), 0, 60000);
+		timer.schedule(new tareasRealTime(), 0, 1000);
 		//timer.schedule(new Aviso(), 0, 10000);
 		
 		//Este print significa, que el timer corre para siempre y mi Syso de abajo se ejecuta
@@ -48,18 +49,13 @@ public class Servicios {
 	private class tareasRealTime extends TimerTask {
 	    public void run() {
 	    	
-	    	ExpedicionControlador.getInstancia().actualizarTodoFaltaDeStockAPendiente();
-	    	
+	    	ExpedicionControlador.getInstancia().actualizarTodoFaltaDeStockAPendiente();	    	
 	    	System.out.println("Servicios.java: Pedidos con falta stock a pendientes, actualizado");
+	    	
+	    	ProductoControlador.getInstancia().verificarMinimoStockAndCrearOrdenes();
+	    	System.out.println("Servicios.java: Chequeando minimo Stock y creaando Ordenes De Compra... Verificado y realizado");
 	       
 	    }
-	}
-	
-	private class Aviso extends TimerTask {
-		 public void run() {
-		       System.out.println("Pasaron 10seg");
-		       
-		    }
 	}
 
 }

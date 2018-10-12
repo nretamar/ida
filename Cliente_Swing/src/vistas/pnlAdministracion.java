@@ -74,7 +74,7 @@ public class pnlAdministracion extends JPanel implements ActionListener {
 				}
 			else{
 				if(click.getActionCommand().equals("Artículos")){
-					JPanel pnlAdmA= new pnlAdminArticulos(principal);
+					JPanel pnlAdmA= new pnlAdminProductos(principal);
 					pnlAdmA.setBounds(0, 0, 1000, 600);
 					principal.remove(this);
 					principal.add(pnlAdmA);

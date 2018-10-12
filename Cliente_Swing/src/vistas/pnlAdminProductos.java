@@ -24,9 +24,10 @@ import javax.swing.table.DefaultTableModel;
 
 import businessDelegate.ArticuloDelegate;
 import dto.ArticuloDTO;
+import dto.ProductoDTO;
 import exception.GenericRemoteException;
 
-public class pnlAdminArticulos extends JPanel implements ActionListener {
+public class pnlAdminProductos extends JPanel implements ActionListener {
 
 	private static final long serialVersionUID = 8124324534423655238L;
 
@@ -34,20 +35,21 @@ public class pnlAdminArticulos extends JPanel implements ActionListener {
 	JFrame principal;
 	JTable tblProductos;
 	JButton btnBaja, btnAlta, btnModificar, btnAtras, btnBuscar;
-	JLabel lblLimpiar, lblCodBarras, lblDescripcion, lblTamanio, lblUnidad, lblPrecioV, lblCantFCompra, lblCantOcupaU,
-			lblPresentacion;
+	//TODO cantMinimaStock
+	JLabel lblLimpiar, lblCodBarras, lblDescripcion, lblPrecioV, lblCantFCompra, lblCantMinimaStock,
+			lblStockActual;
 	JTextField txtCodBarras, txtDescripcion, txtTamanio, txtUnidad, txtPrecioV, txtCantFCompra, txtCantOcupaU,
 			txtPresentacion;
 	DefaultTableModel model, modeloBusqueda;
-	List<ArticuloDTO> articulos;
-	ArticuloDTO artTabla, artAlta, artBaja, artModif;
+	List<ProductoDTO> productos;
+	ProductoDTO artTabla, artAlta, artBaja, artModif;
 	String[][] datos, datos2, csReturn;
 	String[] columnas = { "# Artículo", "Cod. de Barras", "Descripción", "Precio venta" };
 	static DateTimeFormatter formatF = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 	int cantC, i = 0, idA, row = -1;
 	JScrollPane scrollBar;
 
-	public pnlAdminArticulos(JFrame frm) {
+	public pnlAdminProductos(JFrame frm) {
 		principal = frm;
 		principal.setTitle("Administración - Artículos");
 		Inicializar();
@@ -282,7 +284,7 @@ public class pnlAdminArticulos extends JPanel implements ActionListener {
 						try {
 							ArticuloDelegate.getInstancia().altaArticulo(artAlta);
 
-							JPanel pnlAdmA = new pnlAdminArticulos(principal);
+							JPanel pnlAdmA = new pnlAdminProductos(principal);
 							pnlAdmA.setBounds(0, 0, 1000, 600);
 							principal.remove(this);
 							principal.getContentPane().add(pnlAdmA);
@@ -325,7 +327,7 @@ public class pnlAdminArticulos extends JPanel implements ActionListener {
 								ArticuloDelegate.getInstancia().modificarArticulo(artModif);
 
 								JOptionPane.showMessageDialog(null, "Artículo modificado con éxito");
-								JPanel pnlAdmA = new pnlAdminArticulos(principal);
+								JPanel pnlAdmA = new pnlAdminProductos(principal);
 								pnlAdmA.setBounds(0, 0, 1000, 600);
 								principal.remove(this);
 								principal.getContentPane().add(pnlAdmA);
@@ -348,7 +350,7 @@ public class pnlAdminArticulos extends JPanel implements ActionListener {
 
 								JOptionPane.showMessageDialog(null, "Artículo dado de baja con éxito");
 
-								JPanel pnlAdmA = new pnlAdminArticulos(principal);
+								JPanel pnlAdmA = new pnlAdminProductos(principal);
 								pnlAdmA.setBounds(0, 0, 1000, 600);
 								principal.remove(this);
 								principal.getContentPane().add(pnlAdmA);

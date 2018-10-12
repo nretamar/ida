@@ -12,7 +12,7 @@ public class ExpedicionRemoteImpl extends UnicastRemoteObject implements Expedic
 
 	private static final long serialVersionUID = -933475448905501128L;
 
-	protected ExpedicionRemoteImpl() throws RemoteException {
+	public ExpedicionRemoteImpl() throws RemoteException {
 		super();
 	}
 

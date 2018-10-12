@@ -12,7 +12,7 @@ public class ProductoRemoteImpl extends UnicastRemoteObject implements ProductoR
 
 	private static final long serialVersionUID = -3088503228983291564L;
 
-	protected ProductoRemoteImpl() throws RemoteException {
+	public ProductoRemoteImpl() throws RemoteException {
 		super();
 	}
 

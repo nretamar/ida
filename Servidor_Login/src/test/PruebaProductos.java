@@ -22,6 +22,8 @@ public class PruebaProductos {
 		ProductoControlador.getInstancia().descontarStockProducto(id1, 5);
 		p1 = ProductoControlador.getInstancia().buscarProductoById(id1);
 		System.out.println("Busco Jamon = " + p1.getDescripcion() + "   stockActual: " + p1.getStockActual());
+		
+		ProductoControlador.getInstancia().verificarMinimoStockAndCrearOrdenes();
 	}
 	
 	public static void crearTodosLosProductos (){

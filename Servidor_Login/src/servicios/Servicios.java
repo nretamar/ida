@@ -50,10 +50,10 @@ public class Servicios {
 	    public void run() {
 	    	
 	    	ExpedicionControlador.getInstancia().actualizarTodoFaltaDeStockAPendiente();	    	
-	    	System.out.println("Servicios.java: Pedidos con falta stock a pendientes, actualizado");
+	    	//System.out.println("Servicios.java: Pedidos con falta stock a pendientes, actualizado");
 	    	
 	    	ProductoControlador.getInstancia().verificarMinimoStockAndCrearOrdenes();
-	    	System.out.println("Servicios.java: Chequeando minimo Stock y creaando Ordenes De Compra... Verificado y realizado");
+	    	//System.out.println("Servicios.java: Chequeando minimo Stock y creaando Ordenes De Compra... Verificado y realizado");
 	       
 	    }
 	}

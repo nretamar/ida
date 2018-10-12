@@ -30,7 +30,7 @@ public class pnlMain extends JPanel implements ActionListener{
 	private void Inicializar(){
 		this.setLayout(null);
 		this.setSize(1000, 600);	
-		String[] areas = {"Administración"};
+		String[] areas = {"Almacén"};
 
 		btnIngresar= new JButton("Ingresar");
 		btnIngresar.setBounds(597, 337, 131, 30);
@@ -70,7 +70,7 @@ public class pnlMain extends JPanel implements ActionListener{
 		String aux;
 		aux = cbxArea.getSelectedItem().toString();
 		
-		if (aux == "Administración") {
+		if (aux == "Almacén") {
 			return 3;
 		} else {
 			return 0;

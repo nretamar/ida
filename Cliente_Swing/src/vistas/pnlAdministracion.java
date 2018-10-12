@@ -10,9 +10,13 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class pnlAdministracion extends JPanel implements ActionListener {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 441688042005748431L;
 	ImageIcon fondo;
 	JFrame principal;
-	JButton btnClientes, btnArticulos, btnPedidos, btnAtras;
+	JButton btnCompras, btnProductos, btnPedidos, btnAtras;
 	
 	public pnlAdministracion(JFrame frm){
 		principal=frm;
@@ -25,15 +29,15 @@ public class pnlAdministracion extends JPanel implements ActionListener {
 	private void Inicializar(){
 		this.setLayout(null);
 		this.setSize(1000, 600);
-		btnClientes = new JButton("Clientes");
-		btnClientes.setOpaque(false);
-		btnClientes.setContentAreaFilled(false);
-		btnClientes.setBounds(137, 225, 131, 30);
+		btnCompras = new JButton("Compras");
+		btnCompras.setOpaque(false);
+		btnCompras.setContentAreaFilled(false);
+		btnCompras.setBounds(137, 225, 131, 30);
 		
-		btnArticulos = new JButton("Artículos");
-		btnArticulos.setOpaque(false);
-		btnArticulos.setContentAreaFilled(false);
-		btnArticulos.setBounds(434, 225, 131, 30);
+		btnProductos = new JButton("Productos");
+		btnProductos.setOpaque(false);
+		btnProductos.setContentAreaFilled(false);
+		btnProductos.setBounds(434, 225, 131, 30);
 		
 		btnPedidos = new JButton("Pedidos");
 		btnPedidos.setOpaque(false);
@@ -43,16 +47,16 @@ public class pnlAdministracion extends JPanel implements ActionListener {
 		btnAtras = new JButton("Atras");
 		btnAtras.setBounds(60, 460, 131, 30);
 		
-		this.add(btnClientes);
-		this.add(btnArticulos);
+		this.add(btnCompras);
+		this.add(btnProductos);
 		this.add(btnPedidos);
 		this.add(btnAtras);
 	}
 	
 	private void asignarEventos(){
 		btnAtras.addActionListener(this);
-		btnClientes.addActionListener(this);
-		btnArticulos.addActionListener(this);
+		btnCompras.addActionListener(this);
+		btnProductos.addActionListener(this);
 		btnPedidos.addActionListener(this);
 	}
 	
@@ -65,7 +69,7 @@ public class pnlAdministracion extends JPanel implements ActionListener {
 			principal.repaint();
 		}
 		else{
-			if(click.getActionCommand().equals("Clientes")){
+			if(click.getActionCommand().equals("Compras")){
 				JPanel pnlAdmC= new pnlAdminClientes(principal);
 				pnlAdmC.setBounds(0, 0, 1000, 600);
 				principal.remove(this);
@@ -73,7 +77,7 @@ public class pnlAdministracion extends JPanel implements ActionListener {
 				principal.repaint();
 				}
 			else{
-				if(click.getActionCommand().equals("Artículos")){
+				if(click.getActionCommand().equals("Productos")){
 					JPanel pnlAdmA= new pnlAdminProductos(principal);
 					pnlAdmA.setBounds(0, 0, 1000, 600);
 					principal.remove(this);

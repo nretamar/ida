@@ -23,6 +23,7 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 import businessDelegate.ArticuloDelegate;
+import businessDelegate.ProductoDelegate;
 import dto.ArticuloDTO;
 import dto.ProductoDTO;
 import exception.GenericRemoteException;
@@ -35,23 +36,24 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 	JFrame principal;
 	JTable tblProductos;
 	JButton btnBaja, btnAlta, btnModificar, btnAtras, btnBuscar;
-	//TODO cantMinimaStock
+	//TODO
 	JLabel lblLimpiar, lblCodBarras, lblDescripcion, lblPrecioV, lblCantFCompra, lblCantMinimaStock,
 			lblStockActual;
-	JTextField txtCodBarras, txtDescripcion, txtTamanio, txtUnidad, txtPrecioV, txtCantFCompra, txtCantOcupaU,
-			txtPresentacion;
-	DefaultTableModel model, modeloBusqueda;
+	JTextField txtCodBarras, txtDescripcion, txtPrecioV, txtCantFCompra, txtCantMinimaStock,
+			txtStockActual;
+	DefaultTableModel model, modeloBusqueda;//Model es la tabla y si tocas te carga automaticamente a los textbox
+											//modeloBusqueda ayuda al boton limpiar 
 	List<ProductoDTO> productos;
-	ProductoDTO artTabla, artAlta, artBaja, artModif;
-	String[][] datos, datos2, csReturn;
-	String[] columnas = { "# Artículo", "Cod. de Barras", "Descripción", "Precio venta" };
-	static DateTimeFormatter formatF = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-	int cantC, i = 0, idA, row = -1;
+	ProductoDTO prodTabla, prodAlta, prodBaja, prodModif;
+	String[][] datos, datos2, csReturn;		//datos es datos txt, datos2 es para boton limpiar
+	String[] columnas = { "# Producto", "Cod. de Barras", "Descripción", "Precio venta" };
+	static DateTimeFormatter formatF = DateTimeFormatter.ofPattern("yyyy-MM-dd");	//Esta de adorno
+	int cantC, i = 0, idP, row = -1;
 	JScrollPane scrollBar;
 
 	public pnlAdminProductos(JFrame frm) {
 		principal = frm;
-		principal.setTitle("Administración - Artículos");
+		principal.setTitle("Almacén - Productos");
 		Inicializar();
 		AsignarEvetos();
 		this.setVisible(true);
@@ -63,29 +65,27 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 		this.setSize(1000, 600);
 
 		//try {
-			//articulos = ArticuloDelegate.getInstancia().findAllArticulos();
-			articulos = new ArrayList();
+			//productos = ProductoDelegate.getInstancia().findAll();
+			productos = new ArrayList<ProductoDTO>();
 		//} catch (GenericRemoteException e) {
 		//	e.printStackTrace();
 		//}
 
-		datos = new String[articulos.size()][9];
-
-		for (ArticuloDTO articuloList : articulos) {
-			datos[i][0] = String.valueOf(articuloList.getArticuloId());
-			datos[i][1] = articuloList.getCodigoBarras();
-			datos[i][2] = articuloList.getDescripcion();
-			datos[i][3] = String.valueOf(articuloList.getPrecioVenta());
-			datos[i][4] = articuloList.getPresentacion();
-			datos[i][5] = String.valueOf(articuloList.getTamanio());
-			datos[i][6] = articuloList.getUnidad();
-			datos[i][7] = String.valueOf(articuloList.getCantFijaCompra());
-			datos[i][8] = String.valueOf(articuloList.getCantOcupaUbicacion());
+		datos = new String[productos.size()][7];
+		
+		for (ProductoDTO productoList : productos) {
+			datos[i][0] = String.valueOf(productoList.getIdProducto());
+			datos[i][1] = productoList.getCodigoBarras();
+			datos[i][2] = productoList.getDescripcion();
+			datos[i][3] = String.valueOf(productoList.getPrecioVenta());
+			datos[i][4] = String.valueOf(productoList.getCantFijaCompra());
+			datos[i][5] = String.valueOf(productoList.getCantMinimaStock());
+			datos[i][6] = String.valueOf(productoList.getStockActual());
 
 			i++;
 		}
 
-		model = new DefaultTableModel(datos, columnas);
+		model = new DefaultTableModel(datos, columnas); //Columnas es nombre columnas
 		tblProductos = new JTable(model);
 		scrollBar = new JScrollPane();
 		scrollBar.setViewportView(tblProductos);
@@ -94,19 +94,18 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 		tblProductos.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				row = tblProductos.getSelectedRow();
-				idA = Integer.parseInt(datos[row][0]);
-
+				idP = Integer.parseInt(datos[row][0]);
+				
+								
 				txtCodBarras.setText(datos[row][1]);
 				txtDescripcion.setText(datos[row][2]);
 				txtPrecioV.setText(datos[row][3]);
-				txtPresentacion.setText(datos[row][4]);
-				txtTamanio.setText(datos[row][5]);
-				txtUnidad.setText(datos[row][6]);
-				txtCantFCompra.setText(datos[row][7]);
-				txtCantOcupaU.setText(datos[row][8]);
+				txtCantFCompra.setText(datos[row][4]);
+				txtCantMinimaStock.setText(datos[row][5]);
+				txtStockActual.setText(datos[row][6]);
 			}
 		});
-
+		
 		btnBuscar = new JButton("Buscar");
 		btnBuscar.setOpaque(false);
 		btnBuscar.setContentAreaFilled(false);
@@ -126,58 +125,54 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 		btnModificar.setBounds(829, 461, 131, 30);
 		btnAtras = new JButton("Atras");
 		btnAtras.setBounds(20, 25, 80, 30);
-
+		
+		
+		
 		lblLimpiar = new JLabel("Limpiar");
 		lblCodBarras = new JLabel("Código de Barras: ");
 		lblDescripcion = new JLabel("Descripción: ");
-		lblTamanio = new JLabel("Tamaño: ");
-		lblUnidad = new JLabel("Unidad artículo: ");
 		lblPrecioV = new JLabel("Precio venta: ");
 		lblCantFCompra = new JLabel("Cantidad fija compra: ");
-		lblCantOcupaU = new JLabel("Cantidad ocupa ubicación: ");
-		lblPresentacion = new JLabel("Presentación: ");
-
+		lblCantMinimaStock = new JLabel("Cantidad mínima Stock: ");
+		lblStockActual = new JLabel("Stock Actual: ");
+		
+		
 		txtCodBarras = new JTextField();
 		txtCodBarras.setOpaque(false);
-		txtPresentacion = new JTextField();
-		txtPresentacion.setOpaque(false);
 		txtDescripcion = new JTextField();
 		txtDescripcion.setOpaque(false);
-		txtTamanio = new JTextField();
-		txtTamanio.setOpaque(false);
-		txtUnidad = new JTextField();
-		txtUnidad.setOpaque(false);
 		txtPrecioV = new JTextField();
 		txtPrecioV.setOpaque(false);
 		txtCantFCompra = new JTextField();
 		txtCantFCompra.setOpaque(false);
-		txtCantOcupaU = new JTextField();
-		txtCantOcupaU.setOpaque(false);
-
+		txtCantMinimaStock = new JTextField();
+		txtCantMinimaStock.setOpaque(false);
+		txtStockActual = new JTextField();
+		txtStockActual.setOpaque(false);
+		
+		
 		lblLimpiar.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				row = -1;
 				txtCodBarras.setText(null);
 				txtDescripcion.setText(null);
-				txtTamanio.setText(null);
-				txtUnidad.setText(null);
 				txtPrecioV.setText(null);
 				txtCantFCompra.setText(null);
-				txtPresentacion.setText(null);
-				txtCantOcupaU.setText(null);
-
-				datos2 = new String[articulos.size()][9];
+				txtCantMinimaStock.setText(null);
+				txtStockActual.setText(null);
+				
+				datos2 = new String[productos.size()][9];
 				int y = 0;
-				for (ArticuloDTO articuloList : articulos) {
-					datos2[y][0] = String.valueOf(articuloList.getArticuloId());
-					datos2[y][1] = articuloList.getCodigoBarras();
-					datos2[y][2] = articuloList.getDescripcion();
-					datos2[y][3] = String.valueOf(articuloList.getPrecioVenta());
-					datos2[y][4] = articuloList.getPresentacion();
-					datos2[y][5] = String.valueOf(articuloList.getTamanio());
-					datos2[y][6] = articuloList.getUnidad();
-					datos2[y][7] = String.valueOf(articuloList.getCantFijaCompra());
-					datos2[y][8] = String.valueOf(articuloList.getCantOcupaUbicacion());
+				
+								
+				for (ProductoDTO productoList : productos) {
+					datos2[y][0] = String.valueOf(productoList.getIdProducto());
+					datos2[y][1] = productoList.getCodigoBarras();
+					datos2[y][2] = productoList.getDescripcion();
+					datos2[y][3] = String.valueOf(productoList.getPrecioVenta());
+					datos2[y][4] = String.valueOf(productoList.getCantFijaCompra());
+					datos2[y][5] = String.valueOf(productoList.getCantMinimaStock());
+					datos2[y][6] = String.valueOf(productoList.getStockActual());
 
 					y++;
 				}
@@ -187,54 +182,51 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 				principal.repaint();
 			}
 		});
-
+		
+		
 		lblCodBarras.setBounds(529, 105, 130, 30);
 		lblDescripcion.setBounds(529, 145, 130, 30);
-		lblTamanio.setBounds(529, 185, 130, 30);
-		lblUnidad.setBounds(529, 225, 130, 30);
-		lblPrecioV.setBounds(529, 265, 130, 30);
-		lblPresentacion.setBounds(529, 305, 130, 30);
-		lblCantFCompra.setBounds(529, 345, 130, 30);
-		lblCantOcupaU.setBounds(529, 385, 170, 30);
-
+		lblPrecioV.setBounds(529, 185, 130, 30);
+		lblCantFCompra.setBounds(529, 225, 130, 30);
+		lblCantMinimaStock.setBounds(529, 265, 130, 30);
+		lblStockActual.setBounds(529, 305, 130, 30);
+		
+		
 		txtCodBarras.setBounds(769, 105, 150, 30);
 		txtDescripcion.setBounds(769, 145, 150, 30);
-		txtTamanio.setBounds(769, 185, 150, 30);
-		txtUnidad.setBounds(769, 225, 150, 30);
-		txtPrecioV.setBounds(769, 265, 150, 30);
-		txtPresentacion.setBounds(769, 305, 150, 30);
-		txtCantFCompra.setBounds(769, 345, 150, 30);
-		txtCantOcupaU.setBounds(769, 385, 150, 30);
+		txtPrecioV.setBounds(769, 185, 150, 30);
+		txtCantFCompra.setBounds(769, 225, 150, 30);
+		txtCantMinimaStock.setBounds(769, 265, 150, 30);
+		txtStockActual.setBounds(769, 305, 150, 30);
 
 		lblLimpiar.setBounds(816, 51, 80, 30);
 		lblLimpiar.setForeground(Color.BLUE);
-
+		
 		this.add(btnAlta);
 		this.add(btnBaja);
 		this.add(btnAtras);
 		this.add(btnModificar);
 		this.add(btnBuscar);
 		this.add(scrollBar);
+		
+		
 		this.add(lblLimpiar);
 		this.add(lblCodBarras);
 		this.add(lblDescripcion);
-		this.add(lblTamanio);
-		this.add(lblUnidad);
 		this.add(lblPrecioV);
 		this.add(lblCantFCompra);
-		this.add(lblCantOcupaU);
+		this.add(lblCantMinimaStock);
+		this.add(lblStockActual);
+				
 		this.add(txtCodBarras);
 		this.add(txtDescripcion);
-		this.add(txtTamanio);
-		this.add(txtUnidad);
 		this.add(txtPrecioV);
 		this.add(txtCantFCompra);
-		this.add(txtCantOcupaU);
-		this.add(txtCantOcupaU);
-		this.add(lblPresentacion);
-		this.add(txtPresentacion);
+		this.add(txtCantMinimaStock);
+		this.add(txtStockActual);
 	}
-
+	
+	//TODO Poner N a AsignarEvetos
 	private void AsignarEvetos() {
 		btnAtras.addActionListener(this);
 		btnAlta.addActionListener(this);
@@ -245,55 +237,55 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 
 	public void actionPerformed(ActionEvent click) {
 		if (click.getActionCommand().equals("Atras")) {
-			JPanel pnlA = new pnlAdministracion(principal);
-			pnlA.setBounds(0, 0, 1000, 600);
+			JPanel pnlP = new pnlAdministracion(principal);
+			pnlP.setBounds(0, 0, 1000, 600);
 			principal.remove(this);
-			principal.getContentPane().add(pnlA);
+			principal.getContentPane().add(pnlP);
 			principal.repaint();
 		} else {
 			if (click.getActionCommand().equals("Alta")) {
+				
 				if (!txtCodBarras.getText().equals("") && !txtDescripcion.getText().equals("")
-						&& !txtTamanio.getText().equals("") && !txtUnidad.getText().equals("")
 						&& !txtPrecioV.getText().equals("") && !txtCantFCompra.getText().equals("")
-						&& !txtCantOcupaU.getText().equals("") && !txtPresentacion.getText().equals("")) {
+						&& !txtCantMinimaStock.getText().equals("") && !txtStockActual.getText().equals("")) {
 					
-					if (isNumeric(txtTamanio.getText())) {
-						if (isNumeric(txtCantOcupaU.getText())) {
-							if (isNumeric(txtCantFCompra.getText())) {
-								artAlta = new ArticuloDTO();
-								artAlta.setCodigoBarras(txtCodBarras.getText());
-								artAlta.setDescripcion(txtDescripcion.getText());
-								artAlta.setTamanio(Integer.parseInt(txtTamanio.getText()));
-								artAlta.setUnidad(txtUnidad.getText());
-								artAlta.setPrecioVenta(new BigDecimal(txtPrecioV.getText()));
-								artAlta.setCantFijaCompra(Integer.parseInt(txtCantFCompra.getText()));
-								artAlta.setCantOcupaUbicacion(Integer.parseInt(txtCantOcupaU.getText()));
-								artAlta.setPresentacion(txtPresentacion.getText());
+					if (isNumeric(txtCantFCompra.getText())) {
+						if (isNumeric(txtCantMinimaStock.getText())) {
+							if (isNumeric(txtStockActual.getText())) {
+								prodAlta = new ProductoDTO();
+								prodAlta.setIdProducto(null);
+								prodAlta.setCodigoBarras(txtCodBarras.getText());
+								prodAlta.setDescripcion(txtDescripcion.getText());
+								prodAlta.setPrecioVenta(new BigDecimal(txtPrecioV.getText()));
+								prodAlta.setCantFijaCompra(Integer.parseInt(txtCantFCompra.getText()));
+								prodAlta.setCantMinimaStock(Integer.parseInt(txtCantMinimaStock.getText()));
+								prodAlta.setStockActual(Integer.parseInt(txtStockActual.getText()));
 							} else {
-								JOptionPane.showMessageDialog(null, "La cantidad fija compra ingresada no es valida");
+								JOptionPane.showMessageDialog(null, "El stock actual ingresado no es valido");
 							}
 						} else {
-							JOptionPane.showMessageDialog(null, "La cantidad ocupa ubicación ingresada no es valida");
+							JOptionPane.showMessageDialog(null, "La cantidad mínima stock ingresada no es valida");
 						}
 					} else {
-						JOptionPane.showMessageDialog(null, "El tamaño ingresado no es valido");
+						JOptionPane.showMessageDialog(null, "La cantidad Fija Compra ingresada no es valida");
 					}
-			
-					if (!existeCodB(txtCodBarras.getText()) && isNumeric(txtTamanio.getText()) && isNumeric(txtCantOcupaU.getText()) 
-							&& isNumeric(txtCantFCompra.getText())) {
+										
+					
+					if (!existeCodB(txtCodBarras.getText()) && isNumeric(txtCantFCompra.getText()) && isNumeric(txtCantMinimaStock.getText()) 
+							&& isNumeric(txtStockActual.getText())) {
 						try {
-							ArticuloDelegate.getInstancia().altaArticulo(artAlta);
+							ProductoDelegate.getInstancia().altaProducto(prodAlta);
 
-							JPanel pnlAdmA = new pnlAdminProductos(principal);
-							pnlAdmA.setBounds(0, 0, 1000, 600);
+							JPanel pnlAdmP = new pnlAdminProductos(principal);
+							pnlAdmP.setBounds(0, 0, 1000, 600);
 							principal.remove(this);
-							principal.getContentPane().add(pnlAdmA);
+							principal.getContentPane().add(pnlAdmP);
 							principal.repaint();
 
-							JOptionPane.showMessageDialog(null, "Artículo dado de alta con éxito");
-						} catch (GenericRemoteException e) {
+							JOptionPane.showMessageDialog(null, "Producto dado de alta con éxito");
+						} catch (excepciones.GenericRemoteException e) {
 							e.printStackTrace();
-							JOptionPane.showMessageDialog(null, "No se pudo dar de alta el artículo");
+							JOptionPane.showMessageDialog(null, "No se pudo dar de alta el producto");
 						}
 					} else {
 						JOptionPane.showMessageDialog(null, "El Código de Barras ingresado ya existe");
@@ -302,31 +294,34 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 					JOptionPane.showMessageDialog(null, "Faltan completar campos");
 				}
 			} else {
+				
 				if (click.getActionCommand().equals("Modificar")) {
 					if (row < 0) {
 						JOptionPane.showMessageDialog(null, "Seleccione un artículo antes de modificar");
 					} else {
 						if (!txtCodBarras.getText().equals("") && !txtDescripcion.getText().equals("")
-								&& !txtTamanio.getText().equals("") && !txtUnidad.getText().equals("")
 								&& !txtPrecioV.getText().equals("") && !txtCantFCompra.getText().equals("")
-								&& !txtCantOcupaU.getText().equals("") && !txtPresentacion.getText().equals("")) {
+								&& !txtCantMinimaStock.getText().equals("") && !txtStockActual.getText().equals("")) {
 
-							idA = Integer.parseInt(datos[row][0]);
+							idP = Integer.parseInt(datos[row][0]);
 							try {
-								artModif = ArticuloDelegate.getInstancia().buscarArticulo(idA);
+								prodModif = ProductoDelegate.getInstancia().buscarProductoById(idP);
+								
+								JLabel lblLimpiar, lblCodBarras, lblDescripcion, lblPrecioV, lblCantFCompra, lblCantMinimaStock,
+									lblStockActual;
+								JTextField txtCodBarras, txtDescripcion, txtPrecioV, txtCantFCompra, txtCantMinimaStock,
+									txtStockActual;
+								
+								prodModif.setCodigoBarras(txtCodBarras.getText());
+								prodModif.setDescripcion(txtDescripcion.getText());
+								prodModif.setPrecioVenta(new BigDecimal(txtPrecioV.getText()));
+								prodModif.setCantFijaCompra(Integer.parseInt(txtCantFCompra.getText()));
+								prodModif.setCantMinimaStock(Integer.parseInt(txtCantMinimaStock.getText()));
+								prodModif.setStockActual(Integer.parseInt(txtStockActual.getText()));
 
-								artModif.setCodigoBarras(txtCodBarras.getText());
-								artModif.setDescripcion(txtDescripcion.getText());
-								artModif.setTamanio(Integer.parseInt(txtTamanio.getText()));
-								artModif.setUnidad(txtUnidad.getText());
-								artModif.setPrecioVenta(new BigDecimal(txtPrecioV.getText()));
-								artModif.setCantFijaCompra(Integer.parseInt(txtCantFCompra.getText()));
-								artModif.setCantOcupaUbicacion(Integer.parseInt(txtCantOcupaU.getText()));
-								artModif.setPresentacion(txtPresentacion.getText());
+								ProductoDelegate.getInstancia().modificarProducto(prodModif);
 
-								ArticuloDelegate.getInstancia().modificarArticulo(artModif);
-
-								JOptionPane.showMessageDialog(null, "Artículo modificado con éxito");
+								JOptionPane.showMessageDialog(null, "Producto modificado con éxito");
 								JPanel pnlAdmA = new pnlAdminProductos(principal);
 								pnlAdmA.setBounds(0, 0, 1000, 600);
 								principal.remove(this);
@@ -342,11 +337,11 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 				} else {
 					if (click.getActionCommand().equals("Baja")) {
 						if (row >= 0) {
-							idA = Integer.parseInt(datos[row][0]);
+							idP = Integer.parseInt(datos[row][0]);
 
 							try {
 
-								ArticuloDelegate.getInstancia().bajaArticulo(idA);
+								ArticuloDelegate.getInstancia().bajaArticulo(idP);
 
 								JOptionPane.showMessageDialog(null, "Artículo dado de baja con éxito");
 
@@ -390,6 +385,7 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 
 	public void paint(Graphics g) {
 		fondo = new ImageIcon(getClass().getResource("/vistas/adminA.jpg"));
+		//fondo = new ImageIcon(getClass().getResource("/fotosProductos/" + producto.getid()+".jpg"));
 		g.drawImage(fondo.getImage(), 0, 0, 994, 580, null);
 		// g.drawImage(fondo.getImage(),0, 0,1000,600,null);
 		setOpaque(false);

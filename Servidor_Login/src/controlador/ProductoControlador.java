@@ -124,7 +124,7 @@ public class ProductoControlador {
 		//System.out.println("=================== VerificarMinimoStockAndCrearOrdenes =====================");
 		for(Producto item: lista)		//Recorro lista
 		{
-			//Obtengo cantidad ordenada de este producto item
+			//Obtengo cantidad ordenada a distribuidor de este producto item
 			int cantidadOrdenada = ComprasControlador.getInstancia()
 					.buscarOrdenesActivasByProductoCantidad(item.getCodigoBarras());
 			//Cantidad pedida con falta de stock
@@ -132,10 +132,12 @@ public class ProductoControlador {
 					.buscarFaltaStockByProducto(item.getCodigoBarras());
 			/*int deboPedir = item.getCantidadAPedir
 					(item.getStockActual() + cantidadOrdenada - cantidadAPedir);*/
-			int deboPedir = item.getCantidadAPedir(cantidadAPedir-cantidadOrdenada-item.getStockActual());
+			int deboPedir = item.getCantidadAPedir(cantidadAPedir-cantidadOrdenada-item.getStockActual()+item.getCantMinimaStock());
 			
 			/*System.out.println("Verifico:");
 			System.out.println("Producto: "+item.getDescripcion());
+			System.out.println("stockActual: " + item.getStockActual());
+			System.out.println("stock minimo: " + item.getCantMinimaStock());
 			System.out.println("cantidadOrdenada: "+cantidadOrdenada + "    cantidadPedida: "+cantidadAPedir + "     deboPedir: "+deboPedir);
 			System.out.println("cantidad a pedir "+ item.getCantidadAPedir(cantidadAPedir-cantidadOrdenada-item.getStockActual()));
 			System.out.println("cantidadMinimaAPedir: " + item.getCantFijaCompra());

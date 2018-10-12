@@ -2,8 +2,6 @@ package remoteImplementation;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.text.ParseException;
-import java.util.Date;
 import java.util.List;
 
 import controlador.ClienteControlador;

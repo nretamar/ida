@@ -1,12 +1,12 @@
 package test;
 
-import java.util.ArrayList;
+/*import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
+import java.util.List;*/
 
 import controlador.ClienteControlador;
-import dao.ClienteDAO;
+//import dao.ClienteDAO;
 import dto.ClientesDTO;
 import exceptions.ClienteException;
 

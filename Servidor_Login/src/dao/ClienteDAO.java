@@ -95,7 +95,6 @@ public class ClienteDAO {
 		try {
 			cc = buscar(c.getCodigocliente());
 		} catch (ClienteException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 
@@ -178,10 +177,11 @@ public class ClienteDAO {
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
 		List<Cliente> resultado = new ArrayList<Cliente>();
-		Cliente aux = null;
+		//Cliente aux = null;
 
 		Query query = session.createQuery("from ClienteEntity");
 
+		@SuppressWarnings("unchecked")
 		List<ClienteEntity> entidades = (List<ClienteEntity>) query.list();
 
 		if (entidades != null) {

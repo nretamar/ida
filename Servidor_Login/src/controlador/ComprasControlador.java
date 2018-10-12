@@ -80,18 +80,6 @@ public class ComprasControlador {
 		
 	}
 	
-	/*
-	 * dto.setIdOrdenDeCompra(null);
-	 * dto.setProducto(item.toDTO());
-	 * dto.setFechaEmitida(new Date());
-	 * dto.setOrdenActiva(true);
-	 * dto.setCantidadOrdenada(deboPedir);					
-	 * dto.setRemito(null);
-	 * dto.setRecepcionesDelProducto(null);
-	 * 
-	 * TODO
-	 * Inicializar Listas y crear Remito
-	 */
 	public Integer altaOrdenDeCompra(OrdenDeCompraDTO orden) {
 		//Creo orden de compra como activa por default.
 		orden.setOrdenActiva(true);
@@ -166,9 +154,10 @@ public class ComprasControlador {
 		
 	}
 	
-	public void recepcionarCompraCreandoOrden(String codigoBarras, int cantidad) {
+	//TODO
+	/*public void recepcionarCompraCreandoOrden(String codigoBarras, int cantidad) {
 	
-	}
+	}*/
 	
 	/*
 	 * @return cantidad entregada a Almacen
@@ -222,7 +211,7 @@ public class ComprasControlador {
 		
 		try {
 			for (OrdenDeCompra orden : OrdenDeCompraDAO.getInstancia().getAll()) {
-				if(orden.getOrdenActiva() == true && orden.getProducto().equals(codigoBarras))
+				if(orden.getOrdenActiva() == true && orden.getProducto().getCodigoBarras().equals(codigoBarras))
 				{
 					ordenes.add(orden);
 				}
@@ -239,7 +228,7 @@ public class ComprasControlador {
 		
 		try {
 			for (OrdenDeCompra orden : OrdenDeCompraDAO.getInstancia().getAll()) {
-				if(orden.getOrdenActiva() == true && orden.getProducto().equals(codigoBarras))
+				if(orden.getOrdenActiva() == true && orden.getProducto().getCodigoBarras().equals(codigoBarras))
 				{
 					ordenes.add(orden.toDTO());
 				}
@@ -256,18 +245,20 @@ public class ComprasControlador {
 	 */
 	public int buscarOrdenesActivasByProductoCantidad(String codigoBarras) {
 		int cantidadRestante = 0;
-		
+				
 		try {
 			for (OrdenDeCompra orden : OrdenDeCompraDAO.getInstancia().getAll()) {
-				if(orden.getOrdenActiva() == true && orden.getProducto().equals(codigoBarras))
+				if(orden.getOrdenActiva() == true && orden.getProducto().getCodigoBarras().equals(codigoBarras))
 				{
 					cantidadRestante = cantidadRestante + orden.getCantidadRestanteEntrega();
+					//System.out.println("CodigoBarras: "+codigoBarras);
+					//System.out.println("CANTIDAD RESTANTE 11: " +cantidadRestante);
 				}
 			}
 		} catch (OrdenDeCompraException e) {
 			e.printStackTrace();
 		}
-
+		//System.out.println("CANTIDAD RESTANTE    22: " +cantidadRestante);
 		return cantidadRestante;
 		
 	}

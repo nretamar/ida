@@ -57,9 +57,13 @@ public class OrdenDeCompra {
 		
 		
 		recepcionesDelProducto = new ArrayList<OrdenRecepcionItem>();
-		for(OrdenRecepcionItemDTO item: dto.getRecepcionesDelProducto()) {
-			this.agregarItem(new OrdenRecepcionItem(item));
+		if(dto.getRecepcionesDelProducto() != null)
+		{
+			for(OrdenRecepcionItemDTO item: dto.getRecepcionesDelProducto()) {
+				this.agregarItem(new OrdenRecepcionItem(item));
+			}
 		}
+		
 		
 	}
 	

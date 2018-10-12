@@ -70,5 +70,12 @@ public class PruebaProductos {
 		return ProductoControlador.getInstancia().buscarProductoById(ret);
 		
 	}
+	
+	public static void imprimirProducto (ProductoDTO p){
+		System.out.println("Imprimo Producto");
+		System.out.println("Producto id: "+p.getIdProducto() + "   Descripcion: "+p.getDescripcion());
+		System.out.println("StockActual: " + p.getStockActual());
+		System.out.println();
+	}
 
 }

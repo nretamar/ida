@@ -25,9 +25,14 @@ public class PruebaPedidos {
 		PedidoDTO pedido2 = ExpedicionControlador.getInstancia().buscarPedido(2);
 		imprimirPedido(pedido2);
 		
-		System.out.println("Sumo stock :P");
+		System.out.println("Antes de sumar Stock");
+		PruebaProductos.imprimirProducto(ProductoControlador.getInstancia().buscarProductoById(1));
+		PruebaProductos.imprimirProducto(ProductoControlador.getInstancia().buscarProductoById(2));
+		System.out.println("Sumo stock :P");		
 		ProductoControlador.getInstancia().sumarStockProducto(1, 1000);
 		ProductoControlador.getInstancia().sumarStockProducto(2, 2000);
+		PruebaProductos.imprimirProducto(ProductoControlador.getInstancia().buscarProductoById(1));
+		PruebaProductos.imprimirProducto(ProductoControlador.getInstancia().buscarProductoById(2));
 		
 		System.out.println("Al tener stock, paso a pendiente a pedido2");
 		ExpedicionControlador.getInstancia().actualizarTodoFaltaDeStockAPendiente();

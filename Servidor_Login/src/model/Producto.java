@@ -200,8 +200,9 @@ public class Producto {
 	 * Introduzca su stock actual (negativo o positivo)
 	 */
 	public int getCantidadAPedir(int cantidad) {
-		int aux = cantidad;
-		while (aux < cantMinimaStock)
+		//System.out.println("Recibo cantidad: "+cantidad);
+		int aux = 0;
+		while (aux < cantidad)
 			aux += cantFijaCompra;
 		return aux;
 	}

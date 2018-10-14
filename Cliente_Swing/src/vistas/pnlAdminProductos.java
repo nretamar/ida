@@ -22,11 +22,9 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
-import businessDelegate.ArticuloDelegate;
 import businessDelegate.ProductoDelegate;
-import dto.ArticuloDTO;
 import dto.ProductoDTO;
-import exception.GenericRemoteException;
+import excepciones.GenericRemoteException;
 
 public class pnlAdminProductos extends JPanel implements ActionListener {
 
@@ -38,7 +36,7 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 	JButton btnBaja, btnAlta, btnModificar, btnAtras, btnBuscar;
 	//TODO
 	JLabel lblLimpiar, lblCodBarras, lblDescripcion, lblPrecioV, lblCantFCompra, lblCantMinimaStock,
-			lblStockActual;
+			lblStockActual, lblIdProducto, lblIdProductoSelec;
 	JTextField txtCodBarras, txtDescripcion, txtPrecioV, txtCantFCompra, txtCantMinimaStock,
 			txtStockActual;
 	DefaultTableModel model, modeloBusqueda;//Model es la tabla y si tocas te carga automaticamente a los textbox
@@ -55,7 +53,7 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 		principal = frm;
 		principal.setTitle("Almacén - Productos");
 		Inicializar();
-		AsignarEvetos();
+		AsignarEventos();
 		this.setVisible(true);
 	}
 
@@ -63,14 +61,22 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 
 		this.setLayout(null);
 		this.setSize(1000, 600);
-
-		//try {
-			//productos = ProductoDelegate.getInstancia().findAll();
+		
+		productos = new ArrayList<ProductoDTO>();
+		
+		try {
 			productos = new ArrayList<ProductoDTO>();
-		//} catch (GenericRemoteException e) {
-		//	e.printStackTrace();
-		//}
-
+			productos = ProductoDelegate.getInstancia().findAllProductos();
+		} catch (GenericRemoteException e) {
+			e.printStackTrace();
+		}
+		System.out.println("FOORRRRR");
+		for (ProductoDTO item : productos) {
+			System.out.println("Id: " + item.getIdProducto());
+			System.out.println("Descripcion: " + item.getDescripcion());
+			System.out.println();
+		}
+		
 		datos = new String[productos.size()][7];
 		
 		for (ProductoDTO productoList : productos) {
@@ -96,7 +102,8 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 				row = tblProductos.getSelectedRow();
 				idP = Integer.parseInt(datos[row][0]);
 				
-								
+				
+				lblIdProductoSelec.setText("");
 				txtCodBarras.setText(datos[row][1]);
 				txtDescripcion.setText(datos[row][2]);
 				txtPrecioV.setText(datos[row][3]);
@@ -135,6 +142,8 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 		lblCantFCompra = new JLabel("Cantidad fija compra: ");
 		lblCantMinimaStock = new JLabel("Cantidad mínima Stock: ");
 		lblStockActual = new JLabel("Stock Actual: ");
+		lblIdProducto = new JLabel("Id Producto: ");
+		lblIdProductoSelec = new JLabel("");
 		
 		
 		txtCodBarras = new JTextField();
@@ -160,6 +169,7 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 				txtCantFCompra.setText(null);
 				txtCantMinimaStock.setText(null);
 				txtStockActual.setText(null);
+				lblIdProductoSelec.setText("");
 				
 				datos2 = new String[productos.size()][9];
 				int y = 0;
@@ -188,8 +198,9 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 		lblDescripcion.setBounds(529, 145, 130, 30);
 		lblPrecioV.setBounds(529, 185, 130, 30);
 		lblCantFCompra.setBounds(529, 225, 130, 30);
-		lblCantMinimaStock.setBounds(529, 265, 130, 30);
+		lblCantMinimaStock.setBounds(529, 265, 150, 30);
 		lblStockActual.setBounds(529, 305, 130, 30);
+		lblIdProducto.setBounds(529, 345, 130, 30);
 		
 		
 		txtCodBarras.setBounds(769, 105, 150, 30);
@@ -198,7 +209,8 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 		txtCantFCompra.setBounds(769, 225, 150, 30);
 		txtCantMinimaStock.setBounds(769, 265, 150, 30);
 		txtStockActual.setBounds(769, 305, 150, 30);
-
+		lblIdProductoSelec.setBounds(769, 345, 130, 30);
+		
 		lblLimpiar.setBounds(816, 51, 80, 30);
 		lblLimpiar.setForeground(Color.BLUE);
 		
@@ -217,6 +229,8 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 		this.add(lblCantFCompra);
 		this.add(lblCantMinimaStock);
 		this.add(lblStockActual);
+		this.add(lblIdProducto);
+		this.add(lblIdProductoSelec);
 				
 		this.add(txtCodBarras);
 		this.add(txtDescripcion);
@@ -227,7 +241,7 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 	}
 	
 	//TODO Poner N a AsignarEvetos
-	private void AsignarEvetos() {
+	private void AsignarEventos() {
 		btnAtras.addActionListener(this);
 		btnAlta.addActionListener(this);
 		btnModificar.addActionListener(this);
@@ -260,6 +274,8 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 								prodAlta.setCantFijaCompra(Integer.parseInt(txtCantFCompra.getText()));
 								prodAlta.setCantMinimaStock(Integer.parseInt(txtCantMinimaStock.getText()));
 								prodAlta.setStockActual(Integer.parseInt(txtStockActual.getText()));
+								prodAlta.setEstadoActivo(true);
+								prodAlta.setFoto(null);
 							} else {
 								JOptionPane.showMessageDialog(null, "El stock actual ingresado no es valido");
 							}
@@ -307,10 +323,6 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 							try {
 								prodModif = ProductoDelegate.getInstancia().buscarProductoById(idP);
 								
-								JLabel lblLimpiar, lblCodBarras, lblDescripcion, lblPrecioV, lblCantFCompra, lblCantMinimaStock,
-									lblStockActual;
-								JTextField txtCodBarras, txtDescripcion, txtPrecioV, txtCantFCompra, txtCantMinimaStock,
-									txtStockActual;
 								
 								prodModif.setCodigoBarras(txtCodBarras.getText());
 								prodModif.setDescripcion(txtDescripcion.getText());
@@ -322,48 +334,50 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 								ProductoDelegate.getInstancia().modificarProducto(prodModif);
 
 								JOptionPane.showMessageDialog(null, "Producto modificado con éxito");
-								JPanel pnlAdmA = new pnlAdminProductos(principal);
-								pnlAdmA.setBounds(0, 0, 1000, 600);
+								JPanel pnlAdmP = new pnlAdminProductos(principal);
+								pnlAdmP.setBounds(0, 0, 1000, 600);
 								principal.remove(this);
-								principal.getContentPane().add(pnlAdmA);
+								principal.getContentPane().add(pnlAdmP);
 								principal.repaint();
 
-							} catch (GenericRemoteException e) {
+							} catch (excepciones.GenericRemoteException e) {
 								JOptionPane.showMessageDialog(null, "No se pudo modificar el artículo");
 								e.printStackTrace();
 							}
 						}
 					}
 				} else {
+					
+					
 					if (click.getActionCommand().equals("Baja")) {
 						if (row >= 0) {
 							idP = Integer.parseInt(datos[row][0]);
 
 							try {
 
-								ArticuloDelegate.getInstancia().bajaArticulo(idP);
+								ProductoDelegate.getInstancia().bajaProducto(idP);
 
-								JOptionPane.showMessageDialog(null, "Artículo dado de baja con éxito");
-
-								JPanel pnlAdmA = new pnlAdminProductos(principal);
-								pnlAdmA.setBounds(0, 0, 1000, 600);
+								JOptionPane.showMessageDialog(null, "Producto dado de baja con éxito");
+								
+								JPanel pnlAdmP = new pnlAdminProductos(principal);
+								pnlAdmP.setBounds(0, 0, 1000, 600);
 								principal.remove(this);
-								principal.getContentPane().add(pnlAdmA);
+								principal.getContentPane().add(pnlAdmP);
 								principal.repaint();
 
-							} catch (GenericRemoteException e) {
-								JOptionPane.showMessageDialog(null, "No se pudo dar de baja el artículo");
+							} catch (excepciones.GenericRemoteException e) {
+								JOptionPane.showMessageDialog(null, "No se pudo dar de baja el producto");
 								e.printStackTrace();
 							}
 						} else {
-							JOptionPane.showMessageDialog(null, "Debe seleccionar un artículo para dar de baja");
+							JOptionPane.showMessageDialog(null, "Debe seleccionar un producto para dar de baja");
 						}
 					} else {
 						if (click.getActionCommand().equals("Buscar")) {
 							String resp = "";
 							resp = JOptionPane.showInputDialog("Escriba el Código de Barras a buscar: ");
 							if (resp != "") {
-								String[][] resBusqueda = buscarArticulos(datos, resp);
+								String[][] resBusqueda = buscarProductos(datos, resp);
 								if (resBusqueda != null) {
 									modeloBusqueda = new DefaultTableModel(resBusqueda, columnas);
 									tblProductos.setModel(modeloBusqueda);
@@ -392,11 +406,11 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 		super.paint(g);
 	}
 
-	public String[][] buscarArticulos(String[][] datos, String nroCodBarras) {
+	public String[][] buscarProductos(String[][] datos, String nroCodBarras) {
 
-		int filas = buscarCantA(datos, nroCodBarras);
+		int filas = buscarCantP(datos, nroCodBarras);
 		if (filas > 0) {
-			csReturn = new String[filas][9];
+			csReturn = new String[filas][7];
 			int tamD = datos.length;
 			int k = 0;
 			for (int o = 0; o < tamD; o++) {
@@ -408,8 +422,6 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 					csReturn[k][4] = datos[o][4];
 					csReturn[k][5] = datos[o][5];
 					csReturn[k][6] = datos[o][6];
-					csReturn[k][7] = datos[o][7];
-					csReturn[k][8] = datos[o][8];
 
 					k++;
 				}
@@ -420,7 +432,7 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 		return csReturn;
 	}
 
-	public int buscarCantA(String[][] datos, String nroCodBarras) {
+	public int buscarCantP(String[][] datos, String nroCodBarras) {
 
 		int cant = 0;
 		int filas = datos.length;

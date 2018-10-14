@@ -20,6 +20,8 @@ public class Server {
 		ClienteRemote or = new ObjetoRemoto();
 		
 		try{
+			LocateRegistry.createRegistry(1099);
+			
 			ProductoRemote productoRemote = new ProductoRemoteImpl();
 			ExpedicionRemote expedicionRemote = new ExpedicionRemoteImpl();
 			ComprasRemote comprasRemote = new ComprasRemoteImpl();
@@ -28,7 +30,6 @@ public class Server {
 			Naming.bind("//localhost:1099/ExpedicionRemote", expedicionRemote);
 			Naming.bind("//localhost:1099/ComprasRemote", comprasRemote);
 			
-			LocateRegistry.createRegistry(1099);
 			Naming.rebind("//localhost/TP2018", or);
 			System.out.println("Servidor Levantado");
 		//} catch (MalformedURLException e) {

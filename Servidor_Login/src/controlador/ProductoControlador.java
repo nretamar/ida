@@ -79,6 +79,14 @@ public class ProductoControlador {
 	}
 	
 	public Integer altaProducto(ProductoDTO producto) {
+		ProductoDTO p = buscarProductoByCodigoBarras(producto.getCodigoBarras());
+		
+		//Si existe un producto con mismo codigo barra, te lo doy de baja y te creo uno nuevo con tus nuevos datos.
+		if(p != null)
+		{
+			p.setEstadoActivo(false);
+			modificarProducto(p);
+		}
 		return new Producto(producto).save().toDTO().getIdProducto();
 	}
 	

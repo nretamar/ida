@@ -47,6 +47,27 @@ public class ProductoRemoteImpl extends UnicastRemoteObject implements ProductoR
 	public ProductoDTO buscarProductoByCodigoDeBarras(String codigoBarras) throws RemoteException {
 		return ProductoControlador.getInstancia().buscarProductoByCodigoBarras(codigoBarras);
 	}
+
+	@Override
+	public void verificarMinimoStockAndCrearOrdenes() throws RemoteException {
+		ProductoControlador.getInstancia().verificarMinimoStockAndCrearOrdenes();
+		
+	}
+
+	@Override
+	public void sumarStockProducto(Integer idProducto, int cantidad) throws RemoteException {
+		ProductoControlador.getInstancia().sumarStockProducto(idProducto, cantidad);
+	}
+
+	@Override
+	public void descontarStockProducto(Integer idProducto, Integer cantidad) throws RemoteException {
+		ProductoControlador.getInstancia().descontarStockProducto(idProducto, cantidad);
+	}
+
+	@Override
+	public boolean tengoStock(Integer idProducto, Integer cantidadPedida) throws RemoteException {
+		return ProductoControlador.getInstancia().tengoStock(idProducto, cantidadPedida);
+	}
 	
 	
 	

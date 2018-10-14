@@ -21,4 +21,12 @@ public interface ProductoRemote extends Remote, Serializable {
     ProductoDTO buscarProductoById(Integer idProducto) throws RemoteException;
     
     ProductoDTO buscarProductoByCodigoDeBarras(String codigoBarras) throws RemoteException;
+    
+    void verificarMinimoStockAndCrearOrdenes() throws RemoteException;
+    
+    void sumarStockProducto(Integer idProducto, int cantidad) throws RemoteException;
+    
+    void descontarStockProducto(Integer idProducto, Integer cantidad) throws RemoteException;
+    
+    boolean tengoStock (Integer idProducto, Integer cantidadPedida) throws RemoteException;
 }

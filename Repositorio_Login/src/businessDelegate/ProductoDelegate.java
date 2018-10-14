@@ -85,6 +85,38 @@ public class ProductoDelegate {
 	}
 	
 	
+	
+	public void verificarMinimoStockAndCrearOrdenes() throws GenericRemoteException{
+		try {
+			productoRemote.verificarMinimoStockAndCrearOrdenes();
+		} catch (RemoteException e) {
+			throw new GenericRemoteException(e);
+		}
+	}
+    
+	public void sumarStockProducto(Integer idProducto, int cantidad) throws GenericRemoteException{
+		try {
+			productoRemote.sumarStockProducto(idProducto, cantidad);
+		} catch (RemoteException e) {
+			throw new GenericRemoteException(e);
+		}
+	}
+    
+	public void descontarStockProducto(Integer idProducto, Integer cantidad) throws GenericRemoteException{
+		try {
+			productoRemote.descontarStockProducto(idProducto, cantidad);
+		} catch (RemoteException e) {
+			throw new GenericRemoteException(e);
+		}
+	}
+    
+	public boolean tengoStock (Integer idProducto, Integer cantidadPedida) throws GenericRemoteException{
+		try {
+			return productoRemote.tengoStock(idProducto, cantidadPedida);
+		} catch (RemoteException e) {
+			throw new GenericRemoteException(e);
+		}
+	}
 	 
 	 
 	

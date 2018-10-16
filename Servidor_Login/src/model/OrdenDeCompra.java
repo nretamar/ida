@@ -213,6 +213,7 @@ public class OrdenDeCompra {
 				item.setCantidad(cantidadRestante);
 			}
 			this.recepcionesDelProducto.add(item);
+			this.verificarSiRecibiTodo();
 			save();
 			return sobrante;
 		}

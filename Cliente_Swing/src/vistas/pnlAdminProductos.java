@@ -70,12 +70,12 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 		} catch (GenericRemoteException e) {
 			e.printStackTrace();
 		}
-		System.out.println("FOORRRRR");
+		/*System.out.println("FOORRRRR");
 		for (ProductoDTO item : productos) {
 			System.out.println("Id: " + item.getIdProducto());
 			System.out.println("Descripcion: " + item.getDescripcion());
 			System.out.println();
-		}
+		}*/
 		
 		datos = new String[productos.size()][7];
 		

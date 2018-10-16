@@ -40,7 +40,7 @@ public class ComprasDelegate {
 	
 	
 	
-	List<OrdenDeCompraDTO> findAllOrdenesDeCompra() throws GenericRemoteException{
+	public List<OrdenDeCompraDTO> findAllOrdenesDeCompra() throws GenericRemoteException{
 		try {
 			return comprasRemote.findAllOrdenesDeCompra();
 		} catch (RemoteException e) {
@@ -48,7 +48,7 @@ public class ComprasDelegate {
 		}
 	}
 	
-	List<OrdenDeCompraDTO> findAllOrdenesDeCompraActivas() throws GenericRemoteException{
+	public List<OrdenDeCompraDTO> findAllOrdenesDeCompraActivas() throws GenericRemoteException{
 		try {
 			return comprasRemote.findAllOrdenesDeCompraActivas();
 		} catch (RemoteException e) {
@@ -56,7 +56,7 @@ public class ComprasDelegate {
 		}
 	}
 	
-	Integer altaOrdenDeCompra(OrdenDeCompraDTO orden) throws GenericRemoteException{
+	public Integer altaOrdenDeCompra(OrdenDeCompraDTO orden) throws GenericRemoteException{
 		try {
 			return comprasRemote.altaOrdenDeCompra(orden);
 		} catch (RemoteException e) {
@@ -64,7 +64,7 @@ public class ComprasDelegate {
 		}
 	}
 	
-	Integer altaRemito(RemitoDTO remito) throws GenericRemoteException{
+	public Integer altaRemito(RemitoDTO remito) throws GenericRemoteException{
 		try {
 			return comprasRemote.altaRemito(remito);
 		} catch (RemoteException e) {
@@ -72,7 +72,7 @@ public class ComprasDelegate {
 		}
 	}
 	
-	RemitoDTO recepcionarCompra(List<RemitoItemDTO> items) throws GenericRemoteException{
+	public RemitoDTO recepcionarCompra(List<RemitoItemDTO> items) throws GenericRemoteException{
 		try {
 			return comprasRemote.recepcionarCompra(items);
 		} catch (RemoteException e) {
@@ -80,7 +80,7 @@ public class ComprasDelegate {
 		}
 	}
 	
-	List<OrdenDeCompraDTO> buscarOrdenesActivasByProducto(String codigoBarras) throws GenericRemoteException{
+	public List<OrdenDeCompraDTO> buscarOrdenesActivasByProducto(String codigoBarras) throws GenericRemoteException{
 		try {
 			return comprasRemote.buscarOrdenesActivasByProducto(codigoBarras);
 		} catch (RemoteException e) {
@@ -88,7 +88,7 @@ public class ComprasDelegate {
 		}
 	}
 	
-	int buscarOrdenesActivasByProductoCantidad(String codigoBarras) throws GenericRemoteException{
+	public int buscarOrdenesActivasByProductoCantidad(String codigoBarras) throws GenericRemoteException{
 		try {
 			return comprasRemote.buscarOrdenesActivasByProductoCantidad(codigoBarras);
 		} catch (RemoteException e) {

@@ -176,7 +176,7 @@ public class ComprasControlador {
 			}
 		}
 		
-		//Si es menor, significa que recepcioné mercadería, debo informarlo a ProductoControlador (Almacén en si)
+		//Si es menor, significa que recepcioné algo de mercadería, debo informarlo a ProductoControlador (Almacén en si)
 		if(entregadoSobrante < item.getCantidad())
 		{
 			//¿Que pasa si recibo mercaderia y dí de baja el producto durante el trayecto del camión?
@@ -198,7 +198,7 @@ public class ComprasControlador {
 		}
 		else
 		{
-			return entregadoSobrante;//No acepte nada
+			return 0;//No acepte nada
 		}
 	}
 	

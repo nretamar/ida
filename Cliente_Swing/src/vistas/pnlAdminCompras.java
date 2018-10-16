@@ -37,7 +37,7 @@ public class pnlAdminCompras extends JPanel implements ActionListener {
 	ImageIcon fondo;
 	JFrame principal;
 	JTable tblRecibidos;
-	JButton btnBaja, btnAlta, btnModificar, btnAtras, btnBuscar;
+	JButton btnQuitar, btnAgregar, btnAltaRecibo, btnAtras, btnBuscar;
 	//TODO
 	JLabel lblLimpiar, lblIdProducto, lblIdProductoBusqueda, lblCodBarras, lblCodBarrasBusqueda, lblDescripcion,
 		lblDescripcionBusqueda, lblCantidad;
@@ -45,7 +45,7 @@ public class pnlAdminCompras extends JPanel implements ActionListener {
 	DefaultTableModel model, modeloBusqueda;//Model es la tabla y si tocas te carga automaticamente a los textbox
 											//modeloBusqueda ayuda al boton limpiar 
 	List<RecibidoDTO> productosRecibidos;
-	RecibidoDTO recibidoTabla, recibidoAlta, recibidoBaja, recibidoModif;
+	RecibidoDTO recibidoTabla, recibidoAgregar, recibidoQuitar, recibidoModif;
 	String[][] datos, datos2, csReturn;		//datos es datos txt, datos2 es para boton limpiar
 	String[] columnas = { "# Producto", "Cod. de Barras", "Descripción", "Cantidad" };
 	static DateTimeFormatter formatF = DateTimeFormatter.ofPattern("yyyy-MM-dd");	//Esta de adorno
@@ -65,9 +65,9 @@ public class pnlAdminCompras extends JPanel implements ActionListener {
 		this.setLayout(null);
 		this.setSize(1000, 600);
 		
-		productosRecibidos = new ArrayList<RecibidoDTO>();	
+		productosRecibidos = new ArrayList<RecibidoDTO>();
 				
-		datos = new String[productosRecibidos.size()][7];
+		datos = new String[productosRecibidos.size()][5];
 		
 		for (RecibidoDTO recibidoList : productosRecibidos) {
 			datos[i][0] = String.valueOf(recibidoList.getIdProducto());
@@ -101,18 +101,18 @@ public class pnlAdminCompras extends JPanel implements ActionListener {
 		btnBuscar.setContentAreaFilled(false);
 		btnBuscar.setBounds(529, 51, 75, 30);
 		btnBuscar.setForeground(Color.LIGHT_GRAY);
-		btnAlta = new JButton("Alta");
-		btnAlta.setOpaque(false);
-		btnAlta.setContentAreaFilled(false);
-		btnAlta.setBounds(498, 461, 131, 30);
-		btnBaja = new JButton("Baja");
-		btnBaja.setOpaque(false);
-		btnBaja.setContentAreaFilled(false);
-		btnBaja.setBounds(666, 461, 131, 30);
-		btnModificar = new JButton("Modificar");
-		btnModificar.setOpaque(false);
-		btnModificar.setContentAreaFilled(false);
-		btnModificar.setBounds(829, 461, 131, 30);
+		btnAgregar = new JButton("Agregar");
+		btnAgregar.setOpaque(false);
+		btnAgregar.setContentAreaFilled(false);
+		btnAgregar.setBounds(498, 461, 131, 30);
+		btnQuitar = new JButton("Quitar");
+		btnQuitar.setOpaque(false);
+		btnQuitar.setContentAreaFilled(false);
+		btnQuitar.setBounds(666, 461, 131, 30);
+		btnAltaRecibo = new JButton("Alta Recepción");
+		btnAltaRecibo.setOpaque(false);
+		btnAltaRecibo.setContentAreaFilled(false);
+		btnAltaRecibo.setBounds(829, 461, 131, 30);
 		btnAtras = new JButton("Atras");
 		btnAtras.setBounds(20, 25, 80, 30);
 		
@@ -182,10 +182,10 @@ public class pnlAdminCompras extends JPanel implements ActionListener {
 		lblLimpiar.setBounds(816, 51, 80, 30);
 		lblLimpiar.setForeground(Color.BLUE);
 		
-		this.add(btnAlta);
-		this.add(btnBaja);
+		this.add(btnAgregar);
+		this.add(btnQuitar);
 		this.add(btnAtras);
-		this.add(btnModificar);
+		this.add(btnAltaRecibo);
 		this.add(btnBuscar);
 		this.add(scrollBar);
 		
@@ -211,9 +211,9 @@ public class pnlAdminCompras extends JPanel implements ActionListener {
 	//TODO Poner N a AsignarEvetos
 	private void AsignarEventos() {
 		btnAtras.addActionListener(this);
-		btnAlta.addActionListener(this);
-		btnModificar.addActionListener(this);
-		btnBaja.addActionListener(this);
+		btnAgregar.addActionListener(this);
+		btnAltaRecibo.addActionListener(this);
+		btnQuitar.addActionListener(this);
 		btnBuscar.addActionListener(this);
 	}
 
@@ -225,7 +225,7 @@ public class pnlAdminCompras extends JPanel implements ActionListener {
 			principal.getContentPane().add(pnlP);
 			principal.repaint();
 		} else {
-			if (click.getActionCommand().equals("Alta")) {
+			if (click.getActionCommand().equals("Agregar")) {
 				
 				if (!lblCodBarrasBusqueda.getText().equals("") && !lblDescripcionBusqueda.getText().equals("")) {
 					
@@ -235,6 +235,18 @@ public class pnlAdminCompras extends JPanel implements ActionListener {
 						try {
 							//TODO esto es temporal
 							ProductoDTO p = ProductoDelegate.getInstancia().buscarProductoByCodigoDeBarras(lblCodBarrasBusqueda.getText());
+							RecibidoDTO r = new RecibidoDTO();
+							r.setIdProducto(p.getIdProducto());
+							r.setCodigoBarras(p.getCodigoBarras());
+							r.setDescripcion(p.getDescripcion());
+							r.setCantidad(Integer.valueOf(txtCantidad.getText()));
+							productosRecibidos.add(r);
+							actualizarTabla();
+							
+							
+							
+							
+							
 							
 							List<RemitoItemDTO> items = new ArrayList<RemitoItemDTO>();
 							RemitoItemDTO item = new RemitoItemDTO();
@@ -242,9 +254,46 @@ public class pnlAdminCompras extends JPanel implements ActionListener {
 							item.setProducto(p);
 							item.setCantidad(Integer.parseInt(txtCantidad.getText()));
 							items.add(item);
+							RemitoDTO remito = null;
+							//remito = ComprasDelegate.getInstancia().recepcionarCompra(items);
 							
-							RemitoDTO remito = ComprasDelegate.getInstancia().recepcionarCompra(items);
 							
+								
+							
+						} catch (GenericRemoteException e) {
+							e.printStackTrace();
+						}
+						//TODO agregar a tabla
+						
+					
+					} else {
+						JOptionPane.showMessageDialog(null, "La cantidad ingresada no es valida");
+					}
+					
+				} else {
+					JOptionPane.showMessageDialog(null, "Debe buscar un producto anteriormente");
+				}
+			} else {
+				
+				if (click.getActionCommand().equals("Alta Recepción")) {
+					
+					if(!productosRecibidos.isEmpty()) {
+						try {
+							List<RemitoItemDTO> items = new ArrayList<RemitoItemDTO>();
+							RemitoDTO remito = new RemitoDTO();
+							//Transformo a RemitoDTO
+							for(RecibidoDTO reci : productosRecibidos) {
+								
+								RemitoItemDTO item = new RemitoItemDTO();
+								item.setIdRemitoItem(null);
+								item.setProducto(ProductoDelegate.getInstancia()
+										.buscarProductoByCodigoDeBarras(reci.getCodigoBarras()));
+								item.setCantidad(reci.getCantidad());
+								items.add(item);
+							}
+							
+							remito = ComprasDelegate.getInstancia().recepcionarCompra(items);
+														
 							if(remito != null)
 							{
 								for(RemitoItemDTO lista : remito.getProductosRecibidos()) {
@@ -258,31 +307,20 @@ public class pnlAdminCompras extends JPanel implements ActionListener {
 							} else {
 								JOptionPane.showMessageDialog(null, "No recibir el producto");
 							}
-								
 							
 						} catch (GenericRemoteException e) {
+							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
-						
-						/*recibidoAlta = new RecibidoDTO();
-						recibidoAlta.setIdProducto(null);
-						recibidoAlta.setCodigoBarras(lblCodBarras.getText());
-						recibidoAlta.setDescripcion(lblDescripcion.getText());
-						recibidoAlta.setCantidad(Integer.parseInt(txtCantidad.getText()));*/
-						//TODO agregar a tabla
-					
-					} else {
-						JOptionPane.showMessageDialog(null, "La cantidad ingresada no es valida");
+					}
+					else {
+						JOptionPane.showMessageDialog(null, "No hay items recibidos cargados");
 					}
 					
-				} else {
-					JOptionPane.showMessageDialog(null, "Debe buscar un producto anteriormente");
-				}
-			} else {
-				
-				if (click.getActionCommand().equals("Modificar")) {
+					
+					
 					/*if (row < 0) {
-						JOptionPane.showMessageDialog(null, "Seleccione un artículo antes de modificar");
+						JOptionPane.showMessageDialog(null, "Seleccione un artículo antes de Alta Recepción");
 					} else {
 						if (!lblIdProductoBusqueda.getText().equals("") && !lblDescripcionBusqueda.getText().equals("")
 								&& !lblCodBarrasBusqueda.getText().equals("") && !txtCantidad.getText().equals("")) {
@@ -296,39 +334,42 @@ public class pnlAdminCompras extends JPanel implements ActionListener {
 								i++;
 							}
 							
-							recibidoAlta = new RecibidoDTO();
-							recibidoAlta.setIdProducto(null);
-							recibidoAlta.setCodigoBarras(lblCodBarras.getText());
-							recibidoAlta.setDescripcion(lblDescripcion.getText());
-							recibidoAlta.setCantidad(Integer.parseInt(txtCantidad.getText()));
+							recibidoAgregar = new RecibidoDTO();
+							recibidoAgregar.setIdProducto(null);
+							recibidoAgregar.setCodigoBarras(lblCodBarras.getText());
+							recibidoAgregar.setDescripcion(lblDescripcion.getText());
+							recibidoAgregar.setCantidad(Integer.parseInt(txtCantidad.getText()));
 						}
 					}*/
 				} else {
 					
 					
-					if (click.getActionCommand().equals("Baja")) {
-						/*if (row >= 0) {
+					if (click.getActionCommand().equals("Quitar")) {
+						if (row >= 0) {
 							idP = Integer.parseInt(datos[row][0]);
-
-							try {
-
-								ProductoDelegate.getInstancia().bajaProducto(idP);
-
-								JOptionPane.showMessageDialog(null, "Producto dado de baja con éxito");
-								
-								JPanel pnlAdmP = new pnlAdminCompras(principal);
-								pnlAdmP.setBounds(0, 0, 1000, 600);
-								principal.remove(this);
-								principal.getContentPane().add(pnlAdmP);
-								principal.repaint();
-
-							} catch (excepciones.GenericRemoteException e) {
-								JOptionPane.showMessageDialog(null, "No se pudo dar de baja el producto");
-								e.printStackTrace();
+							
+							RecibidoDTO delete = null;
+							
+							i = 0;
+							for(RecibidoDTO lista : productosRecibidos) {
+								if(i == row && lista.getIdProducto() == idP) {
+									delete = lista;
+								}
+								i++;
 							}
+							if(delete!=null) {
+								productosRecibidos.remove(delete);
+								JOptionPane.showMessageDialog(null, "Recibido dado de baja con éxito");
+							}
+							else {
+								JOptionPane.showMessageDialog(null, "Recibido no dado de baja");
+							}
+							
+							actualizarTabla();
+							
 						} else {
 							JOptionPane.showMessageDialog(null, "Debe seleccionar un producto para dar de baja");
-						}*/
+						}
 					} else {
 						if (click.getActionCommand().equals("Buscar")) {
 							String resp = "";
@@ -424,5 +465,22 @@ public class pnlAdminCompras extends JPanel implements ActionListener {
 	public static boolean isNumeric(String str)
 	{
 	  return str.matches("-?\\d+(\\.\\d+)?");  
+	}
+	
+	public void actualizarTabla() {
+		datos = new String[productosRecibidos.size()][7];
+		i=0;
+		for (RecibidoDTO recibidoList : productosRecibidos) {
+			datos[i][0] = String.valueOf(recibidoList.getIdProducto());
+			datos[i][1] = recibidoList.getCodigoBarras();
+			datos[i][2] = recibidoList.getDescripcion();
+			datos[i][3] = String.valueOf(recibidoList.getCantidad());
+
+			i++;
+		}
+
+		model.setDataVector(datos, columnas);
+		tblRecibidos.setModel(model);
+		principal.repaint();
 	}
 }

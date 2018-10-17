@@ -1,7 +1,13 @@
 package dao;
 
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.imageio.ImageIO;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -38,7 +44,6 @@ public class ProductoDAO {
 		produ.setStockActual(producto.getStockActual());
 		produ.setEstadoActivo(producto.getEstadoActivo());
 		//produ.setFoto(producto.getFoto());
-		
 		return produ;
 
 	}
@@ -101,6 +106,24 @@ public class ProductoDAO {
 		session.saveOrUpdate(e);
 		session.getTransaction().commit();
 		session.close();
+		
+		/*if(p.getFoto() != null)
+		{
+			// get image from imageicon
+			Image image = p.getFoto().getImage();
+
+			// cast it to bufferedimage
+			BufferedImage buffered = (BufferedImage) image;
+
+			try {
+			    // save to file
+			    File outputfile = new File("/Fotos/" + p.getIdProducto() + ".jpg");
+			    ImageIO.write(buffered, "jpg", outputfile);
+			} catch (IOException eio) {
+			    eio.printStackTrace();
+			}
+		}*/
+		
 
 		Producto pp = null;
 		try {

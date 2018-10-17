@@ -200,7 +200,7 @@ public class pnlAdminClientes extends JPanel implements ActionListener{
 					idC = Integer.parseInt(datos[row][0]);
 					try {
 						clAux = ClienteDelegate.getInstancia().buscarCliente(idC);
-						frmCuentaC = new frmMovimientos(clAux.getCuentaCorriente().getItems());
+						frmCuentaC = new frmRemitoItems(clAux.getCuentaCorriente().getItems());
 						frmCuentaC.setVisible(true);
 					} catch (GenericRemoteException e1) {
 						e1.printStackTrace();

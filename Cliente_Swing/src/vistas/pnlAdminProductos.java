@@ -398,7 +398,7 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 	}
 
 	public void paint(Graphics g) {
-		fondo = new ImageIcon(getClass().getResource("/vistas/adminA.jpg"));
+		fondo = new ImageIcon(getClass().getResource("/vistas/adminProductos.jpg"));
 		//fondo = new ImageIcon(getClass().getResource("/fotosProductos/" + producto.getid()+".jpg"));
 		g.drawImage(fondo.getImage(), 0, 0, 994, 580, null);
 		// g.drawImage(fondo.getImage(),0, 0,1000,600,null);

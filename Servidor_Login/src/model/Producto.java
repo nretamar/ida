@@ -125,6 +125,17 @@ public class Producto {
 
 	public ImageIcon getFoto() {
 		return foto;
+		/*if(this.foto != null)
+		{
+			return foto;
+		}
+		else
+		{
+			ImageIcon aux = new ImageIcon(getClass().getResource("/Fotos/" + this.getIdProducto() + ".jpg"));
+			this.foto = aux;
+			return foto;						
+		}*/
+		
 	}
 
 	public void setFoto(ImageIcon foto) {

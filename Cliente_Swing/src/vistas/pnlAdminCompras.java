@@ -35,10 +35,9 @@ public class pnlAdminCompras extends JPanel implements ActionListener {
 	private static final long serialVersionUID = 8124324534423655238L;
 
 	ImageIcon fondo;
-	JFrame principal;
+	JFrame principal, frmRemito;
 	JTable tblRecibidos;
 	JButton btnQuitar, btnAgregar, btnAltaRecibo, btnAtras, btnBuscar;
-	//TODO
 	JLabel lblLimpiar, lblIdProducto, lblIdProductoBusqueda, lblCodBarras, lblCodBarrasBusqueda, lblDescripcion,
 		lblDescripcionBusqueda, lblCantidad;
 	JTextField txtCantidad;
@@ -208,7 +207,6 @@ public class pnlAdminCompras extends JPanel implements ActionListener {
 		this.add(txtStockActual);*/
 	}
 	
-	//TODO Poner N a AsignarEvetos
 	private void AsignarEventos() {
 		btnAtras.addActionListener(this);
 		btnAgregar.addActionListener(this);
@@ -233,7 +231,6 @@ public class pnlAdminCompras extends JPanel implements ActionListener {
 						
 						
 						try {
-							//TODO esto es temporal
 							ProductoDTO p = ProductoDelegate.getInstancia().buscarProductoByCodigoDeBarras(lblCodBarrasBusqueda.getText());
 							RecibidoDTO r = new RecibidoDTO();
 							r.setIdProducto(p.getIdProducto());
@@ -243,7 +240,10 @@ public class pnlAdminCompras extends JPanel implements ActionListener {
 							productosRecibidos.add(r);
 							actualizarTabla();
 							
-							
+							lblIdProductoBusqueda.setText("");
+							lblCodBarrasBusqueda.setText("");
+							lblDescripcionBusqueda.setText("");
+							txtCantidad.setText(null);
 							
 							
 							
@@ -254,17 +254,11 @@ public class pnlAdminCompras extends JPanel implements ActionListener {
 							item.setProducto(p);
 							item.setCantidad(Integer.parseInt(txtCantidad.getText()));
 							items.add(item);
-							RemitoDTO remito = null;
-							//remito = ComprasDelegate.getInstancia().recepcionarCompra(items);
-							
-							
-								
+															
 							
 						} catch (GenericRemoteException e) {
 							e.printStackTrace();
 						}
-						//TODO agregar a tabla
-						
 					
 					} else {
 						JOptionPane.showMessageDialog(null, "La cantidad ingresada no es valida");
@@ -296,11 +290,14 @@ public class pnlAdminCompras extends JPanel implements ActionListener {
 														
 							if(remito != null)
 							{
-								for(RemitoItemDTO lista : remito.getProductosRecibidos()) {
+								frmRemito = new frmRemitoItems(remito);
+								frmRemito.setVisible(true);
+								
+								/*for(RemitoItemDTO lista : remito.getProductosRecibidos()) {
 									JOptionPane.showMessageDialog(null,
 											"Debera recibir " + String.valueOf(lista.getCantidad()) + 
 											" unidades de (codigo de barras): " + lista.getProducto().getCodigoBarras());
-								}
+								}*/
 								if(remito.getProductosRecibidos().isEmpty()) {
 									JOptionPane.showMessageDialog(null, "No existen ordenes activas sobre el producto, por lo tanto no recibir nada");
 								}
@@ -309,7 +306,6 @@ public class pnlAdminCompras extends JPanel implements ActionListener {
 							}
 							
 						} catch (GenericRemoteException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 					}
@@ -383,13 +379,13 @@ public class pnlAdminCompras extends JPanel implements ActionListener {
 										lblIdProductoBusqueda.setText(String.valueOf(p.getIdProducto()));
 										lblDescripcionBusqueda.setText(p.getDescripcion());
 										lblCodBarrasBusqueda.setText(p.getCodigoBarras());
+										txtCantidad.setText("");
 										
 										
 									} else {
 										JOptionPane.showMessageDialog(null, "No se encontraron coincidencias");
 									}
 								} catch (GenericRemoteException e) {
-									// TODO Auto-generated catch block
 									e.printStackTrace();
 								}
 								
@@ -405,7 +401,7 @@ public class pnlAdminCompras extends JPanel implements ActionListener {
 	}
 
 	public void paint(Graphics g) {
-		fondo = new ImageIcon(getClass().getResource("/vistas/adminA.jpg"));
+		fondo = new ImageIcon(getClass().getResource("/vistas/adminCompras.jpg"));
 		//fondo = new ImageIcon(getClass().getResource("/fotosProductos/" + producto.getid()+".jpg"));
 		g.drawImage(fondo.getImage(), 0, 0, 994, 580, null);
 		// g.drawImage(fondo.getImage(),0, 0,1000,600,null);

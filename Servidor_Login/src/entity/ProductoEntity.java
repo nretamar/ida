@@ -3,6 +3,7 @@ package entity;
 import java.math.BigDecimal;
 
 import javax.persistence.*;
+import javax.swing.ImageIcon;
 //import javax.swing.ImageIcon;
 
 @Entity
@@ -21,10 +22,13 @@ public class ProductoEntity {
 	private int stockActual;
 	private boolean estadoActivo;
 	
+	//private ImageIcon foto;
+	//private byte[] foto;
+	
 	public ProductoEntity(){}
 
 	public ProductoEntity(Integer idProducto, String codigoBarras, String descripcion, BigDecimal precioVenta,
-			int cantFijaCompra, int cantMinimaStock, int stockActual, boolean estadoActivo/*, ImageIcon foto*/) {
+			int cantFijaCompra, int cantMinimaStock, int stockActual, boolean estadoActivo, ImageIcon foto) {
 		super();
 		this.idProducto = idProducto;
 		this.codigoBarras = codigoBarras;
@@ -38,7 +42,7 @@ public class ProductoEntity {
 	}
 
 	public ProductoEntity(String codigoBarras, String descripcion, BigDecimal precioVenta, int cantFijaCompra,
-			int cantMinimaStock, int stockActual, boolean estadoActivo/*, ImageIcon foto*/) {
+			int cantMinimaStock, int stockActual, boolean estadoActivo, ImageIcon foto) {
 		super();
 		this.codigoBarras = codigoBarras;
 		this.descripcion = descripcion;
@@ -114,11 +118,11 @@ public class ProductoEntity {
 		this.estadoActivo = estadoActivo;
 	}
 
-	/*public ImageIcon getFoto() {
+	/*public byte[] getFoto() {
 		return foto;
 	}
 
-	public void setFoto(ImageIcon foto) {
+	public void setFoto(byte[] foto) {
 		this.foto = foto;
 	}*/
 	

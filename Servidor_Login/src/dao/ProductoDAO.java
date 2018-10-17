@@ -1,5 +1,6 @@
 package dao;
 
+import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -8,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -43,6 +45,8 @@ public class ProductoDAO {
 		produ.setCantMinimaStock(producto.getCantMinimaStock());
 		produ.setStockActual(producto.getStockActual());
 		produ.setEstadoActivo(producto.getEstadoActivo());
+		
+		//produ.setFoto(buscarFoto(producto.getIdProducto()));
 		//produ.setFoto(producto.getFoto());
 		return produ;
 
@@ -59,7 +63,9 @@ public class ProductoDAO {
 		produ.setCantMinimaStock(producto.getCantMinimaStock());
 		produ.setStockActual(producto.getStockActual());
 		produ.setEstadoActivo(producto.getEstadoActivo());
-
+		
+		//produ.setFoto(producto.getFoto());
+		
 		return produ;
 	}
 	
@@ -76,7 +82,6 @@ public class ProductoDAO {
 				p.setIdProducto(codProdu);
 				ret = grabarConId(p);
 			} catch (ProductoException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
@@ -99,6 +104,15 @@ public class ProductoDAO {
 	}
 	
 	public Producto grabarConId(Producto p){
+		
+		/*if(p.getFoto() == null)
+		{
+			p.setFoto(new ImageIcon(getClass().getResource("/Fotos/_Default.jpg")));
+			File file = new File("/Fotos/_Default.jpg");
+	        byte[] bFile = new byte[(int) file.length()];
+		}*/
+			
+		
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
 		session.beginTransaction();
@@ -122,6 +136,25 @@ public class ProductoDAO {
 			} catch (IOException eio) {
 			    eio.printStackTrace();
 			}
+		}
+		else
+		{
+			System.out.println("Hola");
+			ImageIcon defaultFoto = new ImageIcon(getClass().getResource("/Fotos/_Default.jpg"));
+			Image img = defaultFoto.getImage();
+
+			BufferedImage bi = new BufferedImage(img.getWidth(null),img.getHeight(null),BufferedImage.TYPE_INT_RGB);
+
+			Graphics2D g2 = bi.createGraphics();
+			g2.drawImage(img, 0, 0, null);
+			g2.dispose();
+			try {
+				ImageIO.write(bi, "jpg", new File("./src/Fotos/1.jpg"));
+				System.out.println("Chau");
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}*/
 		
 
@@ -129,7 +162,6 @@ public class ProductoDAO {
 		try {
 			pp = buscar(p.getIdProducto());
 		} catch (ProductoException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 
@@ -175,5 +207,21 @@ public class ProductoDAO {
 			throw new ProductoException("Fallo en el listado de Productos");
 	}
 	
-	
+	/*public ImageIcon buscarFoto(Integer id) {
+		ImageIcon foto = null;
+		System.out.println("id: " + id);
+		String testPath = this.getClass().getResource("/Users/tomas/git/ida/Servidor_Login/bin/").getPath();
+		System.out.println(testPath);
+		if(id!=null)
+		{
+			try {
+				foto = new ImageIcon(ImageIO.read(getClass().getResource("/Fotos/1.jpg")));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			//foto = new ImageIcon(getClass().getResource("/Fotos/" + id + ".jpg"));
+		}
+		return foto;
+	}*/
+			
 }

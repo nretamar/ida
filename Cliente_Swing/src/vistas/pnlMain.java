@@ -10,9 +10,11 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 public class pnlMain extends JPanel implements ActionListener{
+	
+	private static final long serialVersionUID = -5044220254470210226L;
+	
 	JFrame principal;
 	ImageIcon fondo;
 	JButton btnIngresar;

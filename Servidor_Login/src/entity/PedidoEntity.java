@@ -22,11 +22,12 @@ public class PedidoEntity {
 	
 	private boolean tPersonaYfLogistica;
 	
-	@OneToOne(fetch=FetchType.LAZY)
+	@OneToOne(cascade = CascadeType.ALL)
 	private ClienteTiendaEntity cliente;
 	
-	@OneToOne(fetch=FetchType.LAZY)
+	@OneToOne(cascade = CascadeType.ALL)
 	private DireccionClienteEntity direccion;
+	
 	private boolean fragil;
 	
 	

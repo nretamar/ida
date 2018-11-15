@@ -242,7 +242,7 @@ public class ExpedicionControlador {
 	
 	public PedidoDTO buscarPedidoByDireccionEnvioCoordinado(String direccion) {
 		for (PedidoDTO pedido : findAllPedidos()) {
-			if(pedido.getDireccionEnvioCoordinado().equals(direccion));
+			if(pedido.getDireccion().getCalle().equals(direccion));
 				return pedido;
 		}
 		return null;

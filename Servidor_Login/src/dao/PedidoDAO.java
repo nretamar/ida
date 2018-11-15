@@ -8,9 +8,13 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
+import entity.ClienteTiendaEntity;
+import entity.DireccionClienteEntity;
 import entity.PedidoEntity;
 import entity.PedidoItemEntity;
 import exceptions.PedidoException;
+import model.ClienteTienda;
+import model.DireccionCliente;
 import model.Pedido;
 import model.PedidoItem;
 import util.HibernateUtil;
@@ -35,7 +39,10 @@ public class PedidoDAO {
 		pedi.setFecha(pedido.getFecha());
 		pedi.setEstadoPedido(pedido.getEstadoPedido());
 		pedi.settPersonaYfLogistica(pedido.getTPersonaYfLogistica());
-		pedi.setDireccionEnvioCoordinado(pedido.getDireccionEnvioCoordinado());
+		
+		pedi.setCliente( clienteToModel( pedido.getCliente() ));
+		pedi.setDireccion(direccionToModel( pedido.getDireccion() ));
+		pedi.setFragil(pedido.getFragil());
 		
 		if(pedido.getItems()!=null)
 		{
@@ -63,6 +70,30 @@ public class PedidoDAO {
 			return pedido;
 		}).collect(Collectors.toList());
 	}
+	
+	public ClienteTienda clienteToModel (ClienteTiendaEntity entity) {
+		ClienteTienda model = new ClienteTienda();
+		model.setIdClienteTienda(entity.getIdClienteTienda());
+		model.setCuil_cuit_dni( entity.getCuil_cuit_dni() );
+		model.setNombreYApellido_RazonSocial(entity.getNombreYApellido_RazonSocial());
+		model.setEmail(entity.getEmail());
+		return model;
+	}
+	
+	public DireccionCliente direccionToModel (DireccionClienteEntity entity) {
+		DireccionCliente model = new DireccionCliente();
+		model.setIdDireccionCliente(entity.getIdDireccionCliente());
+		model.setCalle(entity.getCalle());
+		model.setNumero(entity.getNumero());
+		model.setPiso(entity.getPiso());
+		model.setUnidad(entity.getUnidad());
+		model.setEntreCalles(entity.getEntreCalles());
+		model.setProvincia(entity.getProvincia());
+		model.setLocalidad(entity.getLocalidad());
+		model.setCodigoPostal(entity.getCodigoPostal());
+		return model;
+	}
+	
 
 	public PedidoEntity toEntity(Pedido pedido) {
 		
@@ -72,7 +103,10 @@ public class PedidoDAO {
 		pedi.setFecha(pedido.getFecha());
 		pedi.setEstadoPedido(pedido.getEstadoPedido());
 		pedi.settPersonaYfLogistica(pedido.getTPersonaYfLogistica());
-		pedi.setDireccionEnvioCoordinado(pedido.getDireccionEnvioCoordinado());
+		
+		pedi.setCliente(getClienteToEntity(pedido.getCliente()));
+		pedi.setDireccion(getDireccionToEntity(pedido.getDireccion()));
+		pedi.setFragil(pedido.getFragil());
 		
 		/*for(PedidoItem item : pedido.getItems())
 		{
@@ -101,6 +135,29 @@ public class PedidoDAO {
 		}).collect(Collectors.toList());
 	}
 	
+	private ClienteTiendaEntity getClienteToEntity(ClienteTienda cliente) {
+		ClienteTiendaEntity entity = new ClienteTiendaEntity();
+		entity.setIdClienteTienda(cliente.getIdClienteTienda());
+		entity.setCuil_cuit_dni( cliente.getCuil_cuit_dni() );
+		entity.setNombreYApellido_RazonSocial(cliente.getNombreYApellido_RazonSocial());
+		entity.setEmail(cliente.getEmail());
+		return entity;
+	}
+	
+	private DireccionClienteEntity getDireccionToEntity ( DireccionCliente direccion) {
+		DireccionClienteEntity entity = new DireccionClienteEntity();
+		entity.setIdDireccionCliente(direccion.getIdDireccionCliente());
+		entity.setCalle(direccion.getCalle());
+		entity.setNumero(direccion.getNumero());
+		entity.setPiso(direccion.getPiso());
+		entity.setUnidad(direccion.getUnidad());
+		entity.setEntreCalles(direccion.getEntreCalles());
+		entity.setProvincia(direccion.getProvincia());
+		entity.setLocalidad(direccion.getLocalidad());
+		entity.setCodigoPostal(direccion.getCodigoPostal());
+		return entity;
+	}
+	
 	public Pedido save(Pedido p) {
 		
 		Pedido ret = null;
@@ -108,7 +165,11 @@ public class PedidoDAO {
 		//Le doy id a los items si no tienen
 		try {
 			List<PedidoItem> lista = p.getItems();
+			ClienteTienda cliente = p.getCliente();
+			DireccionCliente direccion = p.getDireccion();
 			Integer ultimoItem = ultimoCodigoItemPedido()+1;
+			Integer ultimoCliente = ultimoCodigoCliente()+1;
+			Integer ultimaDireccion = ultimoCodigoDireccionCliente();
 			for(PedidoItem item : lista)
 			{
 				if(item.getIdPedidoItem() == null)
@@ -117,8 +178,19 @@ public class PedidoDAO {
 					ultimoItem = ultimoItem +1;
 				}
 			}
+			if(cliente.getIdClienteTienda() == null) {
+				cliente.setIdClienteTienda(ultimoCliente);
+				ultimoCliente = ultimoCliente + 1;				
+			}
+			if(direccion.getIdDireccionCliente() == null) {
+				direccion.setIdDireccionCliente(ultimaDireccion);
+				ultimaDireccion = ultimaDireccion + 1;
+			}
+			
 			//Listo el pollo...
 			p.setItems(lista);
+			p.setCliente(cliente);
+			p.setDireccion(direccion);
 			//Cocinado la gallina :)
 			
 		} catch (PedidoException e1) {
@@ -166,6 +238,28 @@ public class PedidoDAO {
 			return ce;
 		else
 			throw new PedidoException("No se pudo obtener un nuevo id de Item Pedido válido");
+	}
+	
+	public int ultimoCodigoCliente() throws PedidoException {
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		Session session = sf.openSession();
+		Integer ce = (Integer) session.createQuery("select isnull(max(ce.idClienteTienda), 0) from ClienteTiendaEntity ce ")
+				.uniqueResult();
+		if (ce != null)
+			return ce;
+		else
+			throw new PedidoException("No se pudo obtener un nuevo id de ClienteTienda válido");
+	}
+	
+	public int ultimoCodigoDireccionCliente() throws PedidoException {
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		Session session = sf.openSession();
+		Integer ce = (Integer) session.createQuery("select isnull(max(ce.idDireccionCliente), 0) from DireccionClienteEntity ce ")
+				.uniqueResult();
+		if (ce != null)
+			return ce;
+		else
+			throw new PedidoException("No se pudo obtener un nuevo id de Direccion válido");
 	}
 	
 	public Pedido grabarConId(Pedido p){

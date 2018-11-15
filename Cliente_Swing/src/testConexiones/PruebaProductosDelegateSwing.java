@@ -28,6 +28,7 @@ public class PruebaProductosDelegateSwing {
 			
 			ProductoDelegate.getInstancia().verificarMinimoStockAndCrearOrdenes();
 			
+			@SuppressWarnings("unused")
 			ProductoDTO p2 = crearProducto2(150);
 			
 			for(ProductoDTO item : ProductoDelegate.getInstancia().findAllProductos()) {
@@ -68,7 +69,9 @@ public class PruebaProductosDelegateSwing {
 		producto.setCantMinimaStock(50);
 		producto.setStockActual(stockActual);
 		producto.setEstadoActivo(true);
-		producto.setFoto(null);
+		
+		String fotosUrl = "https://drive.google.com/open?id=1MhjEy13AM6Qlq_qNGRpyJllj6QroUXcK";
+		producto.setFotoUrl(fotosUrl);
 		
 		try {
 			int ret = ProductoDelegate.getInstancia().altaProducto(producto);
@@ -91,7 +94,10 @@ public class PruebaProductosDelegateSwing {
 		producto.setCantMinimaStock(75);
 		producto.setStockActual(stockActual);
 		producto.setEstadoActivo(true);
-		producto.setFoto(null);
+		
+		String fotosUrl = "https://drive.google.com/open?id=1MhjEy13AM6Qlq_qNGRpyJllj6QroUXcK";
+		producto.setFotoUrl(fotosUrl);
+		
 		int ret;
 		try {
 			ret = ProductoDelegate.getInstancia().altaProducto(producto);

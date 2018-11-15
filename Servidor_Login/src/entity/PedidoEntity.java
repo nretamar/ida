@@ -21,7 +21,14 @@ public class PedidoEntity {
 	private EstadoPedido estadoPedido;
 	
 	private boolean tPersonaYfLogistica;
-	private String direccionEnvioCoordinado;
+	
+	@OneToOne(fetch=FetchType.LAZY)
+	private ClienteTiendaEntity cliente;
+	
+	@OneToOne(fetch=FetchType.LAZY)
+	private DireccionClienteEntity direccion;
+	private boolean fragil;
+	
 	
 	@OneToMany(cascade = CascadeType.ALL)
 	private List<PedidoItemEntity> items;
@@ -62,16 +69,6 @@ public class PedidoEntity {
 	}
 
 
-	public String getDireccionEnvioCoordinado() {
-		return direccionEnvioCoordinado;
-	}
-
-
-	public void setDireccionEnvioCoordinado(String direccionEnvioCoordinado) {
-		this.direccionEnvioCoordinado = direccionEnvioCoordinado;
-	}
-
-
 	public List<PedidoItemEntity> getItems() {
 		return items;
 	}
@@ -89,6 +86,36 @@ public class PedidoEntity {
 
 	public void settPersonaYfLogistica(boolean tPersonaYfLogistica) {
 		this.tPersonaYfLogistica = tPersonaYfLogistica;
+	}
+
+
+	public ClienteTiendaEntity getCliente() {
+		return cliente;
+	}
+
+
+	public void setCliente(ClienteTiendaEntity cliente) {
+		this.cliente = cliente;
+	}
+
+
+	public DireccionClienteEntity getDireccion() {
+		return direccion;
+	}
+
+
+	public void setDireccion(DireccionClienteEntity direccion) {
+		this.direccion = direccion;
+	}
+
+
+	public boolean getFragil() {
+		return fragil;
+	}
+
+
+	public void setFragil(boolean fragil) {
+		this.fragil = fragil;
 	}
 	
 	

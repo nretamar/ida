@@ -1,6 +1,8 @@
 package test;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 import controlador.ProductoControlador;
 import dto.ProductoDTO;
@@ -49,7 +51,11 @@ public class PruebaProductos {
 		producto.setCantMinimaStock(50);
 		producto.setStockActual(stockActual);
 		producto.setEstadoActivo(true);
-		producto.setFoto(null);
+		
+		String fotosUrl = "https://drive.google.com/open?id=1MhjEy13AM6Qlq_qNGRpyJllj6QroUXcK";
+		producto.setFotoUrl(fotosUrl);
+		
+		//producto.setFoto(null);
 		int ret = ProductoControlador.getInstancia().altaProducto(producto);
 		
 		return ProductoControlador.getInstancia().buscarProductoById(ret);
@@ -66,7 +72,11 @@ public class PruebaProductos {
 		producto.setCantMinimaStock(75);
 		producto.setStockActual(stockActual);
 		producto.setEstadoActivo(true);
-		producto.setFoto(null);
+		
+		String fotosUrl = "https://drive.google.com/open?id=1MhjEy13AM6Qlq_qNGRpyJllj6QroUXcK";
+		producto.setFotoUrl(fotosUrl);
+		
+		//producto.setFoto(null);
 		int ret = ProductoControlador.getInstancia().altaProducto(producto);
 		
 		return ProductoControlador.getInstancia().buscarProductoById(ret);

@@ -2,28 +2,10 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
-	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.eclipse.jst.server.tomcat.runtimeTarget/Apache Tomcat v9.0">
-		<attributes>
-			<attribute name="owner.project.facets" value="jst.utility"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jre1.8.0_181">
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8">
 		<attributes>
 			<attribute name="owner.project.facets" value="java"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/tomas/git/ida/Servidor_Login/lib/antlr-2.7.6.jar"/>
-	<classpathentry kind="lib" path="C:/Users/tomas/git/ida/Servidor_Login/lib/commons-collections-3.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/tomas/git/ida/Servidor_Login/lib/commons-logging-1.1.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/tomas/git/ida/Servidor_Login/lib/dom4j-1.6.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/tomas/git/ida/Servidor_Login/lib/ejb3-persistence.jar"/>
-	<classpathentry kind="lib" path="C:/Users/tomas/git/ida/Servidor_Login/lib/hibernate3.jar"/>
-	<classpathentry kind="lib" path="C:/Users/tomas/git/ida/Servidor_Login/lib/hibernate-annotations.jar"/>
-	<classpathentry kind="lib" path="C:/Users/tomas/git/ida/Servidor_Login/lib/hibernate-commons-annotations.jar"/>
-	<classpathentry kind="lib" path="C:/Users/tomas/git/ida/Servidor_Login/lib/javassist-3.4.GA.jar"/>
-	<classpathentry kind="lib" path="C:/Users/tomas/git/ida/Servidor_Login/lib/jta-1.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/tomas/git/ida/Servidor_Login/lib/jtds-1.2.5.jar"/>
-	<classpathentry kind="lib" path="C:/Users/tomas/git/ida/Servidor_Login/lib/slf4j-api-1.5.6.jar"/>
-	<classpathentry kind="lib" path="C:/Users/tomas/git/ida/Servidor_Login/lib/slf4j-simple-1.5.6.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -33,12 +33,12 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 	ImageIcon fondo;
 	JFrame principal;
 	JTable tblProductos;
-	JButton btnBaja, btnAlta, btnModificar, btnAtras, btnBuscar;
+	JButton btnBaja, btnAlta, btnModificar, btnAtras, btnBuscar, btnVerFotoAnterior;
 	//TODO
 	JLabel lblLimpiar, lblCodBarras, lblDescripcion, lblPrecioV, lblCantFCompra, lblCantMinimaStock,
-			lblStockActual, lblIdProducto, lblIdProductoSelec;
+			lblStockActual, lblIdProducto, lblIdProductoSelec, lblFotoUrl;
 	JTextField txtCodBarras, txtDescripcion, txtPrecioV, txtCantFCompra, txtCantMinimaStock,
-			txtStockActual;
+			txtStockActual, txtFotoUrl;
 	DefaultTableModel model, modeloBusqueda;//Model es la tabla y si tocas te carga automaticamente a los textbox
 											//modeloBusqueda ayuda al boton limpiar 
 	List<ProductoDTO> productos;
@@ -46,7 +46,7 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 	String[][] datos, datos2, csReturn;		//datos es datos txt, datos2 es para boton limpiar
 	String[] columnas = { "# Producto", "Cod. de Barras", "Descripción", "Precio venta" };
 	static DateTimeFormatter formatF = DateTimeFormatter.ofPattern("yyyy-MM-dd");	//Esta de adorno
-	int cantC, i = 0, idP, row = -1;
+	int cantC, i = 0, idP, row = -1, idItem;
 	JScrollPane scrollBar;
 
 	public pnlAdminProductos(JFrame frm) {
@@ -77,7 +77,7 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 			System.out.println();
 		}*/
 		
-		datos = new String[productos.size()][7];
+		datos = new String[productos.size()][8];
 		
 		for (ProductoDTO productoList : productos) {
 			datos[i][0] = String.valueOf(productoList.getIdProducto());
@@ -87,6 +87,7 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 			datos[i][4] = String.valueOf(productoList.getCantFijaCompra());
 			datos[i][5] = String.valueOf(productoList.getCantMinimaStock());
 			datos[i][6] = String.valueOf(productoList.getStockActual());
+			datos[i][7] = String.valueOf(productoList.getFotoUrl());
 
 			i++;
 		}
@@ -110,6 +111,9 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 				txtCantFCompra.setText(datos[row][4]);
 				txtCantMinimaStock.setText(datos[row][5]);
 				txtStockActual.setText(datos[row][6]);
+				txtFotoUrl.setText(datos[row][7]);
+				
+				
 			}
 		});
 		
@@ -132,6 +136,10 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 		btnModificar.setBounds(829, 461, 131, 30);
 		btnAtras = new JButton("Atras");
 		btnAtras.setBounds(20, 25, 80, 30);
+		btnVerFotoAnterior = new JButton("Ver Foto anterior");
+		btnVerFotoAnterior.setOpaque(false);
+		btnVerFotoAnterior.setContentAreaFilled(false);
+		btnVerFotoAnterior.setBounds(769, 425, 130, 30);
 		
 		
 		
@@ -144,6 +152,7 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 		lblStockActual = new JLabel("Stock Actual: ");
 		lblIdProducto = new JLabel("Id Producto: ");
 		lblIdProductoSelec = new JLabel("");
+		lblFotoUrl = new JLabel("Foto URL del producto");
 		
 		
 		txtCodBarras = new JTextField();
@@ -158,6 +167,8 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 		txtCantMinimaStock.setOpaque(false);
 		txtStockActual = new JTextField();
 		txtStockActual.setOpaque(false);
+		txtFotoUrl = new JTextField();
+		txtFotoUrl.setOpaque(false);
 		
 		
 		lblLimpiar.addMouseListener(new MouseAdapter() {
@@ -170,6 +181,7 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 				txtCantMinimaStock.setText(null);
 				txtStockActual.setText(null);
 				lblIdProductoSelec.setText("");
+				txtFotoUrl.setText(null);
 				
 				datos2 = new String[productos.size()][9];
 				int y = 0;
@@ -201,6 +213,7 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 		lblCantMinimaStock.setBounds(529, 265, 150, 30);
 		lblStockActual.setBounds(529, 305, 130, 30);
 		lblIdProducto.setBounds(529, 345, 130, 30);
+		lblFotoUrl.setBounds(529, 385, 150, 30);
 		
 		
 		txtCodBarras.setBounds(769, 105, 150, 30);
@@ -210,6 +223,7 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 		txtCantMinimaStock.setBounds(769, 265, 150, 30);
 		txtStockActual.setBounds(769, 305, 150, 30);
 		lblIdProductoSelec.setBounds(769, 345, 130, 30);
+		txtFotoUrl.setBounds(769, 385, 130, 30);
 		
 		lblLimpiar.setBounds(816, 51, 80, 30);
 		lblLimpiar.setForeground(Color.BLUE);
@@ -219,6 +233,7 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 		this.add(btnAtras);
 		this.add(btnModificar);
 		this.add(btnBuscar);
+		this.add(btnVerFotoAnterior);
 		this.add(scrollBar);
 		
 		
@@ -231,6 +246,7 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 		this.add(lblStockActual);
 		this.add(lblIdProducto);
 		this.add(lblIdProductoSelec);
+		this.add(lblFotoUrl);
 				
 		this.add(txtCodBarras);
 		this.add(txtDescripcion);
@@ -238,6 +254,7 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 		this.add(txtCantFCompra);
 		this.add(txtCantMinimaStock);
 		this.add(txtStockActual);
+		this.add(txtFotoUrl);
 	}
 	
 	//TODO Poner N a AsignarEvetos
@@ -247,6 +264,7 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 		btnModificar.addActionListener(this);
 		btnBaja.addActionListener(this);
 		btnBuscar.addActionListener(this);
+		btnVerFotoAnterior.addActionListener(this);
 	}
 
 	public void actionPerformed(ActionEvent click) {
@@ -275,7 +293,7 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 								prodAlta.setCantMinimaStock(Integer.parseInt(txtCantMinimaStock.getText()));
 								prodAlta.setStockActual(Integer.parseInt(txtStockActual.getText()));
 								prodAlta.setEstadoActivo(true);
-								prodAlta.setFoto(null);
+								//prodAlta.setFoto(null);
 							} else {
 								JOptionPane.showMessageDialog(null, "El stock actual ingresado no es valido");
 							}
@@ -390,7 +408,28 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 								JOptionPane.showMessageDialog(null,
 										"Debe ingresar un Código de Barras para poder buscar");
 							}
+						} else {
+							if (click.getActionCommand().equals("Ver Foto anterio")) {
+								String resp = "";
+								resp = JOptionPane.showInputDialog("Escriba el Código de Barras a buscar: ");
+								if (resp != "") {
+									String[][] resBusqueda = buscarProductos(datos, resp);
+									if (resBusqueda != null) {
+										modeloBusqueda = new DefaultTableModel(resBusqueda, columnas);
+										tblProductos.setModel(modeloBusqueda);
+										datos = resBusqueda;
+										principal.repaint();
+									} else {
+										JOptionPane.showMessageDialog(null, "No se encontraron coincidencias");
+									}
+								} else {
+									JOptionPane.showMessageDialog(null,
+											"Debe ingresar un Código de Barras para poder buscar");
+								}
+							}
 						}
+						
+						//
 					}
 				}
 			}

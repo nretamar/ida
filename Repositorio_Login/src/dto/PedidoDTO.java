@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 
+
 public class PedidoDTO implements Serializable {
 
 	/**
@@ -17,7 +18,11 @@ public class PedidoDTO implements Serializable {
 	private Date fecha;
 	private String estadoPedido;
 	private boolean tPersonaYfLogistica;
-	private String direccionEnvioCoordinado;
+	
+	private ClienteTiendaDTO cliente;
+	private DireccionClienteDTO direccion;
+	private boolean fragil;
+	
 	private List<PedidoItemDTO> items;
 	
 	public PedidoDTO() {
@@ -56,14 +61,6 @@ public class PedidoDTO implements Serializable {
 		this.tPersonaYfLogistica = tPersonaYfLogistica;
 	}
 
-	public String getDireccionEnvioCoordinado() {
-		return direccionEnvioCoordinado;
-	}
-
-	public void setDireccionEnvioCoordinado(String direccionEnvioCoordinado) {
-		this.direccionEnvioCoordinado = direccionEnvioCoordinado;
-	}
-
 	public List<PedidoItemDTO> getItems() {
 		return items;
 	}
@@ -71,6 +68,34 @@ public class PedidoDTO implements Serializable {
 	public void setItems(List<PedidoItemDTO> items) {
 		this.items = items;
 	}
+	
+	
+	
+
+	public ClienteTiendaDTO getCliente() {
+		return cliente;
+	}
+
+	public void setCliente(ClienteTiendaDTO cliente) {
+		this.cliente = cliente;
+	}
+
+	public DireccionClienteDTO getDireccion() {
+		return direccion;
+	}
+
+	public void setDireccion(DireccionClienteDTO direccion) {
+		this.direccion = direccion;
+	}
+
+	public boolean getFragil() {
+		return fragil;
+	}
+
+	public void setFragil(boolean fragil) {
+		this.fragil = fragil;
+	}
+	
 	
 	
 	

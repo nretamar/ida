@@ -2,7 +2,7 @@ package model;
 
 import java.math.BigDecimal;
 
-import javax.swing.ImageIcon;
+//import javax.swing.ImageIcon;
 
 import dao.ProductoDAO;
 import dto.ProductoDTO;
@@ -33,7 +33,8 @@ public class Producto {
 	private int cantMinimaStock;
 	private int stockActual;
 	private boolean estadoActivo;
-	private ImageIcon foto;
+	private String fotoUrl;
+	//private ImageIcon foto;
 	
 		
 	public Producto() {
@@ -48,8 +49,9 @@ public class Producto {
 		this.precioVenta = dto.getPrecioVenta();
 		this.cantFijaCompra = dto.getCantFijaCompra();
 		this.cantMinimaStock = dto.getCantMinimaStock();
-		this.stockActual = dto.getStockActual();		
-		this.foto = dto.getFoto();
+		this.stockActual = dto.getStockActual();	
+		this.fotoUrl = dto.getFotoUrl();
+		//this.foto = dto.getFoto();
 		estadoActivo = dto.getEstadoActivo();
 		
 		this.idProducto = dto.getIdProducto();
@@ -122,25 +124,33 @@ public class Producto {
 	public void setEstadoActivo(boolean estadoActivo) {
 		this.estadoActivo = estadoActivo;
 	}
+	
+	public String getFotoUrl() {
+		return fotoUrl;
+	}
 
-	public ImageIcon getFoto() {
+	public void setFotoUrl(String fotoUrl) {
+		this.fotoUrl = fotoUrl;
+	}
+
+	/*public ImageIcon getFoto() {
 		return foto;
-		/*if(this.foto != null)
-		{
-			return foto;
-		}
-		else
-		{
-			ImageIcon aux = new ImageIcon(getClass().getResource("/Fotos/" + this.getIdProducto() + ".jpg"));
-			this.foto = aux;
-			return foto;						
-		}*/
+		//if(this.foto != null)
+		//{
+		//	return foto;
+		//}
+		//else
+		//{
+		//	ImageIcon aux = new ImageIcon(getClass().getResource("/Fotos/" + this.getIdProducto() + ".jpg"));
+		//	this.foto = aux;
+		//	return foto;						
+		//}
 		
 	}
 
 	public void setFoto(ImageIcon foto) {
 		this.foto = foto;
-	}
+	}*/
 	
 	
 	
@@ -154,7 +164,8 @@ public class Producto {
 		producto.setCantMinimaStock(cantMinimaStock);
 		producto.setStockActual(stockActual);
 		producto.setEstadoActivo(estadoActivo);
-		producto.setFoto(foto);
+		producto.setFotoUrl(fotoUrl);
+		//producto.setFoto(foto);
 		
 		return producto;
 		

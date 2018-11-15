@@ -3,7 +3,7 @@ package remoteInterfaz;
 import java.io.Serializable;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.util.Date;
+//import java.util.Date;
 import java.util.List;
 
 import dto.ClientesDTO;

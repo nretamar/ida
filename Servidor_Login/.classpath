@@ -28,5 +28,10 @@
 	<classpathentry kind="lib" path="C:/Users/tomas/git/ida/Servidor_Login/lib/slf4j-api-1.5.6.jar"/>
 	<classpathentry kind="lib" path="C:/Users/tomas/git/ida/Servidor_Login/lib/slf4j-simple-1.5.6.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Repositorio"/>
+	<classpathentry kind="lib" path="C:/Users/tomas/git/ida/Servidor_Login/lib/httpclient-4.5.6.jar"/>
+	<classpathentry kind="lib" path="C:/Users/tomas/git/ida/Servidor_Login/lib/httpclient-win-4.5.6.jar"/>
+	<classpathentry kind="lib" path="C:/Users/tomas/git/ida/Servidor_Login/lib/httpcore-4.4.10.jar"/>
+	<classpathentry kind="lib" path="C:/Users/tomas/git/ida/Servidor_Login/lib/httpmime-4.5.6.jar"/>
+	<classpathentry kind="lib" path="C:/Users/tomas/git/ida/Servidor_Login/lib/java-json.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

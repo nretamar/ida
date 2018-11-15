@@ -1,8 +1,8 @@
 package businessDelegate;
 
-import java.rmi.RemoteException;
+/*import java.rmi.RemoteException;
 
-import excepciones.Exceptions;
+import excepciones.Exceptions;*/
 
 public class Test {
 

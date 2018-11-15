@@ -52,7 +52,10 @@ public class PruebaPedidosDelegateSwing {
 			producto.setCantMinimaStock(50);
 			producto.setStockActual(stockActual);
 			producto.setEstadoActivo(true);
-			producto.setFoto(null);
+			
+			String fotosUrl = "https://drive.google.com/open?id=1MhjEy13AM6Qlq_qNGRpyJllj6QroUXcK";
+			producto.setFotoUrl(fotosUrl);
+			
 			int ret;
 			
 			ret = ProductoDelegate.getInstancia().altaProducto(producto);
@@ -77,7 +80,10 @@ public static ProductoDTO crearProducto2 (int stockActual){
 			producto.setCantMinimaStock(75);
 			producto.setStockActual(stockActual);
 			producto.setEstadoActivo(true);
-			producto.setFoto(null);
+			
+			String fotosUrl = "https://drive.google.com/open?id=1MhjEy13AM6Qlq_qNGRpyJllj6QroUXcK";
+			producto.setFotoUrl(fotosUrl);
+			
 			int ret;
 			
 			ret = ProductoDelegate.getInstancia().altaProducto(producto);

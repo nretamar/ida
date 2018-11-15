@@ -3,7 +3,7 @@ package dto;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-import javax.swing.ImageIcon;
+//import javax.swing.ImageIcon;
 
 public class ProductoDTO implements Serializable {
 
@@ -20,11 +20,12 @@ public class ProductoDTO implements Serializable {
 	private int cantMinimaStock;
 	private int stockActual;
 	private boolean estadoActivo;
-	private ImageIcon foto;
+	private String fotoUrl;
+	//private ImageIcon foto;
 	
 	//Constructor
 	public ProductoDTO(Integer idProducto, String codigoBarras, String descripcion, BigDecimal precioVenta,
-			int cantFijaCompra, int cantMinimaStock, int stockActual, boolean estadoActivo, ImageIcon foto) {
+			int cantFijaCompra, int cantMinimaStock, int stockActual, boolean estadoActivo, String fotoUrl) {
 		super();
 		this.idProducto = idProducto;
 		this.codigoBarras = codigoBarras;
@@ -34,7 +35,8 @@ public class ProductoDTO implements Serializable {
 		this.cantMinimaStock = cantMinimaStock;
 		this.stockActual = stockActual;
 		this.estadoActivo = estadoActivo;
-		this.foto = foto;
+		this.fotoUrl = fotoUrl;
+		//this.foto = foto;
 	}	
 
 	public ProductoDTO() {
@@ -107,13 +109,23 @@ public class ProductoDTO implements Serializable {
 		this.estadoActivo = estadoActivo;
 	}
 
-	public ImageIcon getFoto() {
+	public String getFotoUrl() {
+		return fotoUrl;
+	}
+
+	public void setFotoUrl(String fotoUrl) {
+		this.fotoUrl = fotoUrl;
+	}
+	
+		
+
+	/*public ImageIcon getFoto() {
 		return foto;
 	}
 
 	public void setFoto(ImageIcon foto) {
 		this.foto = foto;
-	}
+	}*/
 	
 	
 	

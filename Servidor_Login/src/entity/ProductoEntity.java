@@ -22,13 +22,16 @@ public class ProductoEntity {
 	private int stockActual;
 	private boolean estadoActivo;
 	
+	private String fotoUrl;
+	
 	//private ImageIcon foto;
 	//private byte[] foto;
 	
 	public ProductoEntity(){}
 
 	public ProductoEntity(Integer idProducto, String codigoBarras, String descripcion, BigDecimal precioVenta,
-			int cantFijaCompra, int cantMinimaStock, int stockActual, boolean estadoActivo, ImageIcon foto) {
+			int cantFijaCompra, int cantMinimaStock, int stockActual, boolean estadoActivo, ImageIcon foto, 
+			String fotoUrl) {
 		super();
 		this.idProducto = idProducto;
 		this.codigoBarras = codigoBarras;
@@ -38,11 +41,12 @@ public class ProductoEntity {
 		this.cantMinimaStock = cantMinimaStock;
 		this.stockActual = stockActual;
 		this.estadoActivo = estadoActivo;
+		this.fotoUrl = fotoUrl;
 		//this.foto = foto;
 	}
 
 	public ProductoEntity(String codigoBarras, String descripcion, BigDecimal precioVenta, int cantFijaCompra,
-			int cantMinimaStock, int stockActual, boolean estadoActivo, ImageIcon foto) {
+			int cantMinimaStock, int stockActual, boolean estadoActivo, ImageIcon foto, String fotoUrl) {
 		super();
 		this.codigoBarras = codigoBarras;
 		this.descripcion = descripcion;
@@ -51,6 +55,7 @@ public class ProductoEntity {
 		this.cantMinimaStock = cantMinimaStock;
 		this.stockActual = stockActual;
 		this.estadoActivo = estadoActivo;
+		this.fotoUrl = fotoUrl;
 		//this.foto = foto;
 	}
 
@@ -117,6 +122,16 @@ public class ProductoEntity {
 	public void setEstadoActivo(boolean estadoActivo) {
 		this.estadoActivo = estadoActivo;
 	}
+
+	public String getFotoUrl() {
+		return fotoUrl;
+	}
+
+	public void setFotoUrl(String fotoUrl) {
+		this.fotoUrl = fotoUrl;
+	}
+	
+	
 
 	/*public byte[] getFoto() {
 		return foto;

@@ -35,7 +35,14 @@ public class Pedido {
 	private Date fecha;
 	private EstadoPedido estadoPedido;
 	private boolean tPersonaYfLogistica;
-	private String direccionEnvioCoordinado;
+	
+	//Se agrega integracion a partir de aca
+	private ClienteTienda cliente;
+	private DireccionCliente direccion;
+	private boolean fragil;
+	//Fin integracion
+	
+	
 	private List<PedidoItem> items;
 	
 		
@@ -49,8 +56,10 @@ public class Pedido {
 		this.fecha= p.getFecha();
 		this.estadoPedido = EstadoPedido.valueOf(p.getEstadoPedido());
 		this.tPersonaYfLogistica= p.getTPersonaYfLogistica();
-		this.direccionEnvioCoordinado= p.getDireccionEnvioCoordinado();
 		
+		this.cliente = new ClienteTienda( p.getCliente() );
+		this.direccion = new DireccionCliente( p.getDireccion() );
+		this.fragil = p.getFragil();
 		
 		this.items = new ArrayList<>();
 		for (PedidoItemDTO item : p.getItems()) {
@@ -64,7 +73,11 @@ public class Pedido {
 		dto.setFecha(this.getFecha());
 		dto.setEstadoPedido(this.getEstadoPedido().toString());
 		dto.settPersonaYfLogistica(this.getTPersonaYfLogistica());
-		dto.setDireccionEnvioCoordinado(this.getDireccionEnvioCoordinado());
+		
+		dto.setCliente(cliente.toDTO());
+		dto.setDireccion(direccion.toDTO());
+		dto.setFragil(fragil);
+		
 		for (PedidoItem item : this.items) {
 			dto.getItems().add(item.toDTO());
 		}
@@ -108,14 +121,6 @@ public class Pedido {
 		this.tPersonaYfLogistica = tPersonaYfLogistica;
 	}
 
-	public String getDireccionEnvioCoordinado() {
-		return direccionEnvioCoordinado;
-	}
-
-	public void setDireccionEnvioCoordinado(String direccionEnvioCoordinado) {
-		this.direccionEnvioCoordinado = direccionEnvioCoordinado;
-	}
-
 	public List<PedidoItem> getItems() {
 		return items;
 	}
@@ -123,6 +128,37 @@ public class Pedido {
 	public void setItems(List<PedidoItem> items) {
 		this.items = items;
 	}
+	
+	
+	
+	
+	public ClienteTienda getCliente() {
+		return cliente;
+	}
+
+	public void setCliente(ClienteTienda cliente) {
+		this.cliente = cliente;
+	}
+
+	public DireccionCliente getDireccion() {
+		return direccion;
+	}
+
+	public void setDireccion(DireccionCliente direccion) {
+		this.direccion = direccion;
+	}
+
+	public boolean getFragil() {
+		return fragil;
+	}
+
+	public void setFragil(boolean fragil) {
+		this.fragil = fragil;
+	}
+	
+	/*
+	 * 
+	 */
 	
 	public void cancelar() {
 		//Recordar devolver el stock si esta pendiente o despachado

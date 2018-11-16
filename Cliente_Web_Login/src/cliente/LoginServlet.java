@@ -35,6 +35,8 @@ public class LoginServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 		
+		System.out.println("Lei un http");
+		
 		String usuario = request.getParameter("usuario").toString();
 		String contra = request.getParameter("contra").toString();
 		

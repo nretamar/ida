@@ -45,13 +45,15 @@ public class ProductoDAO {
 		produ.setCantMinimaStock(producto.getCantMinimaStock());
 		produ.setStockActual(producto.getStockActual());
 		produ.setEstadoActivo(producto.getEstadoActivo());
+		produ.setFragil(producto.getFragil());
+		produ.setProveedor(ProveedorDAO.getInstancia().toNegocio( producto.getProveedor() ));
 		
 		//produ.setFoto(buscarFoto(producto.getIdProducto()));
 		//produ.setFoto(producto.getFoto());
 		return produ;
 
 	}
-
+	
 	public ProductoEntity toEntity(Producto producto) {
 		
 		ProductoEntity produ = new ProductoEntity();
@@ -63,6 +65,8 @@ public class ProductoDAO {
 		produ.setCantMinimaStock(producto.getCantMinimaStock());
 		produ.setStockActual(producto.getStockActual());
 		produ.setEstadoActivo(producto.getEstadoActivo());
+		produ.setFragil(producto.getFragil());
+		produ.setProveedor(ProveedorDAO.getInstancia().toEntity( producto.getProveedor() ));
 		
 		//produ.setFoto(producto.getFoto());
 		

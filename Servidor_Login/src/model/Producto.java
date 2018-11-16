@@ -2,10 +2,14 @@ package model;
 
 import java.math.BigDecimal;
 
+import controlador.ProveedorControlador;
+
 //import javax.swing.ImageIcon;
 
 import dao.ProductoDAO;
+import dao.ProveedorDAO;
 import dto.ProductoDTO;
+import exceptions.ProveedorException;
 
 //
 //
@@ -34,6 +38,8 @@ public class Producto {
 	private int stockActual;
 	private boolean estadoActivo;
 	private String fotoUrl;
+	private boolean fragil;
+	private Proveedor proveedor;
 	//private ImageIcon foto;
 	
 		
@@ -52,7 +58,13 @@ public class Producto {
 		this.stockActual = dto.getStockActual();	
 		this.fotoUrl = dto.getFotoUrl();
 		//this.foto = dto.getFoto();
-		estadoActivo = dto.getEstadoActivo();
+		this.estadoActivo = dto.getEstadoActivo();
+		
+		try {
+			this.proveedor = ProveedorDAO.getInstancia().buscar(dto.getProveedor().getIdProveedor());
+		} catch (ProveedorException e) {
+			e.printStackTrace();
+		}
 		
 		this.idProducto = dto.getIdProducto();
 		
@@ -132,6 +144,8 @@ public class Producto {
 	public void setFotoUrl(String fotoUrl) {
 		this.fotoUrl = fotoUrl;
 	}
+	
+	
 
 	/*public ImageIcon getFoto() {
 		return foto;
@@ -154,6 +168,22 @@ public class Producto {
 	
 	
 	
+	public boolean getFragil() {
+		return fragil;
+	}
+
+	public void setFragil(boolean fragil) {
+		this.fragil = fragil;
+	}
+
+	public Proveedor getProveedor() {
+		return proveedor;
+	}
+
+	public void setProveedor(Proveedor proveedor) {
+		this.proveedor = proveedor;
+	}
+
 	public ProductoDTO toDTO() {
 		ProductoDTO producto = new ProductoDTO();
 		producto.setIdProducto(idProducto);

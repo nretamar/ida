@@ -231,4 +231,13 @@ public class ProductoControlador {
 		return false;
 	}
 	
+	public void darDeBajaPorIdProveedor(Integer id) {
+		List<ProductoDTO> lista = findAllProductosActivos();
+		for(ProductoDTO p : lista) {
+			if(id != null && p.getProveedor().getIdProveedor() == id) {
+				this.bajaProducto(p.getIdProducto());
+			}
+		}
+	}
+	
 }

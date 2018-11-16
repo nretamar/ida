@@ -6,6 +6,7 @@ import java.util.List;
 
 import controlador.ExpedicionControlador;
 import controlador.ProductoControlador;
+import dto.DireccionClienteDTO;
 import dto.PedidoDTO;
 import dto.PedidoItemDTO;
 import dto.ProductoDTO;
@@ -63,7 +64,18 @@ public class PruebaPedidos {
 		pedido.setFecha(new Date());
 		pedido.setEstadoPedido("FALTA_STOCK");
 		pedido.settPersonaYfLogistica(false);
-		pedido.setDireccionEnvioCoordinado("Prueba 123");
+		
+		DireccionClienteDTO direccion = new DireccionClienteDTO();
+		direccion.setNumero("717");
+		direccion.setCalle("Lima");
+		direccion.setEntreCalles("Independencia y Chile");
+		direccion.setLocalidad("Montserrat");
+		direccion.setPiso("8");
+		direccion.setProvincia("Bs As");
+		direccion.setUnidad("802");
+		
+		
+		pedido.setDireccion(direccion);
 		
 		List<PedidoItemDTO> lista = crearItems();
 		
@@ -78,7 +90,8 @@ public class PruebaPedidos {
 		pedido.setFecha(new Date());
 		pedido.setEstadoPedido("Jacuna batata"); //Pruebo errores
 		pedido.settPersonaYfLogistica(true);
-		pedido.setDireccionEnvioCoordinado(null);
+
+		pedido.setDireccion(null);
 		
 		List<PedidoItemDTO> lista = crearItems2();
 		
@@ -144,7 +157,7 @@ public class PruebaPedidos {
 	public static void imprimirPedido(PedidoDTO pedido) {
 		System.out.println();
 		System.out.println("Pedido buscado en Base de Datos:");
-		System.out.println("pedido direccion: " + pedido.getDireccionEnvioCoordinado());
+		System.out.println("pedido direccion calle: " + pedido.getDireccion().getCalle());
 		System.out.println("pedido estado: " + pedido.getEstadoPedido());
 		
 		for(PedidoItemDTO item : pedido.getItems()) {

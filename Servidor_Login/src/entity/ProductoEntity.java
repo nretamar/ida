@@ -6,6 +6,7 @@ import javax.persistence.*;
 import javax.swing.ImageIcon;
 //import javax.swing.ImageIcon;
 
+
 @Entity
 @Table(name="productos")
 public class ProductoEntity {
@@ -21,8 +22,13 @@ public class ProductoEntity {
 	private int cantMinimaStock;
 	private int stockActual;
 	private boolean estadoActivo;
-	
 	private String fotoUrl;
+	private boolean fragil;
+	
+	@ManyToOne( cascade = CascadeType.ALL)
+	@JoinColumn(name="id_Proveedor")
+	@OrderBy("nombre ASC")
+	private ProveedorEntity proveedor;
 	
 	//private ImageIcon foto;
 	//private byte[] foto;
@@ -31,7 +37,7 @@ public class ProductoEntity {
 
 	public ProductoEntity(Integer idProducto, String codigoBarras, String descripcion, BigDecimal precioVenta,
 			int cantFijaCompra, int cantMinimaStock, int stockActual, boolean estadoActivo, ImageIcon foto, 
-			String fotoUrl) {
+			String fotoUrl, boolean fragil, ProveedorEntity proveedor) {
 		super();
 		this.idProducto = idProducto;
 		this.codigoBarras = codigoBarras;
@@ -42,11 +48,15 @@ public class ProductoEntity {
 		this.stockActual = stockActual;
 		this.estadoActivo = estadoActivo;
 		this.fotoUrl = fotoUrl;
+		this.fragil = fragil;
+		this.proveedor = proveedor;
 		//this.foto = foto;
+		
 	}
 
 	public ProductoEntity(String codigoBarras, String descripcion, BigDecimal precioVenta, int cantFijaCompra,
-			int cantMinimaStock, int stockActual, boolean estadoActivo, ImageIcon foto, String fotoUrl) {
+			int cantMinimaStock, int stockActual, boolean estadoActivo, ImageIcon foto, String fotoUrl, 
+			boolean fragil, ProveedorEntity proveedor) {
 		super();
 		this.codigoBarras = codigoBarras;
 		this.descripcion = descripcion;
@@ -56,6 +66,8 @@ public class ProductoEntity {
 		this.stockActual = stockActual;
 		this.estadoActivo = estadoActivo;
 		this.fotoUrl = fotoUrl;
+		this.fragil = fragil;
+		this.proveedor = proveedor;
 		//this.foto = foto;
 	}
 
@@ -129,6 +141,22 @@ public class ProductoEntity {
 
 	public void setFotoUrl(String fotoUrl) {
 		this.fotoUrl = fotoUrl;
+	}
+
+	public boolean getFragil() {
+		return fragil;
+	}
+
+	public void setFragil(boolean fragil) {
+		this.fragil = fragil;
+	}
+
+	public ProveedorEntity getProveedor() {
+		return proveedor;
+	}
+
+	public void setProveedor(ProveedorEntity proveedor) {
+		this.proveedor = proveedor;
 	}
 	
 	

@@ -3,7 +3,6 @@ package integracion;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.math.BigDecimal;
 import java.util.Properties;
 
 import org.apache.http.HttpResponse;
@@ -17,10 +16,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import exceptions.PedidoException;
-import negocio.Credito;
-import negocio.Factura;
-
-
+import model.Pedido;
+import model.PedidoItem;
 
 public class PostLogistica {
 	
@@ -28,21 +25,10 @@ public class PostLogistica {
 	private final String  NROALMACEN = "1";
 	
 	
-	public PostExpedicion(Factura factura) throws  SistemaTarjetaException {
-	
-}
-
-
-
-public class PostTarjeta {
-
-	private final String  NROESCUELA = "11";
-
-	public PostTarjeta(Factura factura) throws  SistemaTarjetaException {
-		
+	public PostLogistica(Pedido pedido) throws  PedidoException {
 		Properties prop = new Properties();
 		InputStream input = null;
-
+		
 		try {
 
 			input = new FileInputStream("direcciones.properties");
@@ -54,27 +40,54 @@ public class PostTarjeta {
 			
 		}
 			
-		String IP = prop.getProperty("ipTarjeta");
-		
+		String IP = prop.getProperty("ipLogistica");
 		
 		JSONObject json = new JSONObject();
 		try {
-			json.accumulate("fecha", factura.getFechaEmision().toLocalDate());
-			json.accumulate("idEstablecimiento", NROESCUELA);// NroEstablecimiento
-			json.accumulate("codigoSeguridad", ((Credito)factura.getTitular().getTipoDePago()).getCodSeg());
-			json.accumulate("descripcion", "Escuela cuota: " 
-                    +"Nro de Factura: "
-                    +factura.getNumero()
-                    +" - Periodo: "+factura.getPeriodo()+" - "+factura.getAnio());
-			json.accumulate("monto", new BigDecimal(factura.getCostoTotal()));
+			json.accumulate("idPedido", pedido.getIdPedido());
+			json.accumulate("idAlmacen", NROALMACEN);// NroEstablecimiento
+			
+			for(PedidoItem item : pedido.getItems()) {
+				//TODO
+				
+				
+				
+				
+				//TODO
+			}
+			
+			json.accumulate("estadoPedido", pedido.getEstadoPedido());
+			json.accumulate("requiereLogistica", pedido.getTPersonaYfLogistica());
+			
+			json.accumulate("cliente",
+					"idCliente: " + pedido.getCliente().getIdClienteTienda()
+					+ " - cuil_cuit_dni: " + pedido.getCliente().getCuil_cuit_dni()
+					+ " - nombreYApellido_RazonSocial: " + pedido.getCliente().getNombreYApellido_RazonSocial()
+					+ " - email: " + pedido.getCliente().getEmail());
+			json.accumulate("direccion",
+					"calle: " + pedido.getDireccion().getCalle()
+					+ " - numero: " + pedido.getDireccion().getNumero()
+					+ " - piso: " + pedido.getDireccion().getPiso()
+					+ " - unidad: " + pedido.getDireccion().getUnidad()
+					+ " - entreCalles" + pedido.getDireccion().getEntreCalles()
+					+ " - provincia: " + pedido.getDireccion().getProvincia()
+					+ " - localidad: " + pedido.getDireccion().getLocalidad()
+					+ " - codigoPostal: " + pedido.getDireccion().getCodigoPostal());
+			json.accumulate("fragil", pedido.getFragil());
+			json.accumulate("estadoPedido", pedido.getItems());// NroEstablecimiento
+			
 
 		} catch (JSONException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		
+		
+		
+		
+		
 		System.out.println(json.toString());
-		String link = IP+"/tarjetas/"+((Credito)factura.getTitular().getTipoDePago()).getNumeroTarjeta()+"/consumosEnteros";
+		String link = IP+"/pedidosIn/";
 
 
 		StringEntity entity;
@@ -92,13 +105,15 @@ public class PostTarjeta {
 			System.out.println(response);
 			if(response.getStatusLine().getStatusCode() != 201 && response.getStatusLine().getStatusCode() != 200 ) {
 				System.out.println(response.getStatusLine().getStatusCode());
-				throw new SistemaTarjetaException();
+				throw new PedidoException("");
 			}
 		} catch (IOException e) {
-			throw new SistemaTarjetaException();
+			throw new PedidoException("");
 		}
-
 		
-
+		
+		
+		
 	}
+	
 }

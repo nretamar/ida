@@ -70,7 +70,7 @@ public class ProveedorEntity {
 		this.apiKey = apiKey;
 	}
 
-	public boolean isEstadoActivo() {
+	public boolean getEstadoActivo() {
 		return estadoActivo;
 	}
 

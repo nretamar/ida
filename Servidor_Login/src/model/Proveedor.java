@@ -1,6 +1,6 @@
 package model;
 
-import dao.ProductoDAO;
+import dao.ProveedorDAO;
 import dto.ProveedorDTO;
 
 //
@@ -100,7 +100,7 @@ public class Proveedor {
 		this.apiKey = apiKey;
 	}
 
-	public boolean isEstadoActivo() {
+	public boolean getEstadoActivo() {
 		return estadoActivo;
 	}
 

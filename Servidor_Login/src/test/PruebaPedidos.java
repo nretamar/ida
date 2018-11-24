@@ -54,7 +54,7 @@ public class PruebaPedidos {
 		pedido2 = ExpedicionControlador.getInstancia().buscarPedido(2);
 		imprimirPedido(pedido2);
 		
-		System.out.println("Despacho pedido2 y lo muestro");
+		/*System.out.println("Despacho pedido2 y lo muestro");
 		ExpedicionControlador.getInstancia().despachar(pedido2.getIdPedido());
 		pedido2 = ExpedicionControlador.getInstancia().buscarPedido(2);
 		imprimirPedido(pedido2);
@@ -62,7 +62,7 @@ public class PruebaPedidos {
 		System.out.println("Despacho pedido1 y lo muestro");
 		ExpedicionControlador.getInstancia().despachar(pedido1.getIdPedido());
 		pedido1 = ExpedicionControlador.getInstancia().buscarPedido(1);
-		imprimirPedido(pedido1);
+		imprimirPedido(pedido1);*/
 		
 	}
 	

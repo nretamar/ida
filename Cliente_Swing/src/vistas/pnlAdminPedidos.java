@@ -35,7 +35,7 @@ public class pnlAdminPedidos extends JPanel implements ActionListener{
 	ImageIcon fondo;
 	JFrame principal;
 	JButton btnAtras,btnDespachar, btnCancelar;
-	JLabel lblIdPedido, lblID,lblnombreC,lblPedidoItems,lblN, lblFechaC,lblF,lblMontoP,lblM, lblDireccion, lblD, lblNombreC, lblNcl, lblAclaracion;
+	JLabel lblIdPedido, lblID,lblnombreC,lblPedidoItems,lblN, lblFechaC,lblF,lblMontoP,lblM, lblDireccion, lblD, lblNombreC, lblNcl, lblFragil, lblFragilRta;
 	JTextField txtAclaracion;
 	JTable tblPedidos;
 	List<PedidoDTO> pedidos = new ArrayList<PedidoDTO>();
@@ -66,15 +66,18 @@ public class pnlAdminPedidos extends JPanel implements ActionListener{
 			e1.printStackTrace();
 		}
 			
-		datos= new String[pedidos.size()][6];
+		datos= new String[pedidos.size()][7];
 		
 		for(PedidoDTO pedidoList : pedidos) {
 			datos[i][0]=String.valueOf(pedidoList.getIdPedido());
 			datos[i][1]=pedidoList.getEstadoPedido();
 			datos[i][2]=String.valueOf(LocalDate.parse( new SimpleDateFormat("yyyy-MM-dd").format(pedidoList.getFecha()) ));
 			datos[i][3]=String.valueOf(getTotalPedido(pedidoList));
-			datos[i][4]=String.valueOf(pedidoList.get);
-			//datos[i][5]=String.valueOf(pedidoList.getNombreCliente);
+			
+			datos[i][4]=String.valueOf(pedidoList.getDireccion().getCalle());
+			datos[i][5]=String.valueOf(pedidoList.getCliente().getNombreYApellido_RazonSocial());
+			datos[i][6]=String.valueOf(pedidoList.getFragil());
+			
 
 			i++;
 		}
@@ -99,6 +102,11 @@ public class pnlAdminPedidos extends JPanel implements ActionListener{
 				else
 					lblD.setText(datos[row][4]);
 				lblNcl.setText(datos[row][5]);
+				
+				if(datos[row][3].equals("true"))
+					lblFragilRta.setText("Si");
+				else
+					lblFragilRta.setText("No");
 			}
 		});
 		lblIdPedido= new JLabel("# Pedido: ");
@@ -126,8 +134,10 @@ public class pnlAdminPedidos extends JPanel implements ActionListener{
 		lblNombreC.setBounds(527, 270, 150, 30);
 		lblNcl= new JLabel("");
 		lblNcl.setBounds(731, 270, 150, 30);
-		lblAclaracion= new JLabel("Aclaración: ");
-		lblAclaracion.setBounds(527, 350, 150, 30);
+		lblFragil= new JLabel("¿Es fragil?: ");
+		lblFragil.setBounds(527, 350, 150, 30);
+		lblFragilRta= new JLabel("");
+		lblFragilRta.setBounds(731, 350, 150, 30);
 		
 		txtAclaracion= new JTextField();
 		txtAclaracion.setBounds(706, 350, 217, 71);
@@ -151,9 +161,10 @@ public class pnlAdminPedidos extends JPanel implements ActionListener{
 		this.add(lblM);
 		this.add(lblDireccion);
 		this.add(lblD);
-		//this.add(lblNombreC);
-		//this.add(lblNcl);
-		//this.add(lblAclaracion);
+		this.add(lblNombreC);
+		this.add(lblNcl);
+		this.add(lblFragil);
+		this.add(lblFragilRta);
 		//this.add(txtAclaracion);
 		this.add(btnAtras);
 		this.add(scrollBar);
@@ -200,6 +211,7 @@ public class pnlAdminPedidos extends JPanel implements ActionListener{
 						lblM.setText("");
 						lblD.setText("");
 						lblNcl.setText("");
+						lblFragilRta.setText("");
 						
 						
 						JPanel pnlAdmP = new pnlAdminPedidos(principal);

@@ -13,6 +13,7 @@ import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -23,7 +24,9 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 import businessDelegate.ProductoDelegate;
+import businessDelegate.ProveedorDelegate;
 import dto.ProductoDTO;
+import dto.ProveedorDTO;
 import excepciones.GenericRemoteException;
 
 public class pnlAdminProductos extends JPanel implements ActionListener {
@@ -33,6 +36,7 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 	ImageIcon fondo;
 	JFrame principal;
 	JTable tblProductos;
+	JComboBox<String> combo;
 	JButton btnBaja, btnAlta, btnModificar, btnAtras, btnBuscar, btnVerFotoAnterior;
 	//TODO
 	JLabel lblLimpiar, lblCodBarras, lblDescripcion, lblPrecioV, lblCantFCompra, lblCantMinimaStock,
@@ -42,6 +46,7 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 	DefaultTableModel model, modeloBusqueda;//Model es la tabla y si tocas te carga automaticamente a los textbox
 											//modeloBusqueda ayuda al boton limpiar 
 	List<ProductoDTO> productos;
+	List<ProveedorDTO> proveedores;
 	ProductoDTO prodTabla, prodAlta, prodBaja, prodModif;
 	String[][] datos, datos2, csReturn;		//datos es datos txt, datos2 es para boton limpiar
 	String[] columnas = { "# Producto", "Cod. de Barras", "Descripción", "Precio venta" };
@@ -67,6 +72,9 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 		try {
 			productos = new ArrayList<ProductoDTO>();
 			productos = ProductoDelegate.getInstancia().findAllProductos();
+			proveedores = new ArrayList<ProveedorDTO>();
+			proveedores = ProveedorDelegate.getInstancia().findAllProveedores();
+			
 		} catch (GenericRemoteException e) {
 			e.printStackTrace();
 		}
@@ -77,7 +85,7 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 			System.out.println();
 		}*/
 		
-		datos = new String[productos.size()][8];
+		datos = new String[productos.size()][9];
 		
 		for (ProductoDTO productoList : productos) {
 			datos[i][0] = String.valueOf(productoList.getIdProducto());
@@ -88,11 +96,18 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 			datos[i][5] = String.valueOf(productoList.getCantMinimaStock());
 			datos[i][6] = String.valueOf(productoList.getStockActual());
 			datos[i][7] = String.valueOf(productoList.getFotoUrl());
+			datos[i][8] = String.valueOf(productoList.getProveedor().getNombre());
 
 			i++;
 		}
+		combo =new JComboBox<String>();
+		for (ProveedorDTO item : proveedores) {
+			combo.addItem(item.getNombre());
+		}
+		
 
 		model = new DefaultTableModel(datos, columnas); //Columnas es nombre columnas
+		
 		tblProductos = new JTable(model);
 		scrollBar = new JScrollPane();
 		scrollBar.setViewportView(tblProductos);
@@ -112,7 +127,7 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 				txtCantMinimaStock.setText(datos[row][5]);
 				txtStockActual.setText(datos[row][6]);
 				txtFotoUrl.setText(datos[row][7]);
-				
+				combo.setSelectedItem(datos[row][8]);
 				
 			}
 		});
@@ -218,6 +233,7 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 		lblFotoUrl.setBounds(529, 425, 150, 30);
 		
 		
+		combo.setBounds(769, 105, 150, 30);
 		txtCodBarras.setBounds(769, 145, 150, 30);
 		txtDescripcion.setBounds(769, 185, 150, 30);
 		txtPrecioV.setBounds(769, 225, 150, 30);
@@ -227,6 +243,7 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 		lblIdProductoSelec.setBounds(769, 385, 130, 30);
 		txtFotoUrl.setBounds(769, 425, 130, 30);
 		btnVerFotoAnterior.setBounds(904, 425, 90, 30);
+		
 		
 		lblLimpiar.setBounds(816, 51, 80, 30);
 		lblLimpiar.setForeground(Color.BLUE);
@@ -241,6 +258,7 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 		
 		
 		this.add(lblLimpiar);
+		this.add(combo);
 		this.add(lblCodBarras);
 		this.add(lblDescripcion);
 		this.add(lblPrecioV);
@@ -296,7 +314,13 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 								prodAlta.setCantMinimaStock(Integer.parseInt(txtCantMinimaStock.getText()));
 								prodAlta.setStockActual(Integer.parseInt(txtStockActual.getText()));
 								prodAlta.setEstadoActivo(true);
-								//prodAlta.setFoto(null);
+								try {
+									prodAlta.setProveedor(ProveedorDelegate.getInstancia().buscarProveedorByNombre(combo.getSelectedItem().toString()));
+								} catch (GenericRemoteException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+								prodAlta.setFotoUrl(txtFotoUrl.getText());
 							} else {
 								JOptionPane.showMessageDialog(null, "El stock actual ingresado no es valido");
 							}
@@ -351,6 +375,13 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 								prodModif.setCantFijaCompra(Integer.parseInt(txtCantFCompra.getText()));
 								prodModif.setCantMinimaStock(Integer.parseInt(txtCantMinimaStock.getText()));
 								prodModif.setStockActual(Integer.parseInt(txtStockActual.getText()));
+								try {
+									prodModif.setProveedor(ProveedorDelegate.getInstancia().buscarProveedorByNombre(combo.getSelectedItem().toString()));
+								} catch (GenericRemoteException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+								prodModif.setFotoUrl(txtFotoUrl.getText());
 
 								ProductoDelegate.getInstancia().modificarProducto(prodModif);
 

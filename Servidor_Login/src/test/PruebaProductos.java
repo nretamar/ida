@@ -1,8 +1,6 @@
 package test;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 
 import controlador.ProductoControlador;
 import controlador.ProveedorControlador;
@@ -87,7 +85,7 @@ public class PruebaProductos {
 		producto.setProveedor(p);
 		System.out.println("Prove de producto prueba: " + producto.getProveedor().getNombre());
 		
-		String fotosUrl = "https://shop.samsonite.com/dw/image/v2/AAUE_PRD/on/demandware.static/-/Sites-product-catalog/default/collections/_samsonite/valor/500x500/1028972824be01.jpg?sw=500";
+		String fotosUrl = "https://www.monoblock.tv/8313-thickbox_default/mochila-olga-bold.jpg";
 		producto.setFotoUrl(fotosUrl);
 		
 		//producto.setFoto(null);
@@ -111,7 +109,7 @@ public class PruebaProductos {
 		ProveedorDTO p = ProveedorControlador.getInstancia().buscarProveedorById(2);
 		producto.setProveedor(p);
 		
-		String fotosUrl = "https://static.digit.in/product/b6420d8538d72a55d9ff4501fdd4d17671b6f7ba.jpeg";
+		String fotosUrl = "https://images-na.ssl-images-amazon.com/images/I/61ifLThAMOL._SY355_.jpg";
 		producto.setFotoUrl(fotosUrl);
 		
 		//producto.setFoto(null);

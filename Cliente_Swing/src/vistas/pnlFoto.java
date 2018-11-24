@@ -42,17 +42,19 @@ public class pnlFoto extends JPanel{
 		
 		Image image = null;
 		try {
-			//URL url = new URL(fotoUrl);
+			URL url = new URL(fotoUrl);
 			//TestUrl
 			//URL url = new URL("https://i0.wp.com/www.southwestconferenceblog.org/wp-content/uploads/2018/05/this-is-a-test-wp.png?fit=825%2C510");
-			URL url = new URL("https://lh5.googleusercontent.com/Xst_gkMySOI7UYd5inDdkFZ5ZhFoZSNln98fUOZsZdU5Ndk5eWHZaaHSJpSjF-UtJjrIi4vfTId_vg=w1366-h608");
+			//URL url = new URL("https://i0.wp.com/www.southwestconferenceblog.org/wp-content/uploads/2018/05/this-is-a-test-wp.png?w=825");
 			
 			image = ImageIO.read(url);
-			foto = new ImageIcon(image);
+			foto = new ImageIcon(url);
 			
 			if(foto!=null) {
 				g.drawImage(foto.getImage(), 20, 15, 360, 350, null);
 			}
+			else
+				System.out.println("AHA");
 			
 		} catch (IOException e) {
 		}

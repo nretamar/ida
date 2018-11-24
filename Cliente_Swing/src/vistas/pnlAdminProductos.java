@@ -40,7 +40,7 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 	JButton btnBaja, btnAlta, btnModificar, btnAtras, btnBuscar, btnVerFotoAnterior;
 	//TODO
 	JLabel lblLimpiar, lblCodBarras, lblDescripcion, lblPrecioV, lblCantFCompra, lblCantMinimaStock,
-			lblStockActual, lblIdProducto, lblIdProductoSelec, lblFotoUrl, lblDistribuidor;
+			lblStockActual, lblIdProducto, lblIdProductoSelec, lblFotoUrl, lblProveedor;
 	JTextField txtCodBarras, txtDescripcion, txtPrecioV, txtCantFCompra, txtCantMinimaStock,
 			txtStockActual, txtFotoUrl;
 	DefaultTableModel model, modeloBusqueda;//Model es la tabla y si tocas te carga automaticamente a los textbox
@@ -119,7 +119,7 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 				idP = Integer.parseInt(datos[row][0]);
 				
 				
-				lblIdProductoSelec.setText("");
+				lblIdProductoSelec.setText(datos[row][0]);
 				txtCodBarras.setText(datos[row][1]);
 				txtDescripcion.setText(datos[row][2]);
 				txtPrecioV.setText(datos[row][3]);
@@ -168,7 +168,7 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 		lblIdProducto = new JLabel("Id Producto: ");
 		lblIdProductoSelec = new JLabel("");
 		lblFotoUrl = new JLabel("Foto URL del producto");
-		lblDistribuidor = new JLabel("Distribuidor");
+		lblProveedor = new JLabel("Proveedor: ");
 		
 		
 		txtCodBarras = new JTextField();
@@ -222,7 +222,7 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 		});
 		
 		
-		lblDistribuidor.setBounds(529, 105, 130, 30);
+		lblProveedor.setBounds(529, 105, 130, 30);
 		lblCodBarras.setBounds(529, 145, 130, 30);
 		lblDescripcion.setBounds(529, 185, 130, 30);
 		lblPrecioV.setBounds(529, 225, 130, 30);
@@ -258,6 +258,7 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 		
 		
 		this.add(lblLimpiar);
+		this.add(lblProveedor);
 		this.add(combo);
 		this.add(lblCodBarras);
 		this.add(lblDescripcion);
@@ -444,21 +445,20 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 							}
 						} else {
 							if (click.getActionCommand().equals("Ver Foto")) {
-								String resp = "";
-								resp = JOptionPane.showInputDialog("Escriba el Código de Barras a buscar: ");
-								if (resp != "") {
-									String[][] resBusqueda = buscarProductos(datos, resp);
-									if (resBusqueda != null) {
-										modeloBusqueda = new DefaultTableModel(resBusqueda, columnas);
-										tblProductos.setModel(modeloBusqueda);
-										datos = resBusqueda;
-										principal.repaint();
+								if(!lblIdProductoSelec.equals("")) {
+									
+									if (row < 0) {
+										JOptionPane.showMessageDialog(null, "Seleccione un artículo antes de modificar");
 									} else {
-										JOptionPane.showMessageDialog(null, "No se encontraron coincidencias");
+											idP = Integer.parseInt(datos[row][0]);
+											try {
+												ProductoDTO p = ProductoDelegate.getInstancia().buscarProductoById(idP);
+												abrirFoto(p);
+											} catch (GenericRemoteException e) {
+												e.printStackTrace();
+											}
 									}
-								} else {
-									JOptionPane.showMessageDialog(null,
-											"Debe ingresar un Código de Barras para poder buscar");
+									
 								}
 							}
 						}
@@ -531,5 +531,10 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 	public static boolean isNumeric(String str)
 	{
 	  return str.matches("-?\\d+(\\.\\d+)?");  
+	}
+	
+	public void abrirFoto(ProductoDTO produ) {
+		frmFoto frmp= new frmFoto(produ);
+		frmp.setVisible(true);
 	}
 }

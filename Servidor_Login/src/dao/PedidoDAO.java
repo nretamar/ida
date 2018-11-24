@@ -267,6 +267,7 @@ public class PedidoDAO {
 		Session session = sf.openSession();
 		session.beginTransaction();
 		PedidoEntity e = toEntity(p);
+		//System.out.println("idPedido: " + e.getIdPedido() + "   " + e.getItems().get(1).getProducto().getProveedor().getUrl());
 		session.saveOrUpdate(e);
 		session.getTransaction().commit();
 		session.close();

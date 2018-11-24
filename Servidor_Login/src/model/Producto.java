@@ -8,6 +8,7 @@ import controlador.ProveedorControlador;
 
 import dao.ProductoDAO;
 import dao.ProveedorDAO;
+import dto.ArticuloDTO;
 import dto.ProductoDTO;
 import exceptions.ProveedorException;
 
@@ -59,8 +60,12 @@ public class Producto {
 		this.fotoUrl = dto.getFotoUrl();
 		//this.foto = dto.getFoto();
 		this.estadoActivo = dto.getEstadoActivo();
-		
+		if(dto.getProveedor() == null)
+			System.out.println("Proveedor null");
+		if(dto.getProveedor().getIdProveedor() == null)
+			System.out.println("Proveedor id = null");
 		try {
+			
 			this.proveedor = ProveedorDAO.getInstancia().buscar(dto.getProveedor().getIdProveedor());
 		} catch (ProveedorException e) {
 			e.printStackTrace();
@@ -197,6 +202,8 @@ public class Producto {
 		producto.setFotoUrl(fotoUrl);
 		//producto.setFoto(foto);
 		
+		producto.setProveedor(proveedor.toDTO());
+		
 		return producto;
 		
 	}
@@ -263,6 +270,16 @@ public class Producto {
 		if(codigoBarras.equals(this.codigoBarras))
 			return true;
 		return false;
+	}
+
+	public ArticuloDTO toArticuloDTO() {
+		ArticuloDTO articulo = new ArticuloDTO();
+		articulo.setDescripcion(this.getDescripcion());
+		articulo.setFoto(this.getFotoUrl());
+		articulo.setIdArticulo(this.idProducto);
+		articulo.setPrecioUnitario(this.precioVenta.doubleValue());
+		articulo.setStock(this.getStockActual());
+		return articulo;
 	}
 	
 	

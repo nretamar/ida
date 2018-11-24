@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import controlador.ClienteControlador;
 import controlador.ExpedicionControlador;
 import controlador.ProductoControlador;
+import controlador.ProveedorControlador;
+import dto.ClienteTiendaDTO;
 import dto.DireccionClienteDTO;
 import dto.PedidoDTO;
 import dto.PedidoItemDTO;
@@ -15,6 +18,17 @@ public class PruebaPedidos {
 
 	public static void main(String[] args) {
 		
+		/*
+		 * Documentacion para eviar errores:
+		 * Al proveedor cargarlo con NULL cuando se lo crea.
+		 * No olvidar de dar de alta a un proveedor antes de dar de alta a un producto.
+		 */
+		
+		
+		//Id proveedor 1
+		PruebaProductos.crearProveedor1();
+		PruebaProductos.crearProveedor2();
+		System.out.println("Proveedor: " + ProveedorControlador.getInstancia().buscarProveedorById(1).getUrl());
 		PruebaProductos.crearProducto1(102);
 		PruebaProductos.crearProducto2(107);
 		
@@ -60,10 +74,17 @@ public class PruebaPedidos {
 	
 	public static PedidoDTO crearPedido (){
 		PedidoDTO pedido = new PedidoDTO();
-		pedido.setIdPedido(1);
+		pedido.setIdPedido(null);
 		pedido.setFecha(new Date());
 		pedido.setEstadoPedido("FALTA_STOCK");
 		pedido.settPersonaYfLogistica(false);
+		
+		ClienteTiendaDTO cliente = new ClienteTiendaDTO();
+		cliente.setIdClienteTienda(1);
+		cliente.setNombreYApellido_RazonSocial("Fulano de tal");
+		cliente.setCuil_cuit_dni("12.456.789");
+		cliente.setEmail("a@a.com");
+		pedido.setCliente(cliente);
 		
 		DireccionClienteDTO direccion = new DireccionClienteDTO();
 		direccion.setNumero("717");
@@ -91,7 +112,24 @@ public class PruebaPedidos {
 		pedido.setEstadoPedido("Jacuna batata"); //Pruebo errores
 		pedido.settPersonaYfLogistica(true);
 
-		pedido.setDireccion(null);
+		ClienteTiendaDTO cliente = new ClienteTiendaDTO();
+		cliente.setIdClienteTienda(null);
+		cliente.setNombreYApellido_RazonSocial("Fulano de tal");
+		cliente.setCuil_cuit_dni("12.456.789");
+		cliente.setEmail("a@a.com");
+		pedido.setCliente(cliente);
+		
+		DireccionClienteDTO direccion = new DireccionClienteDTO();
+		direccion.setNumero("717");
+		direccion.setCalle("Lima");
+		direccion.setEntreCalles("Independencia y Chile");
+		direccion.setLocalidad("Montserrat");
+		direccion.setPiso("8");
+		direccion.setProvincia("Bs As");
+		direccion.setUnidad("802");
+		
+		
+		pedido.setDireccion(direccion);
 		
 		List<PedidoItemDTO> lista = crearItems2();
 		

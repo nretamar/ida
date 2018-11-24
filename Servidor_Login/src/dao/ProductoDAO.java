@@ -48,6 +48,7 @@ public class ProductoDAO {
 		produ.setFragil(producto.getFragil());
 		produ.setProveedor(ProveedorDAO.getInstancia().toNegocio( producto.getProveedor() ));
 		
+		produ.setFotoUrl(producto.getFotoUrl());
 		//produ.setFoto(buscarFoto(producto.getIdProducto()));
 		//produ.setFoto(producto.getFoto());
 		return produ;
@@ -68,6 +69,7 @@ public class ProductoDAO {
 		produ.setFragil(producto.getFragil());
 		produ.setProveedor(ProveedorDAO.getInstancia().toEntity( producto.getProveedor() ));
 		
+		produ.setFotoUrl(producto.getFotoUrl());
 		//produ.setFoto(producto.getFoto());
 		
 		return produ;

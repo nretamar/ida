@@ -45,6 +45,11 @@ public class ProveedorRemoteImpl  extends UnicastRemoteObject implements Proveed
 	public ProveedorDTO buscarProveedorByUrl(String url) throws RemoteException {
 		return ProveedorControlador.getInstancia().buscarProveedorByUrl(url);
 	}
+
+	@Override
+	public ProveedorDTO buscarProveedorByNombre(String nombre) throws RemoteException {
+		return ProveedorControlador.getInstancia().buscarProveedorByNombre(nombre);
+	}
 	
 	
 

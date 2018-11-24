@@ -1,6 +1,7 @@
 package controlador;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import dao.PedidoDAO;
@@ -59,6 +60,8 @@ public class ExpedicionControlador {
 	public Integer altaPedido(PedidoDTO pedido) {
 		//Creo pedido con falta de stock
 		pedido.setEstadoPedido("FALTA_STOCK");
+		pedido.setFecha(new Date());
+		pedido.setIdPedido(null);
 		Pedido model = new Pedido(pedido).save();
 		//Una vez creado el pedido, automaticamente le asigno sus productos
 		//y pasa a pendiente si hay stock

@@ -16,7 +16,7 @@ public class pnlAdministracion extends JPanel implements ActionListener {
 	private static final long serialVersionUID = 441688042005748431L;
 	ImageIcon fondo;
 	JFrame principal;
-	JButton btnCompras, btnProductos, btnPedidos, btnAtras;
+	JButton btnCompras, btnProductos, btnProveedor, btnPedidos, btnAtras;
 	
 	public pnlAdministracion(JFrame frm){
 		principal=frm;
@@ -39,6 +39,13 @@ public class pnlAdministracion extends JPanel implements ActionListener {
 		btnProductos.setContentAreaFilled(false);
 		btnProductos.setBounds(434, 225, 131, 30);
 		
+		{
+			btnProveedor = new JButton("Distribuidores");
+			btnProveedor.setOpaque(false);
+			btnProveedor.setContentAreaFilled(false);
+			btnProveedor.setBounds(434, 265, 131, 30);
+		}
+		
 		btnPedidos = new JButton("Pedidos");
 		btnPedidos.setOpaque(false);
 		btnPedidos.setContentAreaFilled(false);
@@ -49,6 +56,7 @@ public class pnlAdministracion extends JPanel implements ActionListener {
 		
 		this.add(btnCompras);
 		this.add(btnProductos);
+		this.add(btnProveedor);
 		this.add(btnPedidos);
 		this.add(btnAtras);
 	}
@@ -57,6 +65,7 @@ public class pnlAdministracion extends JPanel implements ActionListener {
 		btnAtras.addActionListener(this);
 		btnCompras.addActionListener(this);
 		btnProductos.addActionListener(this);
+		btnProveedor.addActionListener(this);
 		btnPedidos.addActionListener(this);
 	}
 	
@@ -91,6 +100,15 @@ public class pnlAdministracion extends JPanel implements ActionListener {
 						principal.remove(this);
 						principal.add(pnlAdmP);
 						principal.repaint();
+					}
+					else{
+						if(click.getActionCommand().equals("Distribuidores")){
+							JPanel pnlAdmD= new pnlAdminProveedores(principal);
+							pnlAdmD.setBounds(0, 0, 1000, 600);
+							principal.remove(this);
+							principal.add(pnlAdmD);
+							principal.repaint();
+						}
 					}
 				}
 			}

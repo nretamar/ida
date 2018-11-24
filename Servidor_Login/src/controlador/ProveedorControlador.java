@@ -61,12 +61,21 @@ public class ProveedorControlador {
 	
 	public Integer altaProveedor(ProveedorDTO proveedor) {
 		ProveedorDTO p = buscarProveedorByUrl(proveedor.getUrl());
-		
 		//Si existe un proveedor con misma URL, no lo doy de alta. Reglas de negocio.
 		if(p != null)
 		{
 			return null;
 		}
+		
+		p = null;
+		p = buscarProveedorByNombre(proveedor.getNombre());
+		//Si existe un proveedor con mismo nombre, no lo doy de alta. Reglas de negocio.
+		if(p != null)
+		{
+			return null;
+		}
+		
+		proveedor.setEstadoActivo(true);
 		return new Proveedor(proveedor).save().toDTO().getIdProveedor();
 	}
 	
@@ -96,6 +105,14 @@ public class ProveedorControlador {
 	public ProveedorDTO buscarProveedorByUrl(String url) {
 		for (ProveedorDTO proveedor : findAllProveedores()) {
 			if(proveedor.getUrl().equals(url))
+				return proveedor;
+		}
+		return null;
+	}
+	
+	public ProveedorDTO buscarProveedorByNombre(String nombre) {
+		for (ProveedorDTO proveedor : findAllProveedores()) {
+			if(proveedor.getNombre().equals(nombre))
 				return proveedor;
 		}
 		return null;

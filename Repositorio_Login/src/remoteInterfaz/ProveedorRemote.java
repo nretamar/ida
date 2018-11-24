@@ -22,7 +22,7 @@ public interface ProveedorRemote extends Remote, Serializable {
 	
 	ProveedorDTO buscarProveedorByUrl(String url) throws RemoteException;
 	
-	
+	ProveedorDTO buscarProveedorByNombre(String nombre) throws RemoteException;
 	
 	
 }

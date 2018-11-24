@@ -36,7 +36,7 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 	JButton btnBaja, btnAlta, btnModificar, btnAtras, btnBuscar, btnVerFotoAnterior;
 	//TODO
 	JLabel lblLimpiar, lblCodBarras, lblDescripcion, lblPrecioV, lblCantFCompra, lblCantMinimaStock,
-			lblStockActual, lblIdProducto, lblIdProductoSelec, lblFotoUrl;
+			lblStockActual, lblIdProducto, lblIdProductoSelec, lblFotoUrl, lblDistribuidor;
 	JTextField txtCodBarras, txtDescripcion, txtPrecioV, txtCantFCompra, txtCantMinimaStock,
 			txtStockActual, txtFotoUrl;
 	DefaultTableModel model, modeloBusqueda;//Model es la tabla y si tocas te carga automaticamente a los textbox
@@ -136,10 +136,10 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 		btnModificar.setBounds(829, 461, 131, 30);
 		btnAtras = new JButton("Atras");
 		btnAtras.setBounds(20, 25, 80, 30);
-		btnVerFotoAnterior = new JButton("Ver Foto anterior");
+		btnVerFotoAnterior = new JButton("Ver Foto");
 		btnVerFotoAnterior.setOpaque(false);
 		btnVerFotoAnterior.setContentAreaFilled(false);
-		btnVerFotoAnterior.setBounds(769, 425, 130, 30);
+		
 		
 		
 		
@@ -153,6 +153,7 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 		lblIdProducto = new JLabel("Id Producto: ");
 		lblIdProductoSelec = new JLabel("");
 		lblFotoUrl = new JLabel("Foto URL del producto");
+		lblDistribuidor = new JLabel("Distribuidor");
 		
 		
 		txtCodBarras = new JTextField();
@@ -206,24 +207,26 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 		});
 		
 		
-		lblCodBarras.setBounds(529, 105, 130, 30);
-		lblDescripcion.setBounds(529, 145, 130, 30);
-		lblPrecioV.setBounds(529, 185, 130, 30);
-		lblCantFCompra.setBounds(529, 225, 130, 30);
-		lblCantMinimaStock.setBounds(529, 265, 150, 30);
-		lblStockActual.setBounds(529, 305, 130, 30);
-		lblIdProducto.setBounds(529, 345, 130, 30);
-		lblFotoUrl.setBounds(529, 385, 150, 30);
+		lblDistribuidor.setBounds(529, 105, 130, 30);
+		lblCodBarras.setBounds(529, 145, 130, 30);
+		lblDescripcion.setBounds(529, 185, 130, 30);
+		lblPrecioV.setBounds(529, 225, 130, 30);
+		lblCantFCompra.setBounds(529, 265, 130, 30);
+		lblCantMinimaStock.setBounds(529, 305, 150, 30);
+		lblStockActual.setBounds(529, 345, 130, 30);
+		lblIdProducto.setBounds(529, 385, 130, 30);
+		lblFotoUrl.setBounds(529, 425, 150, 30);
 		
 		
-		txtCodBarras.setBounds(769, 105, 150, 30);
-		txtDescripcion.setBounds(769, 145, 150, 30);
-		txtPrecioV.setBounds(769, 185, 150, 30);
-		txtCantFCompra.setBounds(769, 225, 150, 30);
-		txtCantMinimaStock.setBounds(769, 265, 150, 30);
-		txtStockActual.setBounds(769, 305, 150, 30);
-		lblIdProductoSelec.setBounds(769, 345, 130, 30);
-		txtFotoUrl.setBounds(769, 385, 130, 30);
+		txtCodBarras.setBounds(769, 145, 150, 30);
+		txtDescripcion.setBounds(769, 185, 150, 30);
+		txtPrecioV.setBounds(769, 225, 150, 30);
+		txtCantFCompra.setBounds(769, 265, 150, 30);
+		txtCantMinimaStock.setBounds(769, 305, 150, 30);
+		txtStockActual.setBounds(769, 345, 150, 30);
+		lblIdProductoSelec.setBounds(769, 385, 130, 30);
+		txtFotoUrl.setBounds(769, 425, 130, 30);
+		btnVerFotoAnterior.setBounds(904, 425, 90, 30);
 		
 		lblLimpiar.setBounds(816, 51, 80, 30);
 		lblLimpiar.setForeground(Color.BLUE);
@@ -409,7 +412,7 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 										"Debe ingresar un Código de Barras para poder buscar");
 							}
 						} else {
-							if (click.getActionCommand().equals("Ver Foto anterio")) {
+							if (click.getActionCommand().equals("Ver Foto")) {
 								String resp = "";
 								resp = JOptionPane.showInputDialog("Escriba el Código de Barras a buscar: ");
 								if (resp != "") {

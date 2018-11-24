@@ -27,7 +27,7 @@ public class ProductoEntity {
 	
 	@ManyToOne( cascade = CascadeType.ALL)
 	@JoinColumn(name="id_Proveedor")
-	@OrderBy("nombre ASC")
+	//@OrderBy("nombre ASC")
 	private ProveedorEntity proveedor;
 	
 	//private ImageIcon foto;

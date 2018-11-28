@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import controlador.ClienteControlador;
 import controlador.ExpedicionControlador;
 import controlador.ProductoControlador;
 import controlador.ProveedorControlador;

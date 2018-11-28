@@ -59,9 +59,13 @@ public class ExpedicionControlador {
 	
 	public Integer altaPedido(PedidoDTO pedido) {
 		//Creo pedido con falta de stock
+		//No se buscaran clientes o direcciones, se lo toma como dato, se crea con la ultima id
 		pedido.setEstadoPedido("FALTA_STOCK");
 		pedido.setFecha(new Date());
 		pedido.setIdPedido(null);
+		
+		
+		
 		Pedido model = new Pedido(pedido).save();
 		//Una vez creado el pedido, automaticamente le asigno sus productos
 		//y pasa a pendiente si hay stock

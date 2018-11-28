@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.List;
 
 import dao.ProductoDAO;
-import dto.ArticuloDTO;
 import dto.OrdenDeCompraDTO;
 import dto.ProductoDTO;
 import exceptions.ProductoException;
@@ -239,24 +238,6 @@ public class ProductoControlador {
 				this.bajaProducto(p.getIdProducto());
 			}
 		}
-	}
-
-	public List<ArticuloDTO> findAllProductosTienda() {
-		List<ArticuloDTO> productos = new ArrayList<ArticuloDTO>();
-		
-		try {
-			for (Producto producto : ProductoDAO.getInstancia().getAll())
-			{
-				if(producto.getEstadoActivo() == true)
-				{
-					productos.add(producto.toArticuloDTO());
-				}
-			}
-		} catch (ProductoException e) {
-			e.printStackTrace();
-		}
-
-		return productos;
 	}
 	
 }

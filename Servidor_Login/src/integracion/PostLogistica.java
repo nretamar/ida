@@ -40,41 +40,50 @@ public class PostLogistica {
 			
 		}
 			
-		String IP = prop.getProperty("ipLogistica");
+		String IP = prop.getProperty("ipAlmacen");
 		
 		JSONObject json = new JSONObject();
+		
+		//Como lo es en pedido model de nuestro tp
 		try {
 			json.accumulate("idPedido", pedido.getIdPedido());
 			json.accumulate("idAlmacen", NROALMACEN);// NroEstablecimiento
 			
+			
 			for(PedidoItem item : pedido.getItems()) {
 				//TODO
-				
-				
-				
+				JSONObject jsonItem = new JSONObject();
+				jsonItem.put("descripcion", item.getProducto().getDescripcion());
+				jsonItem.put("cantidad", item.getCantidad());
+				json.put("itemsPedido", jsonItem);
 				
 				//TODO
 			}
 			
-			json.accumulate("estadoPedido", pedido.getEstadoPedido());
-			json.accumulate("requiereLogistica", pedido.getTPersonaYfLogistica());
+			json.accumulate("estadoPedido", pedido.getEstadoPedido().toString());
+			//json.accumulate("requiereLogistica", pedido.getTPersonaYfLogistica());
 			
-			json.accumulate("cliente",
-					"idCliente: " + pedido.getCliente().getIdClienteTienda()
-					+ " - cuil_cuit_dni: " + pedido.getCliente().getCuil_cuit_dni()
-					+ " - nombreYApellido_RazonSocial: " + pedido.getCliente().getNombreYApellido_RazonSocial()
-					+ " - email: " + pedido.getCliente().getEmail());
-			json.accumulate("direccion",
-					"calle: " + pedido.getDireccion().getCalle()
-					+ " - numero: " + pedido.getDireccion().getNumero()
-					+ " - piso: " + pedido.getDireccion().getPiso()
-					+ " - unidad: " + pedido.getDireccion().getUnidad()
-					+ " - entreCalles" + pedido.getDireccion().getEntreCalles()
-					+ " - provincia: " + pedido.getDireccion().getProvincia()
-					+ " - localidad: " + pedido.getDireccion().getLocalidad()
-					+ " - codigoPostal: " + pedido.getDireccion().getCodigoPostal());
+			//Cliente
+			JSONObject jsonCliente = new JSONObject();
+			jsonCliente.put("idCliente" , pedido.getCliente().getIdClienteTienda());
+			jsonCliente.put("cuil_cuit_dni", pedido.getCliente().getCuil_cuit_dni());
+			jsonCliente.put("nombreYApellido_RazonSocial", pedido.getCliente().getNombreYApellido_RazonSocial());
+			jsonCliente.put("email", pedido.getCliente().getEmail());
+			json.put("Cliente", jsonCliente);
+			
+			//Direccion
+			JSONObject jsonDireccion = new JSONObject();
+			jsonDireccion.put("calle" , pedido.getDireccion().getCalle());
+			jsonDireccion.put("numero" , pedido.getDireccion().getNumero());
+			jsonDireccion.put("piso" , pedido.getDireccion().getPiso());
+			jsonDireccion.put("unidad" , pedido.getDireccion().getUnidad());
+			jsonDireccion.put("entreCalles" , pedido.getDireccion().getEntreCalles());
+			jsonDireccion.put("provincia" , pedido.getDireccion().getProvincia());
+			jsonDireccion.put("localidad" , pedido.getDireccion().getLocalidad());
+			jsonDireccion.put("codigoPostal" , pedido.getDireccion().getCodigoPostal());
+			json.put("Direccion", jsonDireccion);
+			
 			json.accumulate("fragil", pedido.getFragil());
-			json.accumulate("estadoPedido", pedido.getItems());// NroEstablecimiento
 			
 
 		} catch (JSONException e1) {
@@ -83,13 +92,61 @@ public class PostLogistica {
 		}
 		
 		
+		//Como me lo pide logistica
+		/*
+		try {
+			json.accumulate("idPedido", pedido.getIdPedido());
+			json.accumulate("idAlmacen", NROALMACEN);// NroEstablecimiento
+			
+			for(PedidoItem item : pedido.getItems()) {
+				//TODO
+				JSONObject jsonItem = new JSONObject();
+				jsonItem.put("descripcion", item.getProducto().getDescripcion());
+				jsonItem.put("cantidad", item.getCantidad());
+				json.put("itemsPedido", jsonItem);
+				
+				//TODO
+			}
+			
+			json.accumulate("estadoPedido", pedido.getEstadoPedido());
+			json.accumulate("requiereLogistica", pedido.getTPersonaYfLogistica());
+			
+			//Cliente
+			JSONObject jsonCliente = new JSONObject();
+			jsonCliente.put("idCliente" , pedido.getCliente().getIdClienteTienda());
+			jsonCliente.put("cuil_cuit_dni", pedido.getCliente().getCuil_cuit_dni());
+			jsonCliente.put("nombreYApellido_RazonSocial", pedido.getCliente().getNombreYApellido_RazonSocial());
+			jsonCliente.put("email", pedido.getCliente().getEmail());
+			json.put("Cliente", jsonCliente);
+			
+			//Direccion
+			JSONObject jsonDireccion = new JSONObject();
+			jsonDireccion.put("calle" , pedido.getDireccion().getCalle());
+			jsonDireccion.put("numero" , pedido.getDireccion().getNumero());
+			jsonDireccion.put("piso" , pedido.getDireccion().getPiso());
+			jsonDireccion.put("unidad" , pedido.getDireccion().getUnidad());
+			jsonDireccion.put("entreCalles" , pedido.getDireccion().getEntreCalles());
+			jsonDireccion.put("provincia" , pedido.getDireccion().getProvincia());
+			jsonDireccion.put("localidad" , pedido.getDireccion().getLocalidad());
+			jsonDireccion.put("codigoPostal" , pedido.getDireccion().getCodigoPostal());
+			json.put("Direccion", jsonDireccion);
+			
+			json.accumulate("fragil", pedido.getFragil());
+			json.accumulate("estadoPedido", pedido.getEstadoPedido().toString());// NroEstablecimiento
+			
+
+		} catch (JSONException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		*/
+		
 		
 		
 		
 		System.out.println(json.toString());
-		String link = IP+"/pedidosIn/";
-
-
+		String link = IP+"/testt";
+		
 		StringEntity entity;
 		try {
 			entity = new StringEntity(json.toString(), "UTF-8");
@@ -102,11 +159,7 @@ public class PostLogistica {
 
 			HttpResponse response = httpClient.execute(request);
 			System.out.println(response.getStatusLine().getStatusCode());
-			System.out.println(response);
-			if(response.getStatusLine().getStatusCode() != 201 && response.getStatusLine().getStatusCode() != 200 ) {
-				System.out.println(response.getStatusLine().getStatusCode());
-				throw new PedidoException("");
-			}
+			
 		} catch (IOException e) {
 			throw new PedidoException("");
 		}

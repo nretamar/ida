@@ -12,7 +12,7 @@ public class PruebaProductos {
 	public static void main(String[] args) {
 		
 		Integer idProveedor = crearProveedor1();
-		Integer idProveedor2 = crearProveedor2();
+		/*Integer idProveedor2 = */crearProveedor2();
 		System.out.println("id proveedor:" + idProveedor);
 		Integer id1 = crearProducto1(100).getIdProducto();
 		

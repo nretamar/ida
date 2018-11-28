@@ -169,7 +169,7 @@ public class PedidoDAO {
 			DireccionCliente direccion = p.getDireccion();
 			Integer ultimoItem = ultimoCodigoItemPedido()+1;
 			Integer ultimoCliente = ultimoCodigoCliente()+1;
-			Integer ultimaDireccion = ultimoCodigoDireccionCliente();
+			Integer ultimaDireccion = ultimoCodigoDireccionCliente()+1;
 			for(PedidoItem item : lista)
 			{
 				if(item.getIdPedidoItem() == null)

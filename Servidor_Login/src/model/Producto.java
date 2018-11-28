@@ -2,13 +2,10 @@ package model;
 
 import java.math.BigDecimal;
 
-import controlador.ProveedorControlador;
 
-//import javax.swing.ImageIcon;
 
 import dao.ProductoDAO;
 import dao.ProveedorDAO;
-import dto.ArticuloDTO;
 import dto.ProductoDTO;
 import exceptions.ProveedorException;
 
@@ -150,29 +147,6 @@ public class Producto {
 		this.fotoUrl = fotoUrl;
 	}
 	
-	
-
-	/*public ImageIcon getFoto() {
-		return foto;
-		//if(this.foto != null)
-		//{
-		//	return foto;
-		//}
-		//else
-		//{
-		//	ImageIcon aux = new ImageIcon(getClass().getResource("/Fotos/" + this.getIdProducto() + ".jpg"));
-		//	this.foto = aux;
-		//	return foto;						
-		//}
-		
-	}
-
-	public void setFoto(ImageIcon foto) {
-		this.foto = foto;
-	}*/
-	
-	
-	
 	public boolean getFragil() {
 		return fragil;
 	}
@@ -271,17 +245,6 @@ public class Producto {
 			return true;
 		return false;
 	}
-
-	public ArticuloDTO toArticuloDTO() {
-		ArticuloDTO articulo = new ArticuloDTO();
-		articulo.setDescripcion(this.getDescripcion());
-		articulo.setFoto(this.getFotoUrl());
-		articulo.setIdArticulo(this.idProducto);
-		articulo.setPrecioUnitario(this.precioVenta.doubleValue());
-		articulo.setStock(this.getStockActual());
-		return articulo;
-	}
-	
 	
 	
 }

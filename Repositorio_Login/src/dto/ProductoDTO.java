@@ -21,7 +21,6 @@ public class ProductoDTO implements Serializable {
 	private int stockActual;
 	private boolean estadoActivo;
 	private String fotoUrl;
-	//private ImageIcon foto;
 	private boolean fragil;
 	private ProveedorDTO proveedor;
 	

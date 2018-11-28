@@ -1,0 +1,1 @@
+<h1>Welcome to Spring Boot Sistema Almacen</h1>

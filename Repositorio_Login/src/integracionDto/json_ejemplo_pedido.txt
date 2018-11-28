@@ -1,0 +1,52 @@
+{
+    "idPedido": 1,
+    "fecha": 1543299072343,
+    "estadoPedido": "PENDIENTE_EN_LOGISTICA",
+    "cliente": {
+        "idClienteTienda": 1,
+        "cuil_cuit_dni": "12.456.789",
+        "nombreYApellido_RazonSocial": "Fulano de tal",
+        "email": "a@a.com"
+    },
+    "direccion": {
+        "idDireccionCliente": 1,
+        "calle": "Lima",
+        "numero": "717",
+        "piso": "8",
+        "unidad": "802",
+        "entreCalles": "Independencia y Chile",
+        "provincia": "Bs As",
+        "localidad": "Montserrat",
+        "codigoPostal": null
+    },
+    "fragil": false,
+    "items": [
+        {
+            "idPedidoItem": null,
+            "producto": {
+                "idProducto": 1,
+                "codigoBarras": "123-AA-Mochila",
+                "descripcion": "Valija Azul Samsonite",
+                "precioVenta": 15.2,
+                "stockActual": 1100,
+                "fotoUrl": "https://www.monoblock.tv/8313-thickbox_default/mochila-olga-bold.jpg",
+                "fragil": false
+            },
+            "cantidad": 2
+        },
+        {
+            "idPedidoItem": null,
+            "producto": {
+                "idProducto": 2,
+                "codigoBarras": "123-BB-Asus",
+                "descripcion": "Asus ROG",
+                "precioVenta": 19.4,
+                "stockActual": 1600,
+                "fotoUrl": "https://images-na.ssl-images-amazon.com/images/I/61ifLThAMOL._SY355_.jpg",
+                "fragil": false
+            },
+            "cantidad": 7
+        }
+    ],
+    "requiereLogistica": false
+}

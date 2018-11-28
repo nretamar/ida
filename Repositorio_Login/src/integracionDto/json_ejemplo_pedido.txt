@@ -1,3 +1,17 @@
+/*
+    JSON de ejemplo. Se lo va a utilizar tanto para recibir como enviar cuando consulten buscar un pedido o listar todos los pedidos.
+    
+    ENVIAR al ALMACEN: Todos los datos deben ser correctos salvo:
+    (se va a inicializar en el server almacen):         - estadoPedido.
+                                                        - fecha.
+                                                        - idPedido
+                                                        - idPedidoItem
+                                                        - De datos del producto, solo codigoBarras debe estar bien.
+                                                        
+    RECIBIR del ALMACEN a tu TP: Se le enviará una copia del momento consultado actual del pedido, actualizado en tiempo real.
+*/
+
+
 {
     "idPedido": 1,
     "fecha": 1543299072343,

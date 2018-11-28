@@ -6,6 +6,7 @@ import java.util.List;
 
 import dao.PedidoDAO;
 import dto.PedidoDTO;
+import dto.PedidoItemDTO;
 import exceptions.PedidoException;
 import model.EstadoPedido;
 import model.Pedido;
@@ -63,6 +64,19 @@ public class ExpedicionControlador {
 		pedido.setEstadoPedido("FALTA_STOCK");
 		pedido.setFecha(new Date());
 		pedido.setIdPedido(null);
+		
+		boolean flagFragil = false;
+		
+		for(PedidoItemDTO item : pedido.getItems()) {
+			item.setIdPedidoItem(null);
+			
+			//Me fijo si el producto es fragil
+			if(ProductoControlador.getInstancia().buscarProductoByCodigoBarras
+					(item.getProducto().getCodigoBarras()).getFragil() ) {
+				flagFragil = true;
+			}
+		}
+		pedido.setFragil(flagFragil);
 		
 		
 		

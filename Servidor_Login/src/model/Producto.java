@@ -55,8 +55,8 @@ public class Producto {
 		this.cantMinimaStock = dto.getCantMinimaStock();
 		this.stockActual = dto.getStockActual();	
 		this.fotoUrl = dto.getFotoUrl();
-		//this.foto = dto.getFoto();
 		this.estadoActivo = dto.getEstadoActivo();
+		this.fragil = dto.getFragil();
 		if(dto.getProveedor() == null)
 			System.out.println("Proveedor null");
 		if(dto.getProveedor().getIdProveedor() == null)
@@ -174,7 +174,7 @@ public class Producto {
 		producto.setStockActual(stockActual);
 		producto.setEstadoActivo(estadoActivo);
 		producto.setFotoUrl(fotoUrl);
-		//producto.setFoto(foto);
+		producto.setFragil(fragil);
 		
 		producto.setProveedor(proveedor.toDTO());
 		

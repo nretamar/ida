@@ -131,9 +131,14 @@ public class ControladorTest {
 			System.out.println("    cantidad: " + item.getCantidad());
 		}
 		
-		//PedidoDTO pedido = ExpedicionDelegate.getInstancia().altaPedido(pedido);
-		
-		return new ResponseEntity<Integer>(717,HttpStatus.CREATED);
+		Integer nroPedido;
+		try {
+			nroPedido = ExpedicionDelegate.getInstancia().altaPedido(pedido);
+			return new ResponseEntity<Integer>(nroPedido,HttpStatus.CREATED);
+		} catch (GenericRemoteException e) {
+			e.printStackTrace();
+			return new ResponseEntity<Integer>(-1,HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 		
 		
 	}

@@ -32,7 +32,7 @@ public class IntegracionItemPedidoTiendaDTO implements Serializable{
 	public void setIdPedidoItem(Integer idPedidoItem) {
 		this.idPedidoItem = idPedidoItem;
 	}
-
+	
 
 	public IntegracionProductoTiendaDTO getProducto() {
 		return producto;
@@ -47,8 +47,8 @@ public class IntegracionItemPedidoTiendaDTO implements Serializable{
 	public int getCantidad() {
 		return cantidad;
 	}
-
-
+	
+	
 	public void setCantidad(int cantidad) {
 		this.cantidad = cantidad;
 	}

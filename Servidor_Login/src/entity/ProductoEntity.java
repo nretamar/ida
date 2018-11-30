@@ -24,20 +24,19 @@ public class ProductoEntity {
 	private boolean estadoActivo;
 	private String fotoUrl;
 	private boolean fragil;
+	private Integer idProductoDelProveedor;
 	
 	@ManyToOne( cascade = CascadeType.ALL)
 	@JoinColumn(name="id_Proveedor")
 	//@OrderBy("nombre ASC")
 	private ProveedorEntity proveedor;
 	
-	//private ImageIcon foto;
-	//private byte[] foto;
 	
 	public ProductoEntity(){}
 
 	public ProductoEntity(Integer idProducto, String codigoBarras, String descripcion, BigDecimal precioVenta,
 			int cantFijaCompra, int cantMinimaStock, int stockActual, boolean estadoActivo, ImageIcon foto, 
-			String fotoUrl, boolean fragil, ProveedorEntity proveedor) {
+			String fotoUrl, boolean fragil, ProveedorEntity proveedor, Integer idProductoDelProveedor) {
 		super();
 		this.idProducto = idProducto;
 		this.codigoBarras = codigoBarras;
@@ -50,13 +49,13 @@ public class ProductoEntity {
 		this.fotoUrl = fotoUrl;
 		this.fragil = fragil;
 		this.proveedor = proveedor;
-		//this.foto = foto;
+		this.idProductoDelProveedor = idProductoDelProveedor;
 		
 	}
 
 	public ProductoEntity(String codigoBarras, String descripcion, BigDecimal precioVenta, int cantFijaCompra,
 			int cantMinimaStock, int stockActual, boolean estadoActivo, ImageIcon foto, String fotoUrl, 
-			boolean fragil, ProveedorEntity proveedor) {
+			boolean fragil, ProveedorEntity proveedor, Integer idProductoDelProveedor) {
 		super();
 		this.codigoBarras = codigoBarras;
 		this.descripcion = descripcion;
@@ -68,7 +67,7 @@ public class ProductoEntity {
 		this.fotoUrl = fotoUrl;
 		this.fragil = fragil;
 		this.proveedor = proveedor;
-		//this.foto = foto;
+		this.idProductoDelProveedor = idProductoDelProveedor;
 	}
 
 	public Integer getIdProducto() {
@@ -158,16 +157,14 @@ public class ProductoEntity {
 	public void setProveedor(ProveedorEntity proveedor) {
 		this.proveedor = proveedor;
 	}
-	
-	
 
-	/*public byte[] getFoto() {
-		return foto;
+	public Integer getIdProductoDelProveedor() {
+		return idProductoDelProveedor;
 	}
 
-	public void setFoto(byte[] foto) {
-		this.foto = foto;
-	}*/
+	public void setIdProductoDelProveedor(Integer idProductoDelProveedor) {
+		this.idProductoDelProveedor = idProductoDelProveedor;
+	}
 	
 	
 	

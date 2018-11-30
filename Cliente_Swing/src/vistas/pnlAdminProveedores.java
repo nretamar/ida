@@ -34,8 +34,8 @@ public class pnlAdminProveedores extends JPanel implements ActionListener {
 	JTable tblProveedores;
 	JButton btnBaja, btnAlta, btnModificar, btnAtras, btnBuscar;
 	//TODO
-	JLabel lblLimpiar, lblNombre, lblUrl, lblApiKey, lblIdProveedor, lblIdProveedorSelec;
-	JTextField txtNombre, txtUrl, txtApiKey;
+	JLabel lblLimpiar, lblNombre, lblUrl, lblApiKey, lblIdProveedor, lblIdProveedorSelec, lblIdComoSuCliente;
+	JTextField txtNombre, txtUrl, txtApiKey, txtIdComoSuCliente;
 	DefaultTableModel model, modeloBusqueda;//Model es la tabla y si tocas te carga automaticamente a los textbox
 											//modeloBusqueda ayuda al boton limpiar 
 	List<ProveedorDTO> proveedores;
@@ -74,13 +74,14 @@ public class pnlAdminProveedores extends JPanel implements ActionListener {
 			System.out.println();
 		}*/
 		
-		datos = new String[proveedores.size()][4];
+		datos = new String[proveedores.size()][5];
 		
 		for (ProveedorDTO proveedorList : proveedores) {
 			datos[i][0] = String.valueOf(proveedorList.getIdProveedor());
 			datos[i][1] = proveedorList.getNombre();
 			datos[i][2] = proveedorList.getUrl();
 			datos[i][3] = proveedorList.getApiKey();
+			datos[i][4] = String.valueOf(proveedorList.getIdComoSuCliente());
 
 			i++;
 		}
@@ -96,10 +97,11 @@ public class pnlAdminProveedores extends JPanel implements ActionListener {
 				row = tblProveedores.getSelectedRow();
 				idP = Integer.parseInt(datos[row][0]);				
 				
-				lblIdProveedorSelec.setText("");
+				lblIdProveedorSelec.setText(datos[row][0]);
 				txtNombre.setText(datos[row][1]);
 				txtUrl.setText(datos[row][2]);
 				txtApiKey.setText(datos[row][3]);
+				txtIdComoSuCliente.setText(datos[row][4]);
 				
 			}
 		});
@@ -133,6 +135,7 @@ public class pnlAdminProveedores extends JPanel implements ActionListener {
 		lblApiKey = new JLabel("Api-Key: ");
 		lblIdProveedor = new JLabel("Id proveedor: ");
 		lblIdProveedorSelec = new JLabel("");
+		lblIdComoSuCliente = new JLabel("Id como su cliente: ");
 		
 		
 		txtNombre = new JTextField();
@@ -141,6 +144,8 @@ public class pnlAdminProveedores extends JPanel implements ActionListener {
 		txtUrl.setOpaque(false);
 		txtApiKey = new JTextField();
 		txtApiKey.setOpaque(false);
+		txtIdComoSuCliente = new JTextField();
+		txtIdComoSuCliente.setOpaque(false);
 		
 		
 		lblLimpiar.addMouseListener(new MouseAdapter() {
@@ -150,8 +155,9 @@ public class pnlAdminProveedores extends JPanel implements ActionListener {
 				txtUrl.setText(null);
 				txtApiKey.setText(null);
 				lblIdProveedorSelec.setText("");
+				txtIdComoSuCliente.setText("");
 				
-				datos2 = new String[proveedores.size()][4];
+				datos2 = new String[proveedores.size()][5];
 				int y = 0;
 				
 								
@@ -160,6 +166,7 @@ public class pnlAdminProveedores extends JPanel implements ActionListener {
 					datos2[y][1] = proveedorList.getNombre();
 					datos2[y][2] = proveedorList.getUrl();
 					datos2[y][3] = proveedorList.getApiKey();
+					datos2[y][3] =String.valueOf(proveedorList.getIdComoSuCliente());
 
 					y++;
 				}
@@ -174,13 +181,15 @@ public class pnlAdminProveedores extends JPanel implements ActionListener {
 		lblNombre.setBounds(529, 105, 130, 30);
 		lblUrl.setBounds(529, 145, 130, 30);
 		lblApiKey.setBounds(529, 185, 130, 30);
-		lblIdProveedor.setBounds(529, 225, 130, 30);
+		lblIdComoSuCliente.setBounds(529, 225, 130, 30);
+		lblIdProveedor.setBounds(529, 265, 130, 30);
 		
 		
 		txtNombre.setBounds(769, 105, 150, 30);
 		txtUrl.setBounds(769, 145, 150, 30);
 		txtApiKey.setBounds(769, 185, 150, 30);
-		lblIdProveedorSelec.setBounds(769, 225, 130, 30);
+		txtIdComoSuCliente.setBounds(769, 225, 150, 30);
+		lblIdProveedorSelec.setBounds(769, 265, 150, 30);
 		
 		lblLimpiar.setBounds(816, 51, 80, 30);
 		lblLimpiar.setForeground(Color.BLUE);
@@ -199,10 +208,12 @@ public class pnlAdminProveedores extends JPanel implements ActionListener {
 		this.add(lblApiKey);
 		this.add(lblIdProveedor);
 		this.add(lblIdProveedorSelec);
+		this.add(lblIdComoSuCliente);
 				
 		this.add(txtNombre);
 		this.add(txtUrl);
 		this.add(txtApiKey);
+		this.add(txtIdComoSuCliente);
 	}
 	
 	//TODO Poner N a AsignarEvetos
@@ -232,6 +243,7 @@ public class pnlAdminProveedores extends JPanel implements ActionListener {
 					proveAlta.setNombre(txtNombre.getText());
 					proveAlta.setUrl(txtUrl.getText());
 					proveAlta.setApiKey(txtApiKey.getText());
+					proveAlta.setIdComoSuCliente(Integer.valueOf(txtIdComoSuCliente.getText()));
 										
 					
 					if (!existeNom(txtNombre.getText()) ) {
@@ -271,6 +283,7 @@ public class pnlAdminProveedores extends JPanel implements ActionListener {
 								proveModif.setNombre(txtNombre.getText());
 								proveModif.setUrl(txtUrl.getText());
 								proveModif.setApiKey(txtApiKey.getText());
+								proveModif.setIdComoSuCliente(Integer.valueOf(txtIdComoSuCliente.getText()));
 
 								ProveedorDelegate.getInstancia().modificarProveedor(proveModif);
 
@@ -349,18 +362,16 @@ public class pnlAdminProveedores extends JPanel implements ActionListener {
 
 		int filas = buscarCantP(datos, nombre);
 		if (filas > 0) {
-			csReturn = new String[filas][7];
+			csReturn = new String[filas][5];
 			int tamD = datos.length;
 			int k = 0;
 			for (int o = 0; o < tamD; o++) {
-				if ((datos[o][1]).trim().equals(nombre.trim())) {
+				if ((datos[o][0]).trim().equals(nombre.trim())) {
 					csReturn[k][0] = datos[o][0];
 					csReturn[k][1] = datos[o][1];
 					csReturn[k][2] = datos[o][2];
 					csReturn[k][3] = datos[o][3];
 					csReturn[k][4] = datos[o][4];
-					csReturn[k][5] = datos[o][5];
-					csReturn[k][6] = datos[o][6];
 
 					k++;
 				}
@@ -376,7 +387,7 @@ public class pnlAdminProveedores extends JPanel implements ActionListener {
 		int cant = 0;
 		int filas = datos.length;
 		for (int o = 0; o < filas; o++) {
-			if ((datos[o][1]).trim().equals(nroCodBarras.trim())) {
+			if ((datos[o][0]).trim().equals(nroCodBarras.trim())) {
 				cant++;
 			}
 		}

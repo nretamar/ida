@@ -17,25 +17,29 @@ public class ProveedorEntity {
 	private String url;
 	private String apiKey;
 	private boolean estadoActivo;
+	private Integer idComoSuCliente;
 	
 	public ProveedorEntity() {}
 
 	public ProveedorEntity(Integer idProveedor, String nombre, String url,
-			String apiKey, boolean estadoActivo) {
+			String apiKey, boolean estadoActivo, Integer idComoSuCliente) {
 		super();
 		this.idProveedor = idProveedor;
 		this.nombre = nombre;
 		this.url = url;
 		this.apiKey = apiKey;
 		this.estadoActivo = estadoActivo;
+		this.idComoSuCliente = idComoSuCliente;
 	}
 
-	public ProveedorEntity(String nombre, String url, String apiKey, boolean estadoActivo) {
+	public ProveedorEntity(String nombre, String url, String apiKey,
+			boolean estadoActivo, Integer idComoSuCliente ) {
 		super();
 		this.nombre = nombre;
 		this.url = url;
 		this.apiKey = apiKey;
 		this.estadoActivo = estadoActivo;
+		this.idComoSuCliente = idComoSuCliente;
 	}
 
 	public Integer getIdProveedor() {
@@ -76,6 +80,14 @@ public class ProveedorEntity {
 
 	public void setEstadoActivo(boolean estadoActivo) {
 		this.estadoActivo = estadoActivo;
+	}
+
+	public Integer getIdComoSuCliente() {
+		return idComoSuCliente;
+	}
+
+	public void setIdComoSuCliente(Integer idComoSuCliente) {
+		this.idComoSuCliente = idComoSuCliente;
 	}
 	
 	

@@ -16,6 +16,7 @@ public class IntegracionPedidoTiendaDTO implements Serializable {
 	private static final long serialVersionUID = 2138990749512674129L;
 	
 	private Integer idPedido;		//Para enviar al almacen, null, luego el almacen le enviará una id
+	private String nombreAlmacen;	//Nombre String que identifica el almacén de origen/destino.
 	private Date fecha;				//null o "fecha = new Date()" para enviar
 	private String estadoPedido;	//'vacio' para enviar, luego recibe estados de pedido
 	private boolean requiereLogistica;
@@ -41,6 +42,15 @@ public class IntegracionPedidoTiendaDTO implements Serializable {
 
 	public void setIdPedido(Integer idPedido) {
 		this.idPedido = idPedido;
+	}
+	
+	public String getNombreAlmacen() {
+		return nombreAlmacen;
+	}
+
+
+	public void setNombreAlmacen(String nombreAlmacen) {
+		this.nombreAlmacen = nombreAlmacen;
 	}
 
 	public Date getFecha() {

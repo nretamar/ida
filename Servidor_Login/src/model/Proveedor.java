@@ -27,6 +27,7 @@ public class Proveedor {
 	private String url;
 	private String apiKey;
 	private boolean estadoActivo;
+	private Integer idComoSuCliente;
 	
 	public Proveedor () {}
 	
@@ -36,6 +37,7 @@ public class Proveedor {
 		url = dto.getUrl();
 		apiKey = dto.getApiKey();
 		estadoActivo = dto.getEstadoActivo();
+		idComoSuCliente = dto.getIdComoSuCliente();
 	}
 	
 	
@@ -46,6 +48,7 @@ public class Proveedor {
 		dto.setUrl(this.url);
 		dto.setApiKey(this.apiKey);
 		dto.setEstadoActivo(this.estadoActivo);
+		dto.setIdComoSuCliente(this.idComoSuCliente);
 		return dto;
 	}
 	
@@ -106,6 +109,14 @@ public class Proveedor {
 
 	public void setEstadoActivo(boolean estadoActivo) {
 		this.estadoActivo = estadoActivo;
+	}
+
+	public Integer getIdComoSuCliente() {
+		return idComoSuCliente;
+	}
+
+	public void setIdComoSuCliente(Integer idComoSuCliente) {
+		this.idComoSuCliente = idComoSuCliente;
 	}
 	
 	

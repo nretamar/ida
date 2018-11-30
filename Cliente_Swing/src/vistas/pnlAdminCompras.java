@@ -412,18 +412,15 @@ public class pnlAdminCompras extends JPanel implements ActionListener {
 
 		int filas = buscarCantP(datos, nroCodBarras);
 		if (filas > 0) {
-			csReturn = new String[filas][7];
+			csReturn = new String[filas][5];
 			int tamD = datos.length;
 			int k = 0;
 			for (int o = 0; o < tamD; o++) {
-				if ((datos[o][1]).trim().equals(nroCodBarras.trim())) {
+				if ((datos[o][0]).trim().equals(nroCodBarras.trim())) {
 					csReturn[k][0] = datos[o][0];
 					csReturn[k][1] = datos[o][1];
 					csReturn[k][2] = datos[o][2];
 					csReturn[k][3] = datos[o][3];
-					csReturn[k][4] = datos[o][4];
-					csReturn[k][5] = datos[o][5];
-					csReturn[k][6] = datos[o][6];
 
 					k++;
 				}
@@ -439,7 +436,7 @@ public class pnlAdminCompras extends JPanel implements ActionListener {
 		int cant = 0;
 		int filas = datos.length;
 		for (int o = 0; o < filas; o++) {
-			if ((datos[o][1]).trim().equals(nroCodBarras.trim())) {
+			if ((datos[o][0]).trim().equals(nroCodBarras.trim())) {
 				cant++;
 			}
 		}

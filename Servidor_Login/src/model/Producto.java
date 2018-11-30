@@ -38,6 +38,7 @@ public class Producto {
 	private String fotoUrl;
 	private boolean fragil;
 	private Proveedor proveedor;
+	private Integer idProductoDelProveedor;
 	//private ImageIcon foto;
 	
 		
@@ -57,6 +58,7 @@ public class Producto {
 		this.fotoUrl = dto.getFotoUrl();
 		this.estadoActivo = dto.getEstadoActivo();
 		this.fragil = dto.getFragil();
+		this.idProductoDelProveedor = dto.getIdProductoDelProveedor();
 		if(dto.getProveedor() == null)
 			System.out.println("Proveedor null");
 		if(dto.getProveedor().getIdProveedor() == null)
@@ -162,6 +164,14 @@ public class Producto {
 	public void setProveedor(Proveedor proveedor) {
 		this.proveedor = proveedor;
 	}
+	
+	public Integer getIdProductoDelProveedor() {
+		return idProductoDelProveedor;
+	}
+
+	public void setIdProductoDelProveedor(Integer idProductoDelProveedor) {
+		this.idProductoDelProveedor = idProductoDelProveedor;
+	}
 
 	public ProductoDTO toDTO() {
 		ProductoDTO producto = new ProductoDTO();
@@ -177,6 +187,7 @@ public class Producto {
 		producto.setFragil(fragil);
 		
 		producto.setProveedor(proveedor.toDTO());
+		producto.setIdProductoDelProveedor(idProductoDelProveedor);
 		
 		return producto;
 		

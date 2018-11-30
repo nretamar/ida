@@ -40,9 +40,9 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 	JButton btnBaja, btnAlta, btnModificar, btnAtras, btnBuscar, btnVerFotoAnterior;
 	//TODO
 	JLabel lblLimpiar, lblCodBarras, lblDescripcion, lblPrecioV, lblCantFCompra, lblCantMinimaStock,
-			lblStockActual, lblIdProducto, lblIdProductoSelec, lblFotoUrl, lblProveedor;
+			lblStockActual, lblIdProducto, lblIdProductoSelec, lblFotoUrl, lblProveedor, lblIdProductoDelProveedor;
 	JTextField txtCodBarras, txtDescripcion, txtPrecioV, txtCantFCompra, txtCantMinimaStock,
-			txtStockActual, txtFotoUrl;
+			txtStockActual, txtFotoUrl, txtIdProductoDelProveedor;
 	DefaultTableModel model, modeloBusqueda;//Model es la tabla y si tocas te carga automaticamente a los textbox
 											//modeloBusqueda ayuda al boton limpiar 
 	List<ProductoDTO> productos;
@@ -85,7 +85,7 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 			System.out.println();
 		}*/
 		
-		datos = new String[productos.size()][9];
+		datos = new String[productos.size()][10];
 		
 		for (ProductoDTO productoList : productos) {
 			datos[i][0] = String.valueOf(productoList.getIdProducto());
@@ -97,6 +97,7 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 			datos[i][6] = String.valueOf(productoList.getStockActual());
 			datos[i][7] = String.valueOf(productoList.getFotoUrl());
 			datos[i][8] = String.valueOf(productoList.getProveedor().getNombre());
+			datos[i][9] = String.valueOf(productoList.getIdProductoDelProveedor());
 
 			i++;
 		}
@@ -128,6 +129,7 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 				txtStockActual.setText(datos[row][6]);
 				txtFotoUrl.setText(datos[row][7]);
 				combo.setSelectedItem(datos[row][8]);
+				txtIdProductoDelProveedor.setText(datos[row][9]);
 				
 			}
 		});
@@ -169,6 +171,7 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 		lblIdProductoSelec = new JLabel("");
 		lblFotoUrl = new JLabel("Foto URL del producto");
 		lblProveedor = new JLabel("Proveedor: ");
+		lblIdProductoDelProveedor = new JLabel("Id del Prov: ");
 		
 		
 		txtCodBarras = new JTextField();
@@ -185,6 +188,8 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 		txtStockActual.setOpaque(false);
 		txtFotoUrl = new JTextField();
 		txtFotoUrl.setOpaque(false);
+		txtIdProductoDelProveedor = new JTextField();
+		txtIdProductoDelProveedor.setOpaque(false);
 		
 		
 		lblLimpiar.addMouseListener(new MouseAdapter() {
@@ -198,6 +203,7 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 				txtStockActual.setText(null);
 				lblIdProductoSelec.setText("");
 				txtFotoUrl.setText(null);
+				txtIdProductoDelProveedor.setText(null);
 				
 				datos2 = new String[productos.size()][9];
 				int y = 0;
@@ -211,6 +217,9 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 					datos2[y][4] = String.valueOf(productoList.getCantFijaCompra());
 					datos2[y][5] = String.valueOf(productoList.getCantMinimaStock());
 					datos2[y][6] = String.valueOf(productoList.getStockActual());
+					datos2[y][7] = String.valueOf(productoList.getFotoUrl());
+					datos2[y][8] = String.valueOf(productoList.getProveedor().getNombre());
+					datos2[y][9] = String.valueOf(productoList.getIdProductoDelProveedor());
 
 					y++;
 				}
@@ -222,27 +231,29 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 		});
 		
 		
-		lblProveedor.setBounds(529, 105, 130, 30);
-		lblCodBarras.setBounds(529, 145, 130, 30);
-		lblDescripcion.setBounds(529, 185, 130, 30);
-		lblPrecioV.setBounds(529, 225, 130, 30);
+		lblProveedor.setBounds(529, 90, 130, 30);
+		lblCodBarras.setBounds(529, 125, 130, 30);
+		lblIdProductoDelProveedor.setBounds(529, 160, 150, 30);
+		lblDescripcion.setBounds(529, 195, 130, 30);
+		lblPrecioV.setBounds(529, 230, 130, 30);
 		lblCantFCompra.setBounds(529, 265, 130, 30);
-		lblCantMinimaStock.setBounds(529, 305, 150, 30);
-		lblStockActual.setBounds(529, 345, 130, 30);
-		lblIdProducto.setBounds(529, 385, 130, 30);
-		lblFotoUrl.setBounds(529, 425, 150, 30);
+		lblCantMinimaStock.setBounds(529, 300, 150, 30);
+		lblStockActual.setBounds(529, 335, 130, 30);
+		lblIdProducto.setBounds(529, 370, 130, 30);
+		lblFotoUrl.setBounds(529, 405, 150, 30);
 		
 		
-		combo.setBounds(769, 105, 150, 30);
-		txtCodBarras.setBounds(769, 145, 150, 30);
-		txtDescripcion.setBounds(769, 185, 150, 30);
-		txtPrecioV.setBounds(769, 225, 150, 30);
+		combo.setBounds(769, 90, 150, 30);
+		txtCodBarras.setBounds(769, 125, 150, 30);
+		txtIdProductoDelProveedor.setBounds(769, 160, 150, 30);
+		txtDescripcion.setBounds(769, 195, 150, 30);
+		txtPrecioV.setBounds(769, 230, 150, 30);
 		txtCantFCompra.setBounds(769, 265, 150, 30);
-		txtCantMinimaStock.setBounds(769, 305, 150, 30);
-		txtStockActual.setBounds(769, 345, 150, 30);
-		lblIdProductoSelec.setBounds(769, 385, 130, 30);
-		txtFotoUrl.setBounds(769, 425, 130, 30);
-		btnVerFotoAnterior.setBounds(904, 425, 90, 30);
+		txtCantMinimaStock.setBounds(769, 300, 150, 30);
+		txtStockActual.setBounds(769, 335, 150, 30);
+		lblIdProductoSelec.setBounds(769, 370, 130, 30);
+		txtFotoUrl.setBounds(769, 405, 130, 30);
+		btnVerFotoAnterior.setBounds(904, 405, 85, 30);
 		
 		
 		lblLimpiar.setBounds(816, 51, 80, 30);
@@ -269,6 +280,7 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 		this.add(lblIdProducto);
 		this.add(lblIdProductoSelec);
 		this.add(lblFotoUrl);
+		this.add(lblIdProductoDelProveedor);
 				
 		this.add(txtCodBarras);
 		this.add(txtDescripcion);
@@ -277,9 +289,9 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 		this.add(txtCantMinimaStock);
 		this.add(txtStockActual);
 		this.add(txtFotoUrl);
+		this.add(txtIdProductoDelProveedor);
 	}
 	
-	//TODO Poner N a AsignarEvetos
 	private void AsignarEventos() {
 		btnAtras.addActionListener(this);
 		btnAlta.addActionListener(this);
@@ -315,10 +327,10 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 								prodAlta.setCantMinimaStock(Integer.parseInt(txtCantMinimaStock.getText()));
 								prodAlta.setStockActual(Integer.parseInt(txtStockActual.getText()));
 								prodAlta.setEstadoActivo(true);
+								prodAlta.setIdProductoDelProveedor(Integer.parseInt(txtIdProductoDelProveedor.getText()));
 								try {
 									prodAlta.setProveedor(ProveedorDelegate.getInstancia().buscarProveedorByNombre(combo.getSelectedItem().toString()));
 								} catch (GenericRemoteException e) {
-									// TODO Auto-generated catch block
 									e.printStackTrace();
 								}
 								prodAlta.setFotoUrl(txtFotoUrl.getText());
@@ -379,10 +391,10 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 								try {
 									prodModif.setProveedor(ProveedorDelegate.getInstancia().buscarProveedorByNombre(combo.getSelectedItem().toString()));
 								} catch (GenericRemoteException e) {
-									// TODO Auto-generated catch block
 									e.printStackTrace();
 								}
 								prodModif.setFotoUrl(txtFotoUrl.getText());
+								prodModif.setIdProductoDelProveedor(Integer.parseInt(txtIdProductoDelProveedor.getText()));
 
 								ProductoDelegate.getInstancia().modificarProducto(prodModif);
 
@@ -445,7 +457,7 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 							}
 						} else {
 							if (click.getActionCommand().equals("Ver Foto")) {
-								if(!lblIdProductoSelec.equals("")) {
+								if(!lblIdProductoSelec.equals(null)) {
 									
 									if (row < 0) {
 										JOptionPane.showMessageDialog(null, "Seleccione un artículo antes de modificar");
@@ -483,11 +495,11 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 
 		int filas = buscarCantP(datos, nroCodBarras);
 		if (filas > 0) {
-			csReturn = new String[filas][7];
+			csReturn = new String[filas][10];
 			int tamD = datos.length;
 			int k = 0;
 			for (int o = 0; o < tamD; o++) {
-				if ((datos[o][1]).trim().equals(nroCodBarras.trim())) {
+				if ((datos[o][0]).trim().equals(nroCodBarras.trim())) {
 					csReturn[k][0] = datos[o][0];
 					csReturn[k][1] = datos[o][1];
 					csReturn[k][2] = datos[o][2];
@@ -495,6 +507,9 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 					csReturn[k][4] = datos[o][4];
 					csReturn[k][5] = datos[o][5];
 					csReturn[k][6] = datos[o][6];
+					csReturn[k][7] = datos[o][7];
+					csReturn[k][8] = datos[o][8];
+					csReturn[k][9] = datos[o][9];
 
 					k++;
 				}
@@ -510,7 +525,7 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 		int cant = 0;
 		int filas = datos.length;
 		for (int o = 0; o < filas; o++) {
-			if ((datos[o][1]).trim().equals(nroCodBarras.trim())) {
+			if ((datos[o][0]).trim().equals(nroCodBarras.trim())) {
 				cant++;
 			}
 		}

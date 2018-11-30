@@ -47,6 +47,7 @@ public class ProductoDAO {
 		produ.setEstadoActivo(producto.getEstadoActivo());
 		produ.setFragil(producto.getFragil());
 		produ.setProveedor(ProveedorDAO.getInstancia().toNegocio( producto.getProveedor() ));
+		produ.setIdProductoDelProveedor(producto.getIdProductoDelProveedor());
 		
 		produ.setFotoUrl(producto.getFotoUrl());
 		//produ.setFoto(buscarFoto(producto.getIdProducto()));
@@ -68,6 +69,7 @@ public class ProductoDAO {
 		produ.setEstadoActivo(producto.getEstadoActivo());
 		produ.setFragil(producto.getFragil());
 		produ.setProveedor(ProveedorDAO.getInstancia().toEntity( producto.getProveedor() ));
+		produ.setIdProductoDelProveedor(producto.getIdProductoDelProveedor());
 		
 		produ.setFotoUrl(producto.getFotoUrl());
 		//produ.setFoto(producto.getFoto());

@@ -23,11 +23,12 @@ public class ProductoDTO implements Serializable {
 	private String fotoUrl;
 	private boolean fragil;
 	private ProveedorDTO proveedor;
+	private Integer idProductoDelProveedor;
 	
 	//Constructor
 	public ProductoDTO(Integer idProducto, String codigoBarras, String descripcion, BigDecimal precioVenta,
 			int cantFijaCompra, int cantMinimaStock, int stockActual, boolean estadoActivo, String fotoUrl, 
-			boolean fragil, ProveedorDTO proveedor) {
+			boolean fragil, ProveedorDTO proveedor, Integer idProductoDelProveedor) {
 		super();
 		this.idProducto = idProducto;
 		this.codigoBarras = codigoBarras;
@@ -40,6 +41,7 @@ public class ProductoDTO implements Serializable {
 		this.fotoUrl = fotoUrl;
 		this.fragil = fragil;
 		this.proveedor = proveedor;
+		this.idProductoDelProveedor = idProductoDelProveedor;
 		//this.foto = foto;
 	}	
 
@@ -136,16 +138,14 @@ public class ProductoDTO implements Serializable {
 	public void setProveedor(ProveedorDTO proveedor) {
 		this.proveedor = proveedor;
 	}
-	
-		
 
-	/*public ImageIcon getFoto() {
-		return foto;
+	public Integer getIdProductoDelProveedor() {
+		return idProductoDelProveedor;
 	}
 
-	public void setFoto(ImageIcon foto) {
-		this.foto = foto;
-	}*/
+	public void setIdProductoDelProveedor(Integer idProductoDelProveedor) {
+		this.idProductoDelProveedor = idProductoDelProveedor;
+	}
 	
 	
 	

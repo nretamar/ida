@@ -33,6 +33,7 @@ public class ProveedorDAO {
 		model.setUrl(entity.getUrl());
 		model.setApiKey(entity.getApiKey());
 		model.setEstadoActivo(entity.getEstadoActivo());
+		model.setIdComoSuCliente(entity.getIdComoSuCliente());
 		return model;
 
 	}
@@ -45,6 +46,7 @@ public class ProveedorDAO {
 		entity.setUrl(model.getUrl());
 		entity.setApiKey(model.getApiKey());
 		entity.setEstadoActivo(model.getEstadoActivo());
+		entity.setIdComoSuCliente(model.getIdComoSuCliente());
 		return entity;
 
 	}

@@ -2,6 +2,7 @@ package com.integracion.controlador;
 
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.runner.RunWith;
@@ -16,11 +17,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.integracion.conversiones.IntegracionConversionTienda;
-import com.integracion.demo.DemoApplication;
-
 import businessDelegate.ExpedicionDelegate;
 import businessDelegate.ProductoDelegate;
+import conversiones.IntegracionConversionTienda;
+import dto.OrdenDeCompraDTO;
 import dto.PedidoDTO;
 import dto.PedidoItemDTO;
 import dto.ProductoDTO;
@@ -28,31 +28,35 @@ import dto.TestDTO;
 import dto.TestItemDTO;
 import excepciones.GenericRemoteException;
 import integracionDto.IntegracionItemPedidoTiendaDTO;
+import integracionDto.IntegracionOrdenDeCompraDistribuidorDTO;
 import integracionDto.IntegracionPedidoTiendaDTO;
+import integracionDto.IntegracionProductoTiendaDTO;
 
 @Controller
 public class ControladorTest {
 	
-	@RequestMapping(value="/buscarProductoId", method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value="/producto/{codigoBarras}", method = RequestMethod.GET, produces = "application/json")
 	@ResponseBody
-	public ResponseEntity<ProductoDTO> buscarProductoById() {
+	public ResponseEntity<IntegracionProductoTiendaDTO> buscarProductoById(@PathVariable String codigoBarras) {
 		
 		ProductoDTO producto = null;
-		System.out.println("Entre a buscar");
 		try {
-			producto = ProductoDelegate.getInstancia().buscarProductoById(1);
-			System.out.println("Encontre producto nombre: " + producto.getDescripcion());
+			producto = ProductoDelegate.getInstancia().buscarProductoByCodigoDeBarras(codigoBarras);
 		} catch (GenericRemoteException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return new ResponseEntity<ProductoDTO>(producto,HttpStatus.OK);
+		
+		if(producto == null)
+			return new ResponseEntity<IntegracionProductoTiendaDTO>(new IntegracionProductoTiendaDTO(),HttpStatus.BAD_REQUEST);
+		IntegracionProductoTiendaDTO ptienda = IntegracionConversionTienda.getInstancia().productoToTienda(producto);
+		
+		return new ResponseEntity<IntegracionProductoTiendaDTO>(ptienda,HttpStatus.OK);
 		
 	}
 	
-	@RequestMapping(value="/getPedidos/{codigoPedido}", method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value="/pedido/{codigoPedido}", method = RequestMethod.GET, produces = "application/json")
 	@ResponseBody
-	public ResponseEntity<PedidoDTO> getPedido(@PathVariable int codigoPedido) {
+	public ResponseEntity<IntegracionPedidoTiendaDTO> getPedido(@PathVariable int codigoPedido) {
 		
 		PedidoDTO pedido = null; 
 		
@@ -63,7 +67,10 @@ public class ControladorTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return new ResponseEntity<PedidoDTO>(pedido,HttpStatus.OK);
+		
+		IntegracionPedidoTiendaDTO ptienda = IntegracionConversionTienda.getInstancia().pedidoAlmacenToTienda(pedido);
+		
+		return new ResponseEntity<IntegracionPedidoTiendaDTO>(ptienda,HttpStatus.OK);
 		
 	}
 	
@@ -78,7 +85,7 @@ public class ControladorTest {
 	
 	@RequestMapping(value="/productos", method = RequestMethod.GET, produces = "application/json")
 	@ResponseBody
-	public ResponseEntity<List<ProductoDTO>> getAllProductos() {
+	public ResponseEntity<List<IntegracionProductoTiendaDTO>> getAllProductos() {
 		
 		List<ProductoDTO> lista = null;
 		System.out.println("Entre a buscar");
@@ -88,13 +95,20 @@ public class ControladorTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return new ResponseEntity<List<ProductoDTO>>(lista,HttpStatus.OK);
+		
+		List<IntegracionProductoTiendaDTO> integra = new ArrayList<IntegracionProductoTiendaDTO>();
+		for(ProductoDTO item : lista) {
+			integra.add(IntegracionConversionTienda.getInstancia().productoToTienda(item));
+		}
+		
+		
+		return new ResponseEntity<List<IntegracionProductoTiendaDTO>>(integra,HttpStatus.OK);
 		
 	}
 	
 	@RequestMapping(value="/pedidos", method = RequestMethod.GET, produces = "application/json")
 	@ResponseBody
-	public ResponseEntity<List<PedidoDTO>> getAllPedidos() {
+	public ResponseEntity<List<IntegracionPedidoTiendaDTO>> getAllPedidos() {
 		
 		List<PedidoDTO> lista = null;
 		System.out.println("Entre a buscar");
@@ -104,7 +118,13 @@ public class ControladorTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return new ResponseEntity<List<PedidoDTO>>(lista,HttpStatus.OK);
+		
+		List<IntegracionPedidoTiendaDTO> integra = new ArrayList<IntegracionPedidoTiendaDTO>();
+		for(PedidoDTO item : lista) {
+			integra.add(IntegracionConversionTienda.getInstancia().pedidoAlmacenToTienda(item));
+		}		
+		
+		return new ResponseEntity<List<IntegracionPedidoTiendaDTO>>(integra,HttpStatus.OK);
 		
 	}
 	
@@ -113,12 +133,12 @@ public class ControladorTest {
 	 * Fase de prueba
 	 */
 	
-	@RequestMapping(value="/addpedido", method = RequestMethod.POST, produces = "application/json")
+	@RequestMapping(value="/pedido", method = RequestMethod.POST, produces = "application/json")
 	@ResponseBody
 	public ResponseEntity<Integer> add(@RequestBody IntegracionPedidoTiendaDTO ptienda){
 		
-		System.out.println("Entre a post test");
-		
+		System.out.println("Entre a post test NEW");
+		ptienda.setEstadoPedido(null);
 		PedidoDTO pedido = IntegracionConversionTienda.getInstancia().pedidoTiendaToAlmacen(ptienda);
 		
 		System.out.println("id: " + pedido.getIdPedido());
@@ -181,6 +201,24 @@ public class ControladorTest {
 		System.out.println("calle: " + pedido.getDireccion().getCalle());
 		
 		return new ResponseEntity<Integer>(22,HttpStatus.ACCEPTED);
+		
+		
+	}
+	
+	@RequestMapping(value="/ordenTest", method = RequestMethod.POST, produces = "application/json")
+	@ResponseBody
+	public ResponseEntity<Integer> add(@RequestBody IntegracionOrdenDeCompraDistribuidorDTO otienda){
+		
+		System.out.println("Entre a post orden");
+		
+		System.out.println("idClienteParaProveedor: " + otienda.getClient());
+		
+		OrdenDeCompraDTO orden = IntegracionConversionTienda.getInstancia().ordenTiendaToAlmacen(otienda);
+		
+		System.out.println("idProducto: " + orden.getProducto().getDescripcion());
+		System.out.println("cantidadOrdenada: " + orden.getCantidadOrdenada());
+		
+		return new ResponseEntity<Integer>(717,HttpStatus.ACCEPTED);
 		
 		
 	}

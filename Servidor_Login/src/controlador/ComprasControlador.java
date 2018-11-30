@@ -12,6 +12,7 @@ import dto.RemitoDTO;
 import dto.RemitoItemDTO;
 import exceptions.OrdenDeCompraException;
 import exceptions.ProductoException;
+import integracion.PostOrdenDeCompraDistribuidora;
 import model.OrdenDeCompra;
 import model.Remito;
 import model.RemitoItem;
@@ -87,6 +88,15 @@ public class ComprasControlador {
 		//Una vez creada la orden, automaticamente y pasa a
 		//pendiente si cantidadRestante de entrega es cero
 		model.estoyActivo();
+		
+		//TODO
+		//Realizo llamado Post hacia Distribuidora
+		try {
+			new PostOrdenDeCompraDistribuidora(model);
+		} catch (OrdenDeCompraException e) {
+			e.printStackTrace();
+		}
+		
 		
 		return model.getIdOrdenDeCompra();
 	}

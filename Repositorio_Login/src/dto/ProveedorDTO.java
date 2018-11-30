@@ -14,16 +14,20 @@ public class ProveedorDTO  implements Serializable {
 	private String url;
 	private String apiKey;
 	private boolean estadoActivo;
+	private Integer idComoSuCliente;
 	
 	//Constructor
-	public ProveedorDTO(Integer idProveedor, String nombre, String url, String apiKey, boolean estadoActivo) {
+	public ProveedorDTO(Integer idProveedor, String nombre, String url, String apiKey,
+			boolean estadoActivo, Integer idComoSuCliente) {
 		super();
 		this.idProveedor = idProveedor;
 		this.nombre = nombre;
 		this.url = url;
 		this.apiKey = apiKey;
 		this.estadoActivo = estadoActivo;
+		this.idComoSuCliente = idComoSuCliente;
 	}
+	
 	
 	
 	public ProveedorDTO() {
@@ -31,7 +35,7 @@ public class ProveedorDTO  implements Serializable {
 	}
 	
 	
-
+	//Getters y Setters
 	public Integer getIdProveedor() {
 		return idProveedor;
 	}
@@ -81,7 +85,14 @@ public class ProveedorDTO  implements Serializable {
 		this.estadoActivo = estadoActivo;
 	}
 	
-	
+	public Integer getIdComoSuCliente() {
+		return idComoSuCliente;
+	}
+
+
+	public void setIdComoSuCliente(Integer idComoSuCliente) {
+		this.idComoSuCliente = idComoSuCliente;
+	}
 	
 	
 	

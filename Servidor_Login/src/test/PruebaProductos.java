@@ -54,6 +54,7 @@ public class PruebaProductos {
 		p.setUrl("www.Diarco.com");
 		p.setApiKey("contra");
 		p.setEstadoActivo(true);
+		p.setIdComoSuCliente(1);
 		Integer idProveedor = ProveedorControlador.getInstancia().altaProveedor(p);
 		return idProveedor;
 	}
@@ -65,6 +66,7 @@ public class PruebaProductos {
 		p.setUrl("www.Vital.com");
 		p.setApiKey("contra");
 		p.setEstadoActivo(true);
+		p.setIdComoSuCliente(1);
 		Integer idProveedor = ProveedorControlador.getInstancia().altaProveedor(p);
 		return idProveedor;
 	}
@@ -81,6 +83,7 @@ public class PruebaProductos {
 		producto.setStockActual(stockActual);
 		producto.setEstadoActivo(true);
 		producto.setFragil(true);
+		producto.setIdProductoDelProveedor(14);
 		
 		ProveedorDTO p = ProveedorControlador.getInstancia().buscarProveedorById(1);
 		producto.setProveedor(p);
@@ -107,6 +110,7 @@ public class PruebaProductos {
 		producto.setStockActual(stockActual);
 		producto.setEstadoActivo(true);
 		producto.setFragil(false);
+		producto.setIdProductoDelProveedor(17);
 		
 		ProveedorDTO p = ProveedorControlador.getInstancia().buscarProveedorById(2);
 		producto.setProveedor(p);

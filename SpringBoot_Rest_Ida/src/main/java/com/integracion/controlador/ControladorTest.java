@@ -46,6 +46,7 @@ public class ControladorTest {
 			e.printStackTrace();
 		}
 		
+		//Si no poseo el producto buscado
 		if(producto == null)
 			return new ResponseEntity<IntegracionProductoTiendaDTO>(new IntegracionProductoTiendaDTO(),HttpStatus.BAD_REQUEST);
 		IntegracionProductoTiendaDTO ptienda = IntegracionConversionTienda.getInstancia().productoToTienda(producto);
@@ -68,6 +69,9 @@ public class ControladorTest {
 			e.printStackTrace();
 		}
 		
+		//Si no poseo pedido con ese codigo que me pidió
+		if(pedido == null)
+			return new ResponseEntity<IntegracionPedidoTiendaDTO>(new IntegracionPedidoTiendaDTO(),HttpStatus.BAD_REQUEST);
 		IntegracionPedidoTiendaDTO ptienda = IntegracionConversionTienda.getInstancia().pedidoAlmacenToTienda(pedido);
 		
 		return new ResponseEntity<IntegracionPedidoTiendaDTO>(ptienda,HttpStatus.OK);
@@ -96,10 +100,15 @@ public class ControladorTest {
 			e.printStackTrace();
 		}
 		
+		//Si no poseo productos
+		if(lista == null)
+			return new ResponseEntity<List<IntegracionProductoTiendaDTO>>(new ArrayList<IntegracionProductoTiendaDTO>(),HttpStatus.BAD_REQUEST);
+		
 		List<IntegracionProductoTiendaDTO> integra = new ArrayList<IntegracionProductoTiendaDTO>();
 		for(ProductoDTO item : lista) {
 			integra.add(IntegracionConversionTienda.getInstancia().productoToTienda(item));
 		}
+		
 		
 		
 		return new ResponseEntity<List<IntegracionProductoTiendaDTO>>(integra,HttpStatus.OK);
@@ -118,6 +127,11 @@ public class ControladorTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		//Si no poseo pedidos
+		if(lista == null)
+			return new ResponseEntity<List<IntegracionPedidoTiendaDTO>>(new ArrayList<IntegracionPedidoTiendaDTO>(),HttpStatus.BAD_REQUEST);
+				
 		
 		List<IntegracionPedidoTiendaDTO> integra = new ArrayList<IntegracionPedidoTiendaDTO>();
 		for(PedidoDTO item : lista) {
@@ -141,9 +155,9 @@ public class ControladorTest {
 		ptienda.setEstadoPedido(null);
 		PedidoDTO pedido = IntegracionConversionTienda.getInstancia().pedidoTiendaToAlmacen(ptienda);
 		
-		System.out.println("id: " + pedido.getIdPedido());
+		/*System.out.println("id: " + pedido.getIdPedido());
 		System.out.println("nombre: " + pedido.getCliente().getNombreYApellido_RazonSocial());
-		System.out.println("direccion: " + pedido.getDireccion().getCalle());
+		System.out.println("direccion: " + pedido.getDireccion().getCalle());*/
 		for(PedidoItemDTO item : pedido.getItems()) {
 			System.out.println("");
 			System.out.println("    codigoBarrasProducto: " + item.getProducto().getCodigoBarras());
@@ -162,6 +176,36 @@ public class ControladorTest {
 		
 		
 	}
+	
+		
+	
+	@RequestMapping(value="/pedidoEntregado/{codigoPedido}", method = RequestMethod.POST, produces = "application/json")
+	@ResponseBody
+	public ResponseEntity<Integer> pedidoEntregado(@PathVariable int codigoPedido) {
+		
+		PedidoDTO pedido = null; 
+		
+		System.out.println("Entre a pedido entregado: " + codigoPedido);
+		try {
+			ExpedicionDelegate.getInstancia().entregadoEnDomicilioDelCliente(codigoPedido);
+			pedido = ExpedicionDelegate.getInstancia().buscarPedido(codigoPedido);
+		} catch (GenericRemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		//Si no poseo pedido con ese codigo que me pidió
+		if(pedido == null)
+			return new ResponseEntity<Integer>(-1,HttpStatus.BAD_REQUEST);
+		
+		if(!pedido.getEstadoPedido().equals("ENTREGADO_EN_DOMICILIO_DEL_CLIENTE"))
+			return new ResponseEntity<Integer>(-1,HttpStatus.NOT_MODIFIED);
+		
+		return new ResponseEntity<Integer>(pedido.getIdPedido(),HttpStatus.OK);
+		
+	}
+	
+	
 	
 	
 	/*

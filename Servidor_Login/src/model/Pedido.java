@@ -57,6 +57,20 @@ public class Pedido {
 		this.estadoPedido = EstadoPedido.valueOf(p.getEstadoPedido());
 		this.tPersonaYfLogistica= p.getTPersonaYfLogistica();
 		
+		/*if(p.getTPersonaYfLogistica() == true) {
+			if(p.getCliente() == null) {
+				p.setCliente(new ClienteTiendaDTO());
+				p.getCliente().setIdClienteTienda(null);
+				p.getCliente().setCuil_cuit_dni(null);
+				p.getCliente().setNombreYApellido_RazonSocial(null);
+				p.getCliente().setEmail(null);
+				
+			}
+			
+			if(p.getDireccion() == null)
+				p.setDireccion(new DireccionClienteDTO());
+		}*/
+		
 		this.cliente = new ClienteTienda( p.getCliente() );
 		this.direccion = new DireccionCliente( p.getDireccion() );
 		this.fragil = p.getFragil();
@@ -201,6 +215,13 @@ public class Pedido {
 		}
 		if (EstadoPedido.PENDIENTE_EN_LOGISTICA.equals(estadoPedido)) {
 			this.setEstadoPedido(EstadoPedido.DESPACHADO_EN_LOGISTICA);
+		}
+		save();
+	}
+	
+	public void entregadoEnDomicilioDelCliente() {
+		if (EstadoPedido.DESPACHADO_EN_LOGISTICA.equals(estadoPedido)) {
+			this.setEstadoPedido(EstadoPedido.ENTREGADO_EN_DOMICILIO_DEL_CLIENTE);
 		}
 		save();
 	}

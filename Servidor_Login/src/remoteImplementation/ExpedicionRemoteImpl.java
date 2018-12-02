@@ -70,6 +70,11 @@ public class ExpedicionRemoteImpl extends UnicastRemoteObject implements Expedic
 	public void despachar(Integer idPedido) throws RemoteException {
 		ExpedicionControlador.getInstancia().despachar(idPedido);
 	}
+	
+	@Override
+	public void entregadoEnDomicilioDelCliente(Integer idPedido) throws RemoteException {
+		ExpedicionControlador.getInstancia().entregadoEnDomicilioDelCliente(idPedido);
+	}
 
 	@Override
 	public PedidoDTO buscarPedidoByDireccionEnvioCoordinado(String direccion) throws RemoteException {

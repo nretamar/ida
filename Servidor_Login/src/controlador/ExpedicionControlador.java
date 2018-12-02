@@ -261,6 +261,14 @@ public class ExpedicionControlador {
 		}
 	}
 	
+	public void entregadoEnDomicilioDelCliente(Integer idPedido) {
+		try {
+			PedidoDAO.getInstancia().buscar(idPedido).entregadoEnDomicilioDelCliente();
+		} catch (PedidoException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public PedidoDTO buscarPedidoByDireccionEnvioCoordinado(String direccion) {
 		for (PedidoDTO pedido : findAllPedidos()) {
 			if(pedido.getDireccion().getCalle().equals(direccion));

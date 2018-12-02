@@ -82,7 +82,7 @@ public class PruebaProductos {
 		producto.setCantMinimaStock(50);
 		producto.setStockActual(stockActual);
 		producto.setEstadoActivo(true);
-		producto.setFragil(true);
+		producto.setFragil(false);
 		producto.setIdProductoDelProveedor(14);
 		
 		ProveedorDTO p = ProveedorControlador.getInstancia().buscarProveedorById(1);
@@ -109,7 +109,7 @@ public class PruebaProductos {
 		producto.setCantMinimaStock(75);
 		producto.setStockActual(stockActual);
 		producto.setEstadoActivo(true);
-		producto.setFragil(false);
+		producto.setFragil(true);
 		producto.setIdProductoDelProveedor(17);
 		
 		ProveedorDTO p = ProveedorControlador.getInstancia().buscarProveedorById(2);

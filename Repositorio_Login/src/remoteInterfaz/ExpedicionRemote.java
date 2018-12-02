@@ -31,6 +31,8 @@ public interface ExpedicionRemote extends Remote, Serializable {
 	
 	void despachar(Integer idPedido) throws RemoteException;
 	
+	void entregadoEnDomicilioDelCliente(Integer idPedido) throws RemoteException;
+	
 	PedidoDTO buscarPedidoByDireccionEnvioCoordinado(String direccion) throws RemoteException;
 
 	int buscarFaltaStockByProducto(String codigoBarras) throws RemoteException;

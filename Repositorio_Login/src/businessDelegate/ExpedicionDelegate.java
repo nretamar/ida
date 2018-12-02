@@ -124,6 +124,14 @@ public class ExpedicionDelegate {
 		}
 	}
 	
+	public void entregadoEnDomicilioDelCliente(Integer idPedido) throws GenericRemoteException{
+		try {
+			expedicionRemote.entregadoEnDomicilioDelCliente(idPedido);
+		} catch (RemoteException e) {
+			throw new GenericRemoteException(e);
+		}
+	}
+	
 	public PedidoDTO buscarPedidoByDireccionEnvioCoordinado(String direccion) throws GenericRemoteException{
 		try {
 			return expedicionRemote.buscarPedidoByDireccionEnvioCoordinado(direccion);

@@ -76,7 +76,7 @@ public class PruebaPedidos {
 		pedido.setIdPedido(null);
 		pedido.setFecha(new Date());
 		pedido.setEstadoPedido("FALTA_STOCK");
-		pedido.settPersonaYfLogistica(false);
+		pedido.settPersonaYfLogistica(true);
 		
 		ClienteTiendaDTO cliente = new ClienteTiendaDTO();
 		cliente.setIdClienteTienda(1);
@@ -93,6 +93,7 @@ public class PruebaPedidos {
 		direccion.setPiso("8");
 		direccion.setProvincia("Bs As");
 		direccion.setUnidad("802");
+		direccion.setCodigoPostal("1073");
 		
 		
 		pedido.setDireccion(direccion);
@@ -109,7 +110,7 @@ public class PruebaPedidos {
 		pedido.setIdPedido(null);
 		pedido.setFecha(new Date());
 		pedido.setEstadoPedido("Jacuna batata"); //Pruebo errores
-		pedido.settPersonaYfLogistica(true);
+		pedido.settPersonaYfLogistica(false);
 
 		ClienteTiendaDTO cliente = new ClienteTiendaDTO();
 		cliente.setIdClienteTienda(null);
@@ -119,13 +120,14 @@ public class PruebaPedidos {
 		pedido.setCliente(cliente);
 		
 		DireccionClienteDTO direccion = new DireccionClienteDTO();
-		direccion.setNumero("717");
+		/*direccion.setNumero("717");
 		direccion.setCalle("Lima");
 		direccion.setEntreCalles("Independencia y Chile");
 		direccion.setLocalidad("Montserrat");
 		direccion.setPiso("8");
 		direccion.setProvincia("Bs As");
 		direccion.setUnidad("802");
+		direccion.setCodigoPostal("1073");*/
 		
 		
 		pedido.setDireccion(direccion);

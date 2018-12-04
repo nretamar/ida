@@ -270,6 +270,7 @@ public class PedidoDAO {
 		//System.out.println("idPedido: " + e.getIdPedido() + "   " + e.getItems().get(1).getProducto().getProveedor().getUrl());
 		session.saveOrUpdate(e);
 		session.getTransaction().commit();
+		session.clear();
 		session.close();
 
 		Pedido pp = null;

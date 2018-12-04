@@ -23,6 +23,7 @@ public class ExpedicionRemoteImpl extends UnicastRemoteObject implements Expedic
 
 	@Override
 	public Integer altaPedido(PedidoDTO pedido) throws RemoteException {
+
 		return ExpedicionControlador.getInstancia().altaPedido(pedido);
 	}
 

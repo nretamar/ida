@@ -1,8 +1,10 @@
 package model;
 
 import dao.ProductoDAO;
+import dao.ProveedorDAO;
 import dto.PedidoItemDTO;
 import exceptions.ProductoException;
+import exceptions.ProveedorException;
 
 //
 //
@@ -32,16 +34,37 @@ public class PedidoItem {
 	public PedidoItem (PedidoItemDTO dto) {
 		
 		Producto model;
+		//Proveedor proveedorModel;
 		this.idPedidoItem = dto.getIdPedidoItem();
 		try {
 			model = ProductoDAO.getInstancia().buscar(dto.getProducto().getIdProducto());
 			this.producto = model;
+			
+			Proveedor p = model.getProveedor();
+			System.out.println("ProveedorId: " + p.getIdProveedor());
+			System.out.println("Nombre: " + p.getNombre());
+			System.out.println("url: " + p.getUrl());
+			System.out.println("apiKey: " + p.getApiKey());
+			System.out.println("estadoActivo: " + p.getEstadoActivo());
+			System.out.println("idComoSuCliente: " + p.getIdComoSuCliente());
+			
+			
+			
+			
+			
 		} catch (ProductoException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		this.cantidad = dto.getCantidad();
+		
+		/*try {
+			proveedorModel = ProveedorDAO.getInstancia().buscar(dto.getProducto().getProveedor().getIdProveedor());
+			this.producto.setProveedor(proveedorModel);
+		} catch (ProveedorException e) {
+			e.printStackTrace();
+		}
+		
+		this.cantidad = dto.getCantidad();*/
 		
 		
 	}

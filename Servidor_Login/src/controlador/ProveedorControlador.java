@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dao.ProveedorDAO;
+import dto.ProductoDTO;
 import dto.ProveedorDTO;
 import exceptions.ProveedorException;
 import model.Proveedor;
@@ -117,4 +118,5 @@ public class ProveedorControlador {
 		}
 		return null;
 	}
+	
 }

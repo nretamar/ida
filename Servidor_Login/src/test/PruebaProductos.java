@@ -13,6 +13,7 @@ public class PruebaProductos {
 		
 		Integer idProveedor = crearProveedor1();
 		/*Integer idProveedor2 = */crearProveedor2();
+		crearProveedor3();
 		System.out.println("id proveedor:" + idProveedor);
 		Integer id1 = crearProducto1(100).getIdProducto();
 		
@@ -20,16 +21,16 @@ public class PruebaProductos {
 		System.out.println(" hfsdd  Pase por aca");
 		
 		
-		ProductoDTO p1 = ProductoControlador.getInstancia().buscarProductoById(id1);
+		ProductoDTO p1 = ProductoControlador.getInstancia().buscarProductoById(2);
 		System.out.println("Busco Jamon = " + p1.getDescripcion() + "   stockActual: " + p1.getStockActual());
 		
 		p1.setStockActual(50);
 		ProductoControlador.getInstancia().modificarProducto(p1);
-		p1 = ProductoControlador.getInstancia().buscarProductoById(id1);
+		p1 = ProductoControlador.getInstancia().buscarProductoById(2);
 		System.out.println("Busco Jamon = " + p1.getDescripcion() + "   stockActual: " + p1.getStockActual());
 		
-		ProductoControlador.getInstancia().descontarStockProducto(id1, 5);
-		p1 = ProductoControlador.getInstancia().buscarProductoById(id1);
+		ProductoControlador.getInstancia().descontarStockProducto(2, 1);
+		p1 = ProductoControlador.getInstancia().buscarProductoById(2);
 		System.out.println("Busco Jamon = " + p1.getDescripcion() + "   stockActual: " + p1.getStockActual());
 		
 		ProductoControlador.getInstancia().verificarMinimoStockAndCrearOrdenes();
@@ -71,6 +72,18 @@ public class PruebaProductos {
 		return idProveedor;
 	}
 	
+	public static Integer crearProveedor3 () {
+		ProveedorDTO p = new ProveedorDTO();
+		p.setIdProveedor(null);
+		p.setNombre("GonzaDistributions");
+		p.setUrl("http://iap-2018.herokuapp.com");
+		p.setApiKey("a9fd27d1-5918-4dfa-8239-18ff706055a2");
+		p.setEstadoActivo(true);
+		p.setIdComoSuCliente(1);
+		Integer idProveedor = ProveedorControlador.getInstancia().altaProveedor(p);
+		return idProveedor;
+	}
+	
 	
 	public static ProductoDTO crearProducto1 (int stockActual){
 		ProductoDTO producto = new ProductoDTO();
@@ -83,9 +96,9 @@ public class PruebaProductos {
 		producto.setStockActual(stockActual);
 		producto.setEstadoActivo(true);
 		producto.setFragil(false);
-		producto.setIdProductoDelProveedor(14);
+		producto.setIdProductoDelProveedor(61);
 		
-		ProveedorDTO p = ProveedorControlador.getInstancia().buscarProveedorById(1);
+		ProveedorDTO p = ProveedorControlador.getInstancia().buscarProveedorById(3);
 		producto.setProveedor(p);
 		System.out.println("Prove de producto prueba: " + producto.getProveedor().getNombre());
 		
@@ -110,9 +123,9 @@ public class PruebaProductos {
 		producto.setStockActual(stockActual);
 		producto.setEstadoActivo(true);
 		producto.setFragil(true);
-		producto.setIdProductoDelProveedor(17);
+		producto.setIdProductoDelProveedor(71);
 		
-		ProveedorDTO p = ProveedorControlador.getInstancia().buscarProveedorById(2);
+		ProveedorDTO p = ProveedorControlador.getInstancia().buscarProveedorById(3);
 		producto.setProveedor(p);
 		
 		String fotosUrl = "https://images-na.ssl-images-amazon.com/images/I/61ifLThAMOL._SY355_.jpg";

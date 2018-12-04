@@ -27,6 +27,7 @@ public class PruebaPedidos {
 		//Id proveedor 1
 		PruebaProductos.crearProveedor1();
 		PruebaProductos.crearProveedor2();
+		PruebaProductos.crearProveedor3();
 		System.out.println("Proveedor: " + ProveedorControlador.getInstancia().buscarProveedorById(1).getUrl());
 		PruebaProductos.crearProducto1(102);
 		PruebaProductos.crearProducto2(107);

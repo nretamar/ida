@@ -26,7 +26,8 @@ public class ProductoEntity {
 	private boolean fragil;
 	private Integer idProductoDelProveedor;
 	
-	@ManyToOne( cascade = CascadeType.ALL)
+	//@ManyToOne( cascade = CascadeType.ALL)
+	@ManyToOne( )
 	@JoinColumn(name="id_Proveedor")
 	//@OrderBy("nombre ASC")
 	private ProveedorEntity proveedor;

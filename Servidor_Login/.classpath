@@ -33,5 +33,6 @@
 	<classpathentry kind="lib" path="C:/Users/tomas/git/ida/Servidor_Login/lib/httpcore-4.4.10.jar"/>
 	<classpathentry kind="lib" path="C:/Users/tomas/git/ida/Servidor_Login/lib/httpmime-4.5.6.jar"/>
 	<classpathentry kind="lib" path="C:/Users/tomas/git/ida/Servidor_Login/lib/java-json.jar"/>
+	<classpathentry kind="lib" path="C:/Users/tomas/git/ida/Servidor_Login/lib/gson-2.6.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -7,13 +7,13 @@ import java.io.InputStreamReader;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
+//import org.apache.http.client.methods.HttpPost;
+//import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
-import org.json.JSONException;
-import org.json.JSONObject;
+//import org.json.JSONException;
+//import org.json.JSONObject;
 
-import exceptions.PedidoException;
+import exceptions.ProductoException;
 
 public class TestGetProductos {
 
@@ -40,8 +40,8 @@ public class TestGetProductos {
 			}
 		} catch (IOException e) {
 			try {
-				throw new PedidoException("");
-			} catch (PedidoException e1) {
+				throw new ProductoException("");
+			} catch (ProductoException e1) {
 				e1.printStackTrace();
 			}
 		}

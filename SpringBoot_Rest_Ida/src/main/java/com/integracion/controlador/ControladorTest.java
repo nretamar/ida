@@ -155,9 +155,9 @@ public class ControladorTest {
 		ptienda.setEstadoPedido(null);
 		PedidoDTO pedido = IntegracionConversionTienda.getInstancia().pedidoTiendaToAlmacen(ptienda);
 		
-		/*System.out.println("id: " + pedido.getIdPedido());
+		System.out.println("id: " + pedido.getIdPedido());
 		System.out.println("nombre: " + pedido.getCliente().getNombreYApellido_RazonSocial());
-		System.out.println("direccion: " + pedido.getDireccion().getCalle());*/
+		System.out.println("direccion: " + pedido.getDireccion().getCalle());
 		for(PedidoItemDTO item : pedido.getItems()) {
 			System.out.println("");
 			System.out.println("    codigoBarrasProducto: " + item.getProducto().getCodigoBarras());

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dao.ProveedorDAO;
-import dto.ProductoDTO;
 import dto.ProveedorDTO;
 import exceptions.ProveedorException;
 import model.Proveedor;
@@ -63,11 +62,10 @@ public class ProveedorControlador {
 	public Integer altaProveedor(ProveedorDTO proveedor) {
 		ProveedorDTO p = buscarProveedorByUrl(proveedor.getUrl());
 		//Si existe un proveedor con misma URL, no lo doy de alta. Reglas de negocio.
-		if(p != null)
+		if(p != null && !p.getUrl().equals("NoHay"))
 		{
 			return null;
 		}
-		
 		p = null;
 		p = buscarProveedorByNombre(proveedor.getNombre());
 		//Si existe un proveedor con mismo nombre, no lo doy de alta. Reglas de negocio.

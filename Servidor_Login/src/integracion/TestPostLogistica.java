@@ -1,12 +1,8 @@
 package integracion;
 
 import dao.PedidoDAO;
-import dto.ClienteTiendaDTO;
-import dto.DireccionClienteDTO;
-import dto.PedidoDTO;
 import exceptions.PedidoException;
 import model.Pedido;
-import test.PruebaPedidos;
 
 public class TestPostLogistica {
 

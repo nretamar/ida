@@ -19,6 +19,7 @@ public class pnlMain extends JPanel implements ActionListener{
 	ImageIcon fondo;
 	JButton btnIngresar;
 	JLabel lblArea, lblCopyright;
+	@SuppressWarnings("rawtypes")
 	JComboBox cbxArea;
 	int opcionCBX;
 	
@@ -29,6 +30,7 @@ public class pnlMain extends JPanel implements ActionListener{
 		this.setVisible(true);
 	}
 	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void Inicializar(){
 		this.setLayout(null);
 		this.setSize(1000, 600);	

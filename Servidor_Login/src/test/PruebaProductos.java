@@ -15,7 +15,7 @@ public class PruebaProductos {
 		/*Integer idProveedor2 = */crearProveedor2();
 		crearProveedor3();
 		System.out.println("id proveedor:" + idProveedor);
-		Integer id1 = crearProducto1(100).getIdProducto();
+		/*Integer id1 = */crearProducto1(100).getIdProducto();
 		
 		crearTodosLosProductos();
 		System.out.println(" hfsdd  Pase por aca");
@@ -100,7 +100,7 @@ public class PruebaProductos {
 		
 		ProveedorDTO p = ProveedorControlador.getInstancia().buscarProveedorById(3);
 		producto.setProveedor(p);
-		System.out.println("Prove de producto prueba: " + producto.getProveedor().getNombre());
+		//System.out.println("PruebaProductos: Proveedor de producto prueba: " + producto.getProveedor().getNombre());
 		
 		String fotosUrl = "https://www.monoblock.tv/8313-thickbox_default/mochila-olga-bold.jpg";
 		producto.setFotoUrl(fotosUrl);

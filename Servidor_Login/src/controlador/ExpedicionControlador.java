@@ -7,7 +7,6 @@ import java.util.List;
 import dao.PedidoDAO;
 import dto.PedidoDTO;
 import dto.PedidoItemDTO;
-import dto.ProveedorDTO;
 import exceptions.PedidoException;
 import model.EstadoPedido;
 import model.Pedido;

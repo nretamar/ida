@@ -34,7 +34,7 @@ public class pnlAdminProveedores extends JPanel implements ActionListener {
 	JTable tblProveedores;
 	JButton btnBaja, btnAlta, btnModificar, btnAtras, btnBuscar;
 	//TODO
-	JLabel lblLimpiar, lblNombre, lblUrl, lblApiKey, lblIdProveedor, lblIdProveedorSelec, lblIdComoSuCliente;
+	JLabel lblLimpiar, lblNombre, lblUrl, lblApiKey, lblIdProveedor, lblIdProveedorSelec, lblIdComoSuCliente, lblAvisoNull;
 	JTextField txtNombre, txtUrl, txtApiKey, txtIdComoSuCliente;
 	DefaultTableModel model, modeloBusqueda;//Model es la tabla y si tocas te carga automaticamente a los textbox
 											//modeloBusqueda ayuda al boton limpiar 
@@ -136,6 +136,7 @@ public class pnlAdminProveedores extends JPanel implements ActionListener {
 		lblIdProveedor = new JLabel("Id proveedor: ");
 		lblIdProveedorSelec = new JLabel("");
 		lblIdComoSuCliente = new JLabel("Id como su cliente: ");
+		lblAvisoNull = new JLabel("Si proveedor no usa Sistema Logistica, cargue la URL y Api-Key exactamente como 'NoHay'");
 		
 		
 		txtNombre = new JTextField();
@@ -166,7 +167,7 @@ public class pnlAdminProveedores extends JPanel implements ActionListener {
 					datos2[y][1] = proveedorList.getNombre();
 					datos2[y][2] = proveedorList.getUrl();
 					datos2[y][3] = proveedorList.getApiKey();
-					datos2[y][3] =String.valueOf(proveedorList.getIdComoSuCliente());
+					datos2[y][4] =String.valueOf(proveedorList.getIdComoSuCliente());
 
 					y++;
 				}
@@ -183,6 +184,7 @@ public class pnlAdminProveedores extends JPanel implements ActionListener {
 		lblApiKey.setBounds(529, 185, 130, 30);
 		lblIdComoSuCliente.setBounds(529, 225, 130, 30);
 		lblIdProveedor.setBounds(529, 265, 130, 30);
+		lblAvisoNull.setBounds(475, 305, 560, 30);
 		
 		
 		txtNombre.setBounds(769, 105, 150, 30);
@@ -209,6 +211,7 @@ public class pnlAdminProveedores extends JPanel implements ActionListener {
 		this.add(lblIdProveedor);
 		this.add(lblIdProveedorSelec);
 		this.add(lblIdComoSuCliente);
+		this.add(lblAvisoNull);
 				
 		this.add(txtNombre);
 		this.add(txtUrl);
@@ -243,7 +246,18 @@ public class pnlAdminProveedores extends JPanel implements ActionListener {
 					proveAlta.setNombre(txtNombre.getText());
 					proveAlta.setUrl(txtUrl.getText());
 					proveAlta.setApiKey(txtApiKey.getText());
-					proveAlta.setIdComoSuCliente(Integer.valueOf(txtIdComoSuCliente.getText()));
+					/*Integer idC = new Integer(-1);
+					try {
+						idC = Integer.parseInt(txtIdComoSuCliente.getText());
+						System.out.println("An integer");
+					}
+					catch (NumberFormatException e) {
+					     //Not an integer
+						System.out.println("NOT An integer");
+						txtIdComoSuCliente.setText("-1");
+					}*/
+					System.out.println("txt: " + txtIdComoSuCliente.getText());
+					proveAlta.setIdComoSuCliente(Integer.parseInt(txtIdComoSuCliente.getText()));
 										
 					
 					if (!existeNom(txtNombre.getText()) ) {

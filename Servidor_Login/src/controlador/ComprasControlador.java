@@ -92,7 +92,8 @@ public class ComprasControlador {
 		//TODO
 		//Realizo llamado Post hacia Distribuidora
 		try {
-			new PostOrdenDeCompraDistribuidora(model);
+			if (!orden.getProducto().getProveedor().getUrl().equals("NoHay"))
+				new PostOrdenDeCompraDistribuidora(model);
 		} catch (OrdenDeCompraException e) {
 			e.printStackTrace();
 		}

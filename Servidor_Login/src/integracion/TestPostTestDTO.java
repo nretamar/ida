@@ -12,7 +12,6 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import dto.TestDTO;
@@ -23,7 +22,7 @@ public class TestPostTestDTO {
 
 	public static void main(String[] args) {
 		
-		JSONObject json = new JSONObject();
+		//JSONObject json = new JSONObject();
 		
 		Properties prop = new Properties();
 		InputStream input = null;

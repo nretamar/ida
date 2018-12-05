@@ -87,14 +87,14 @@ public class PruebaPedidos {
 		pedido.setCliente(cliente);
 		
 		DireccionClienteDTO direccion = new DireccionClienteDTO();
-		direccion.setNumero("717");
+		/*direccion.setNumero("717");
 		direccion.setCalle("Lima");
 		direccion.setEntreCalles("Independencia y Chile");
 		direccion.setLocalidad("Montserrat");
 		direccion.setPiso("8");
 		direccion.setProvincia("Bs As");
 		direccion.setUnidad("802");
-		direccion.setCodigoPostal("1073");
+		direccion.setCodigoPostal("1073");*/
 		
 		
 		pedido.setDireccion(direccion);
@@ -121,14 +121,14 @@ public class PruebaPedidos {
 		pedido.setCliente(cliente);
 		
 		DireccionClienteDTO direccion = new DireccionClienteDTO();
-		/*direccion.setNumero("717");
+		direccion.setNumero("717");
 		direccion.setCalle("Lima");
 		direccion.setEntreCalles("Independencia y Chile");
 		direccion.setLocalidad("Montserrat");
 		direccion.setPiso("8");
 		direccion.setProvincia("Bs As");
 		direccion.setUnidad("802");
-		direccion.setCodigoPostal("1073");*/
+		direccion.setCodigoPostal("1073");
 		
 		
 		pedido.setDireccion(direccion);

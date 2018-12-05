@@ -52,21 +52,17 @@ public class ProveedorDAO {
 	}
 	
 	public Proveedor save(Proveedor p){
-		System.out.println("Entre a Save");
 		Proveedor ret = null;
 		if (p.getIdProveedor() != null) {
-			System.out.println("2222 Pase por aca");
 			ret = grabarConId(p);
 		} else {
 						
 			try {
-				System.out.println("Pase por aca");
 				int codProve;
 				codProve = ultimoCodigoProveedor()+1;
 				p.setIdProveedor(codProve);
 				ret = grabarConId(p);
 			} catch (ProveedorException e) {
-				System.out.println("3333  Pase por aca");
 				e.printStackTrace();
 			}
 			

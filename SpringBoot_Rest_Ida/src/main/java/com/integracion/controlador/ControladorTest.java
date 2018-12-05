@@ -5,8 +5,8 @@ package com.integracion.controlador;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.runner.RunWith;
-import org.springframework.http.HttpHeaders;
+//import org.junit.runner.RunWith;
+//import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+//import org.springframework.web.bind.annotation.RestController;
 
 import businessDelegate.ExpedicionDelegate;
 import businessDelegate.ProductoDelegate;
@@ -27,7 +27,6 @@ import dto.ProductoDTO;
 import dto.TestDTO;
 import dto.TestItemDTO;
 import excepciones.GenericRemoteException;
-import integracionDto.IntegracionItemPedidoTiendaDTO;
 import integracionDto.IntegracionOrdenDeCompraDistribuidorDTO;
 import integracionDto.IntegracionPedidoTiendaDTO;
 import integracionDto.IntegracionProductoTiendaDTO;
@@ -65,7 +64,6 @@ public class ControladorTest {
 		try {
 			pedido = ExpedicionDelegate.getInstancia().buscarPedido(codigoPedido);
 		} catch (GenericRemoteException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -96,7 +94,6 @@ public class ControladorTest {
 		try {
 			lista = ProductoDelegate.getInstancia().findAllProductos();
 		} catch (GenericRemoteException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -124,7 +121,6 @@ public class ControladorTest {
 		try {
 			lista = ExpedicionDelegate.getInstancia().findAllPedidos();
 		} catch (GenericRemoteException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -190,7 +186,6 @@ public class ControladorTest {
 			ExpedicionDelegate.getInstancia().entregadoEnDomicilioDelCliente(codigoPedido);
 			pedido = ExpedicionDelegate.getInstancia().buscarPedido(codigoPedido);
 		} catch (GenericRemoteException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

@@ -4,8 +4,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.math.BigDecimal;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,13 +15,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
+//import com.google.gson.Gson;
+//import com.google.gson.GsonBuilder;
 
 import exceptions.ProductoException;
 import integracionDto.IntegracionProductoDistribuidoraDTO;
-import integracionDto.IntegracionProductoListaDistribuidorDTO;
+//import integracionDto.IntegracionProductoListaDistribuidorDTO;
 import jdk.nashorn.internal.parser.JSONParser;
 
 public class GetProductosDelProveedor {
@@ -48,9 +45,9 @@ public class GetProductosDelProveedor {
 			
 			
 			
-			JSONObject jsonResponse = new JSONObject(response);
-			Gson gson=new GsonBuilder().create();
-			IntegracionProductoListaDistribuidorDTO listaItem = gson.fromJson(jsonResponse.getJSONObject("products").toString(), IntegracionProductoListaDistribuidorDTO.class);
+			//JSONObject jsonResponse = new JSONObject(response);
+			//Gson gson=new GsonBuilder().create();
+			//IntegracionProductoListaDistribuidorDTO listaItem = gson.fromJson(jsonResponse.getJSONObject("products").toString(), IntegracionProductoListaDistribuidorDTO.class);
 			System.out.println("Response json: " + response.getEntity());
 			
 			
@@ -61,7 +58,7 @@ public class GetProductosDelProveedor {
 
 			BufferedReader br = new BufferedReader(new InputStreamReader((response.getEntity().getContent())));
 
-			String output;
+			//String output;
 			System.out.println("Output from Server .... \n");
 			/*while ((output = br.readLine()) != null) {
 				System.out.println(output);
@@ -88,7 +85,7 @@ public class GetProductosDelProveedor {
 		     JSONArray jsonArray = (JSONArray) json.get("list");
 
 		     for (int i = 0; i < jsonArray.length(); i++) {
-		    	 JSONObject jsonobject = (JSONObject) jsonArray.get(i);
+		    	 //JSONObject jsonobject = (JSONObject) jsonArray.get(i);
 		     }
 			 //
 			 System.out.println("Llegue aca");
@@ -127,7 +124,6 @@ public class GetProductosDelProveedor {
 				e1.printStackTrace();
 			}
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -173,13 +169,10 @@ public class GetProductosDelProveedor {
 		          articulos.add(art);
 		      }
 		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	      

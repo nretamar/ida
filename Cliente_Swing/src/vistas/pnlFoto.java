@@ -40,6 +40,7 @@ public class pnlFoto extends JPanel{
 		fondo = new ImageIcon(getClass().getResource("/vistas/main3.jpg"));
 		g.drawImage(fondo.getImage(), 0, 0, 400, 400, null);
 		
+		@SuppressWarnings("unused")
 		Image image = null;
 		try {
 			URL url = new URL(fotoUrl);

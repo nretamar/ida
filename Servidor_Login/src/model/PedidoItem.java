@@ -1,10 +1,8 @@
 package model;
 
 import dao.ProductoDAO;
-import dao.ProveedorDAO;
 import dto.PedidoItemDTO;
 import exceptions.ProductoException;
-import exceptions.ProveedorException;
 
 //
 //

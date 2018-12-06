@@ -72,10 +72,19 @@ public class pnlAdminPedidos extends JPanel implements ActionListener{
 			datos[i][0]=String.valueOf(pedidoList.getIdPedido());
 			datos[i][1]=pedidoList.getEstadoPedido();
 			datos[i][2]=String.valueOf(LocalDate.parse( new SimpleDateFormat("yyyy-MM-dd").format(pedidoList.getFecha()) ));
-			datos[i][3]=String.valueOf(getTotalPedido(pedidoList));
+			datos[i][3]=String.valueOf("$ " + getTotalPedido(pedidoList) + " ARS");
 			
-			datos[i][4]=String.valueOf(pedidoList.getDireccion().getCalle());
-			datos[i][5]=String.valueOf(pedidoList.getCliente().getNombreYApellido_RazonSocial());
+			
+			String direccion = pedidoList.getDireccion().getCalle();
+			if(direccion == null)
+				direccion = "No especifica";
+			datos[i][4]=String.valueOf(direccion) + "   " + pedidoList.getDireccion().getNumero();
+			
+			String nombre = pedidoList.getCliente().getNombreYApellido_RazonSocial();
+			if(nombre == null)
+				nombre = "No especifica";
+			datos[i][5]=String.valueOf(nombre);
+			
 			datos[i][6]=String.valueOf(pedidoList.getFragil());
 			
 

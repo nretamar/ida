@@ -1,5 +1,7 @@
 package test;
 
+import java.util.List;
+
 import controlador.ProveedorControlador;
 import dao.ProveedorDAO;
 import dto.ProveedorDTO;
@@ -12,9 +14,20 @@ public class PruebaProveedor {
 		// TODO Auto-generated method stub
 		
 		//ProveedorControlador.getInstancia().bajaProveedor(13);
-		crear1();
+		//crear1();
+		crear2();
 		
-		
+		try {
+			List<Proveedor> lista = ProveedorDAO.getInstancia().getAll();
+			
+			for(Proveedor item : lista) {
+				System.out.println("Encontre proveedor: " + item.getNombre());
+			}
+			
+			
+		} catch (ProveedorException e) {
+			e.printStackTrace();
+		}
 		
 		
 		
@@ -39,6 +52,18 @@ public class PruebaProveedor {
 		p.setIdComoSuCliente(1);
 		Integer idProveedor = ProveedorControlador.getInstancia().altaProveedor(p);
 		return idProveedor;
+	}
+	
+	public static Integer crear2 () {
+		Proveedor p = new Proveedor();
+		p.setIdProveedor(1);
+		p.setNombre("Roquero");
+		p.setUrl("NoHay");
+		p.setApiKey("NoHay");
+		p.setEstadoActivo(true);
+		p.setIdComoSuCliente(1);
+		Proveedor proveedor = ProveedorDAO.getInstancia().grabarConId(p);
+		return proveedor.getIdProveedor();
 	}
 
 }

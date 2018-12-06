@@ -24,6 +24,9 @@ public class PostLogistica {
 	//Quizas borrar esto de abajo
 	private final String  NROALMACEN = "1";
 	
+	/*
+	 * Método descontinuado, NO le hago Post hacia Logística.
+	 */
 	
 	public PostLogistica(Pedido pedido) throws  PedidoException {
 		Properties prop = new Properties();

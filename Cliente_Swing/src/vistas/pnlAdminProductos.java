@@ -23,6 +23,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
+import businessDelegate.ComprasDelegate;
 import businessDelegate.ProductoDelegate;
 import businessDelegate.ProveedorDelegate;
 import dto.ProductoDTO;
@@ -40,7 +41,8 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 	JButton btnBaja, btnAlta, btnModificar, btnAtras, btnBuscar, btnVerFotoAnterior;
 	//TODO
 	JLabel lblLimpiar, lblCodBarras, lblDescripcion, lblPrecioV, lblCantFCompra, lblCantMinimaStock,
-			lblStockActual, lblIdProducto, lblIdProductoSelec, lblFotoUrl, lblProveedor, lblIdProductoDelProveedor;
+			lblStockActual, lblIdProducto, lblIdProductoSelec, lblFotoUrl, lblProveedor, lblIdProductoDelProveedor, 
+			lblStockEnEspera, lblStockEnEsperaRta;
 	JTextField txtCodBarras, txtDescripcion, txtPrecioV, txtCantFCompra, txtCantMinimaStock,
 			txtStockActual, txtFotoUrl, txtIdProductoDelProveedor;
 	DefaultTableModel model, modeloBusqueda;//Model es la tabla y si tocas te carga automaticamente a los textbox
@@ -85,7 +87,7 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 			System.out.println();
 		}*/
 		
-		datos = new String[productos.size()][10];
+		datos = new String[productos.size()][11];
 		
 		for (ProductoDTO productoList : productos) {
 			datos[i][0] = String.valueOf(productoList.getIdProducto());
@@ -98,6 +100,12 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 			datos[i][7] = String.valueOf(productoList.getFotoUrl());
 			datos[i][8] = String.valueOf(productoList.getProveedor().getNombre());
 			datos[i][9] = String.valueOf(productoList.getIdProductoDelProveedor());
+			try {
+				datos[i][10] = String.valueOf(ComprasDelegate.getInstancia()
+						.buscarOrdenesActivasByProductoCantidad(productoList.getCodigoBarras()));
+			} catch (GenericRemoteException e1) {
+				e1.printStackTrace();
+			}
 
 			i++;
 		}
@@ -130,6 +138,7 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 				txtFotoUrl.setText(datos[row][7]);
 				combo.setSelectedItem(datos[row][8]);
 				txtIdProductoDelProveedor.setText(datos[row][9]);
+				lblStockEnEsperaRta.setText(datos[row][10]);
 				
 			}
 		});
@@ -137,7 +146,7 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 		btnBuscar = new JButton("Buscar");
 		btnBuscar.setOpaque(false);
 		btnBuscar.setContentAreaFilled(false);
-		btnBuscar.setBounds(529, 51, 75, 30);
+		btnBuscar.setBounds(529, 31, 75, 30);
 		btnBuscar.setForeground(Color.LIGHT_GRAY);
 		btnAlta = new JButton("Alta");
 		btnAlta.setOpaque(false);
@@ -172,6 +181,7 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 		lblFotoUrl = new JLabel("Foto URL del producto");
 		lblProveedor = new JLabel("Proveedor: ");
 		lblIdProductoDelProveedor = new JLabel("Id del Prov: ");
+		lblStockEnEspera = new JLabel("Cantidad en espera de recepción: ");
 		
 		
 		txtCodBarras = new JTextField();
@@ -190,6 +200,7 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 		txtFotoUrl.setOpaque(false);
 		txtIdProductoDelProveedor = new JTextField();
 		txtIdProductoDelProveedor.setOpaque(false);
+		lblStockEnEsperaRta = new JLabel("");
 		
 		
 		lblLimpiar.addMouseListener(new MouseAdapter() {
@@ -204,8 +215,9 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 				lblIdProductoSelec.setText("");
 				txtFotoUrl.setText(null);
 				txtIdProductoDelProveedor.setText(null);
+				lblStockEnEsperaRta.setText("");
 				
-				datos2 = new String[productos.size()][9];
+				datos2 = new String[productos.size()][11];
 				int y = 0;
 				
 								
@@ -219,7 +231,7 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 					datos2[y][6] = String.valueOf(productoList.getStockActual());
 					datos2[y][7] = String.valueOf(productoList.getFotoUrl());
 					datos2[y][8] = String.valueOf(productoList.getProveedor().getNombre());
-					datos2[y][9] = String.valueOf(productoList.getIdProductoDelProveedor());
+					datos2[i][10] = String.valueOf(null);
 
 					y++;
 				}
@@ -231,32 +243,34 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 		});
 		
 		
-		lblProveedor.setBounds(529, 90, 130, 30);
-		lblCodBarras.setBounds(529, 125, 130, 30);
-		lblIdProductoDelProveedor.setBounds(529, 160, 150, 30);
-		lblDescripcion.setBounds(529, 195, 130, 30);
-		lblPrecioV.setBounds(529, 230, 130, 30);
-		lblCantFCompra.setBounds(529, 265, 130, 30);
-		lblCantMinimaStock.setBounds(529, 300, 150, 30);
-		lblStockActual.setBounds(529, 335, 130, 30);
-		lblIdProducto.setBounds(529, 370, 130, 30);
-		lblFotoUrl.setBounds(529, 405, 150, 30);
+		lblProveedor.setBounds(529, 70, 130, 30);
+		lblCodBarras.setBounds(529, 105, 130, 30);
+		lblIdProductoDelProveedor.setBounds(529, 140, 150, 30);
+		lblDescripcion.setBounds(529, 175, 130, 30);
+		lblPrecioV.setBounds(529, 210, 130, 30);
+		lblCantFCompra.setBounds(529, 245, 130, 30);
+		lblCantMinimaStock.setBounds(529, 280, 150, 30);
+		lblStockActual.setBounds(529, 315, 130, 30);		
+		lblFotoUrl.setBounds(529, 350, 150, 30);
+		lblIdProducto.setBounds(529, 385, 130, 30);
+		lblStockEnEspera.setBounds(529, 420, 210, 30);
 		
 		
-		combo.setBounds(769, 90, 150, 30);
-		txtCodBarras.setBounds(769, 125, 150, 30);
-		txtIdProductoDelProveedor.setBounds(769, 160, 150, 30);
-		txtDescripcion.setBounds(769, 195, 150, 30);
-		txtPrecioV.setBounds(769, 230, 150, 30);
-		txtCantFCompra.setBounds(769, 265, 150, 30);
-		txtCantMinimaStock.setBounds(769, 300, 150, 30);
-		txtStockActual.setBounds(769, 335, 150, 30);
-		lblIdProductoSelec.setBounds(769, 370, 130, 30);
-		txtFotoUrl.setBounds(769, 405, 130, 30);
-		btnVerFotoAnterior.setBounds(904, 405, 85, 30);
+		combo.setBounds(769, 70, 150, 30);
+		txtCodBarras.setBounds(769, 105, 150, 30);
+		txtIdProductoDelProveedor.setBounds(769, 140, 150, 30);
+		txtDescripcion.setBounds(769, 175, 150, 30);
+		txtPrecioV.setBounds(769, 210, 150, 30);
+		txtCantFCompra.setBounds(769, 245, 150, 30);
+		txtCantMinimaStock.setBounds(769, 280, 150, 30);
+		txtStockActual.setBounds(769, 315, 150, 30);
+		txtFotoUrl.setBounds(769, 350, 130, 30);
+		btnVerFotoAnterior.setBounds(904, 350, 85, 30);
+		lblIdProductoSelec.setBounds(769, 385, 130, 30);		
+		lblStockEnEsperaRta.setBounds(769, 420, 130, 30);
 		
 		
-		lblLimpiar.setBounds(816, 51, 80, 30);
+		lblLimpiar.setBounds(816, 25, 80, 30);
 		lblLimpiar.setForeground(Color.BLUE);
 		
 		this.add(btnAlta);
@@ -281,6 +295,7 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 		this.add(lblIdProductoSelec);
 		this.add(lblFotoUrl);
 		this.add(lblIdProductoDelProveedor);
+		this.add(lblStockEnEspera);
 				
 		this.add(txtCodBarras);
 		this.add(txtDescripcion);
@@ -290,6 +305,7 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 		this.add(txtStockActual);
 		this.add(txtFotoUrl);
 		this.add(txtIdProductoDelProveedor);
+		this.add(lblStockEnEsperaRta);
 	}
 	
 	private void AsignarEventos() {
@@ -495,7 +511,7 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 
 		int filas = buscarCantP(datos, nroCodBarras);
 		if (filas > 0) {
-			csReturn = new String[filas][10];
+			csReturn = new String[filas][11];
 			int tamD = datos.length;
 			int k = 0;
 			for (int o = 0; o < tamD; o++) {
@@ -510,6 +526,7 @@ public class pnlAdminProductos extends JPanel implements ActionListener {
 					csReturn[k][7] = datos[o][7];
 					csReturn[k][8] = datos[o][8];
 					csReturn[k][9] = datos[o][9];
+					csReturn[k][10] = datos[o][10];
 
 					k++;
 				}

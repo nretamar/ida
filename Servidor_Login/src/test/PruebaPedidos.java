@@ -67,8 +67,8 @@ public class PruebaPedidos {
 	}
 	
 	public static void crearPedidos(){
-		ExpedicionControlador.getInstancia().altaPedido(crearPedido());
-		ExpedicionControlador.getInstancia().altaPedido(crearPedido2());
+		crearPedido();
+		crearPedido2();
 		
 	}
 	
@@ -102,6 +102,8 @@ public class PruebaPedidos {
 		List<PedidoItemDTO> lista = crearItems();
 		
 		pedido.setItems(lista);
+		
+		ExpedicionControlador.getInstancia().altaPedido(pedido);
 		
 		return pedido;
 	}
@@ -137,6 +139,8 @@ public class PruebaPedidos {
 		
 		pedido.setItems(lista);
 		
+		ExpedicionControlador.getInstancia().altaPedido(pedido);
+		
 		return pedido;
 	}
 	
@@ -148,14 +152,14 @@ public class PruebaPedidos {
 		ProductoDTO p1 = ProductoControlador.getInstancia().buscarProductoById(1);
 		item1.setIdPedidoItem(null);
 		item1.setProducto(p1);
-		item1.setCantidad(2);		
+		item1.setCantidad(10);		
 		lista.add(item1);
 		
 		PedidoItemDTO item2 = new PedidoItemDTO();
 		ProductoDTO p2 = ProductoControlador.getInstancia().buscarProductoById(2);
 		item2.setIdPedidoItem(null);
 		item2.setProducto(p2);
-		item2.setCantidad(7);		
+		item2.setCantidad(10);		
 		lista.add(item2);
 		//lista.add(item1);		//Para desordenar y probar
 		
@@ -171,14 +175,14 @@ public class PruebaPedidos {
 		ProductoDTO p1 = ProductoControlador.getInstancia().buscarProductoById(1);
 		item1.setIdPedidoItem(null);
 		item1.setProducto(p1);
-		item1.setCantidad(500);		
+		item1.setCantidad(50);		
 		lista.add(item1);
 		
 		PedidoItemDTO item2 = new PedidoItemDTO();
 		ProductoDTO p2 = ProductoControlador.getInstancia().buscarProductoById(2);
 		item2.setIdPedidoItem(null);
 		item2.setProducto(p2);
-		item2.setCantidad(500);		
+		item2.setCantidad(50);		
 		lista.add(item2);
 		//lista.add(item1);	//Para desordenar y probar
 		
@@ -187,7 +191,7 @@ public class PruebaPedidos {
 		ProductoDTO p3 = ProductoControlador.getInstancia().buscarProductoById(1);
 		item3.setIdPedidoItem(null);
 		item3.setProducto(p3);
-		item3.setCantidad(75);		
+		item3.setCantidad(20);		
 		lista.add(item3);
 		
 		return lista;

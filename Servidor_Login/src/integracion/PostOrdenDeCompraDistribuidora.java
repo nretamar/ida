@@ -29,7 +29,8 @@ public class PostOrdenDeCompraDistribuidora {
 		
 		JSONObject jsonDto = new JSONObject(enviar);
 		
-		System.out.println("PostOrdenDeCompra: " + jsonDto.toString());
+		System.out.println("\nINICIO del POST");
+		System.out.println("PostOrdenDeCompra: " + jsonDto.toString() + " ---Fue enviado---->  (Esperando respuesta, si abajo resulta 201, es OK)...");
 		
 		
 		StringEntity entity;
@@ -53,10 +54,11 @@ public class PostOrdenDeCompraDistribuidora {
 			BufferedReader br = new BufferedReader(new InputStreamReader((response.getEntity().getContent())));
 
 			String output;
-			System.out.println("Output from Server .... \n");
+			System.out.println("\nOutput from Distribuidora ....");
 			while ((output = br.readLine()) != null) {
 				System.out.println(output);
 			}
+			System.out.println("FIN del POST\n");
 			
 			
 		} catch (IOException e) {

@@ -32,22 +32,10 @@ public class PedidoItem {
 	public PedidoItem (PedidoItemDTO dto) {
 		
 		Producto model;
-		//Proveedor proveedorModel;
 		this.idPedidoItem = dto.getIdPedidoItem();
 		try {
 			model = ProductoDAO.getInstancia().buscar(dto.getProducto().getIdProducto());
 			this.producto = model;
-			
-			Proveedor p = model.getProveedor();
-			System.out.println("ProveedorId: " + p.getIdProveedor());
-			System.out.println("Nombre: " + p.getNombre());
-			System.out.println("url: " + p.getUrl());
-			System.out.println("apiKey: " + p.getApiKey());
-			System.out.println("estadoActivo: " + p.getEstadoActivo());
-			System.out.println("idComoSuCliente: " + p.getIdComoSuCliente());
-			
-			
-			
 			
 			
 		} catch (ProductoException e) {
@@ -55,14 +43,7 @@ public class PedidoItem {
 		}
 		
 		
-		/*try {
-			proveedorModel = ProveedorDAO.getInstancia().buscar(dto.getProducto().getProveedor().getIdProveedor());
-			this.producto.setProveedor(proveedorModel);
-		} catch (ProveedorException e) {
-			e.printStackTrace();
-		}
-		
-		this.cantidad = dto.getCantidad();*/
+		this.cantidad = dto.getCantidad();
 		
 		
 	}

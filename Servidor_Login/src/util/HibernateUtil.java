@@ -3,7 +3,6 @@ package util;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AnnotationConfiguration;
 
-import entity.ClienteEntity;
 import entity.ClienteTiendaEntity;
 import entity.DireccionClienteEntity;
 import entity.OrdenDeCompraEntity;
@@ -24,7 +23,6 @@ public class HibernateUtil
         try
         {
         	 AnnotationConfiguration config = new AnnotationConfiguration();
-             config.addAnnotatedClass(ClienteEntity.class);
              config.addAnnotatedClass(ClienteTiendaEntity.class);
              config.addAnnotatedClass(DireccionClienteEntity.class);
              config.addAnnotatedClass(OrdenDeCompraEntity.class);

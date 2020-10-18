@@ -1,6 +1,6 @@
 # ida
 
-IMPORTANTE: Este proyecto se hizo en Eclipse Oxygen versión de Abril para 64Bits, también funciona en Eclipse Oxygen de Junio o Julio para 32 bits. El proyecto fue hecho originalmente utilizando SQL Server 2017 Standard con codigo de la facultad. Tambien funciona en SQL Server 2012 Enterprice para 32bits (Full crack no uade). Si se utiliza otro entorno, no aseguro que funcione.
+IMPORTANTE: Este proyecto se hizo en Eclipse Oxygen versión de Abril para 64Bits, también funciona en Eclipse Oxygen de Junio o Julio para 32 bits. El proyecto fue hecho utilizando SQL Server 2017. Si se utiliza otro entorno, no aseguro que funcione.
 
 PASOS PARA AGREGAR LOS PROYECTOS A ECLIPSE:
 
